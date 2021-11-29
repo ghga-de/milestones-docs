@@ -1,76 +1,882 @@
 components:
   schemas:
-    Dataset:
+    Agent:
+      description: An agent is something that bears some form of responsibility for
+        an activity taking place, for the existence of an entity, or for another agent's
+        activity. Agents include a Person, Organization, or Software that performs
+        an activity.
       properties:
+        accession:
+          description: A unique identifier assigned to an entity for the sole purpose
+            of referring to that entity in a global scope.
+          title: Accession
+          type: string
+        creation_date:
+          description: Timestamp (in ISO 8601 format) when the entity was created.
+          title: Creation Dat
+          type: strin
         description:
+          description: Description of an entity.
           title: Description
           type: string
-        files:
+        has_attribute:
+          description: Key/value pairs corresponding to an entity.
           items:
-            type: string
-          title: Files
+            $ref: '#/components/schemas/Attribute'
+          title: Has Attribute
           type: array
-        has_study:
-          title: Has Study
-          type: string
         id:
+          description: An identifier that uniquely represents an entity.
           title: Id
           type: string
+        name:
+          description: The name for an entity.
+          title: Name
+          type: string
+        replaced_by:
+          description: Refers to the entity which replaces a currently deprecated
+            entity.
+          title: Replaced By
+          type: string
+        replaces:
+          description: Refers to a deprecated entity that is being replaced by the
+            current entity.
+          title: Replaces
+          type: string
+        type:
+          description: The type of an entity.
+          title: Type
+          type: string
+        update_date:
+          description: Timestamp (in ISO 8601 format) when the entity was updated.
+          title: Update Date
+          type: string
+        xref:
+          description: Alternate identifiers for an entity.
+          items:
+            type: string
+          title: Xref
+          type: array
+      title: Agent
+      type: object
+    Analysis:
+      description: An Analysis is a data transformation that transforms input data
+        to output data. The workflow used to achieve this transformation and the individual
+        steps are also captured.
+      properties:
+        accession:
+          description: A unique identifier assigned to an entity for the sole purpose
+            of referring to that entity in a global scope.
+          title: Accession
+          type: string
+        creation_date:
+          description: Timestamp (in ISO 8601 format) when the entity was created.
+          title: Creation Date
+          type: string
+        description:
+          description: Description of an entity.
+          title: Description
+          type: string
+        has_analysis_process:
+          items:
+            $ref: '#/components/schemas/AnalysisProcess'
+          title: Has Analysis Process
+          type: array
+        has_attribute:
+          description: Key/value pairs corresponding to an entity.
+          items:
+            $ref: '#/components/schemas/Attribute'
+          title: Has Attribute
+          type: array
+        has_input:
+          description: The input to a Planned Process.
+          items:
+            $ref: '#/components/schemas/File'
+          title: Has Input
+          type: array
+        has_output:
+          description: The output of a Planned Process entity.
+          items:
+            $ref: '#/components/schemas/File'
+          title: Has Output
+          type: array
+        has_study:
+          allOf:
+          - $ref: '#/components/schemas/Study'
+          description: The study associated with an entity.
+          title: Has Study
+        has_workflow:
+          allOf:
+          - $ref: '#/components/schemas/Workflow'
+          description: The Workflow entity associated wtih a Planned Process entity.
+          title: Has Workflow
+        id:
+          description: An identifier that uniquely represents an entity.
+          title: Id
+          type: string
+        replaced_by:
+          description: Refers to the entity which replaces a currently deprecated
+            entity.
+          title: Replaced By
+          type: string
+        replaces:
+          description: Refers to a deprecated entity that is being replaced by the
+            current entity.
+          title: Replaces
+          type: string
         title:
+          description: The title that describes an entity.
           title: Title
           type: string
         type:
+          description: The type of an entity.
           title: Type
           type: string
-      required:
-      - id
-      title: Dataset
-      type: object
-    Experiment:
-      properties:
-        has_study:
-          title: Has Study
+        update_date:
+          description: Timestamp (in ISO 8601 format) when the entity was updated.
+          title: Update Date
           type: string
+        xref:
+          description: Alternate identifiers for an entity.
+          items:
+            type: string
+          title: Xref
+          type: array
+      title: Analysis
+      type: object
+    AnalysisProcess:
+      description: An analysis process is a process that describes how one or more
+        Files, from a Study, are transformed to another set of Files via a Workflow.
+        The analysis process also keeps track of the workflow metadata and the Agent
+        that is running the Analysis.
+      properties:
+        accession:
+          description: A unique identifier assigned to an entity for the sole purpose
+            of referring to that entity in a global scope.
+          title: Accession
+          type: string
+        creation_date:
+          description: Timestamp (in ISO 8601 format) when the entity was created.
+          title: Creation Date
+          type: string
+        has_agent:
+          allOf:
+          - $ref: '#/components/schemas/Agent'
+          description: A person or an entity that is performing a Planned Process
+            entity.
+          title: Has Agent
+        has_attribute:
+          description: Key/value pairs corresponding to an entity.
+          items:
+            $ref: '#/components/schemas/Attribute'
+          title: Has Attribute
+          type: array
+        has_input:
+          description: The input to a Planned Process.
+          items:
+            $ref: '#/components/schemas/File'
+          title: Has Input
+          type: array
+        has_output:
+          description: The output of a Planned Process entity.
+          items:
+            $ref: '#/components/schemas/File'
+          title: Has Output
+          type: array
+        has_workflow_step:
+          allOf:
+          - $ref: '#/components/schemas/WorkflowStep'
+          description: The individual workflow step that with other workflow step(s)
+            collectively defines a Workflow entity.
+          title: Has Workflow Step
         id:
+          description: An identifier that uniquely represents an entity.
           title: Id
           type: string
-        instrument_model:
-          title: Instrument Model
+        replaced_by:
+          description: Refers to the entity which replaces a currently deprecated
+            entity.
+          title: Replaced By
+          type: string
+        replaces:
+          description: Refers to a deprecated entity that is being replaced by the
+            current entity.
+          title: Replaces
+          type: string
+        title:
+          description: The title that describes an entity.
+          title: Title
+          type: string
+        type:
+          description: The type of an entity.
+          title: Type
+          type: string
+        update_date:
+          description: Timestamp (in ISO 8601 format) when the entity was updated.
+          title: Update Date
+          type: string
+        xref:
+          description: Alternate identifiers for an entity.
+          items:
+            type: string
+          title: Xref
+          type: array
+      title: AnalysisProcess
+      type: object
+    AnatomicalEntity:
+      description: Biological entity that is either an individual member of a biological
+        species or constitutes the structural organization of an individual member
+        of a biological species.
+      properties:
+        accession:
+          description: A unique identifier assigned to an entity for the sole purpose
+            of referring to that entity in a global scope.
+          title: Accession
+          type: string
+        creation_date:
+          description: Timestamp (in ISO 8601 format) when the entity was created.
+          title: Creation Date
+          type: string
+        has_attribute:
+          description: Key/value pairs corresponding to an entity.
+          items:
+            $ref: '#/components/schemas/Attribute'
+          title: Has Attribute
+          type: array
+        id:
+          description: An identifier that uniquely represents an entity.
+          title: Id
+          type: string
+        replaced_by:
+          description: Refers to the entity which replaces a currently deprecated
+            entity.
+          title: Replaced By
+          type: string
+        replaces:
+          description: Refers to a deprecated entity that is being replaced by the
+            current entity.
+          title: Replaces
+          type: string
+        type:
+          description: The type of an entity.
+          title: Type
+          type: string
+        update_date:
+          description: Timestamp (in ISO 8601 format) when the entity was updated.
+          title: Update Date
+          type: string
+        xref:
+          description: Alternate identifiers for an entity.
+          items:
+            type: string
+          title: Xref
+          type: array
+      title: AnatomicalEntity
+      type: object
+    Attribute:
+      description: A key/value pair that further characterizes an entity.
+      properties:
+        key:
+          description: The key of an attribute.
+          title: Key
+          type: string
+        key_type:
+          description: The semantic type for the key of an attribute.
+          title: Key Type
+          type: string
+        value:
+          description: The value of an attribute
+          title: Value
+          type: string
+        value_type:
+          description: The semantic type for the value of an attribute.
+          title: Value Type
+          type: string
+      title: Attribute
+      type: object
+    BiologicalSexEnum:
+      description: The biological sex of an Individual as determined by their chromosomes.
+      enum:
+      - XX
+      - XY
+      - none
+      title: BiologicalSexEnum
+      type: string
+    Biospecimen:
+      description: A Biospecimen is any natural material taken from a biological entity
+        (usually a human) for testing, diagnostics, treatment, or research purposes.
+        The Biospecimen is linked to the Individual from which the Biospecimen is
+        derived.
+      properties:
+        accession:
+          description: A unique identifier assigned to an entity for the sole purpose
+            of referring to that entity in a global scope.
+          title: Accession
+          type: string
+        creation_date:
+          description: Timestamp (in ISO 8601 format) when the entity was created.
+          title: Creation Date
+          type: string
+        description:
+          description: Description of an entity.
+          title: Description
+          type: string
+        has_anatomical_entity:
+          allOf:
+          - $ref: '#/components/schemas/AnatomicalEntity'
+          description: Anatomical site associated with an entity.
+          title: Has Anatomical Entity
+        has_attribute:
+          description: Key/value pairs corresponding to an entity.
+          items:
+            $ref: '#/components/schemas/Attribute'
+          title: Has Attribute
+          type: array
+        has_individual:
+          allOf:
+          - $ref: '#/components/schemas/Individual'
+          description: The subject/individual associated with an entity.
+          title: Has Individual
+        id:
+          description: An identifier that uniquely represents an entity.
+          title: Id
           type: string
         name:
+          description: The name for an entity.
           title: Name
           type: string
-      required:
-      - id
+        replaced_by:
+          description: Refers to the entity which replaces a currently deprecated
+            entity.
+          title: Replaced By
+          type: string
+        replaces:
+          description: Refers to a deprecated entity that is being replaced by the
+            current entity.
+          title: Replaces
+          type: string
+        type:
+          description: The type of an entity.
+          title: Type
+          type: string
+        update_date:
+          description: Timestamp (in ISO 8601 format) when the entity was updated.
+          title: Update Date
+          type: string
+        xref:
+          description: Alternate identifiers for an entity.
+          items:
+            type: string
+          title: Xref
+          type: array
+      title: Biospecimen
+      type: object
+    CaseControlEnum:
+      description: Enum to capture whether a Sample is to be considered as Case or
+        Control.
+      enum:
+      - control
+      - case
+      title: CaseControlEnum
+      type: string
+    DataAccessCommittee:
+      description: A group of members that are delegated to grant access to one or
+        more datasets after ensuring the minimum criteria for data sharing has been
+        met, and request for data use does not raise ethical and/or legal concerns.
+      properties:
+        accession:
+          description: A unique identifier assigned to an entity for the sole purpose
+            of referring to that entity in a global scope.
+          title: Accession
+          type: string
+        creation_date:
+          description: Timestamp (in ISO 8601 format) when the entity was created.
+          title: Creation Date
+          type: string
+        description:
+          description: Description of an entity.
+          title: Description
+          type: string
+        has_attribute:
+          description: Key/value pairs corresponding to an entity.
+          items:
+            $ref: '#/components/schemas/Attribute'
+          title: Has Attribute
+          type: array
+        has_member:
+          description: The members associated with a committee.
+          items:
+            $ref: '#/components/schemas/Member'
+          title: Has Member
+          type: array
+        id:
+          description: An identifier that uniquely represents an entity.
+          title: Id
+          type: string
+        main_contact:
+          allOf:
+          - $ref: '#/components/schemas/Member'
+          description: The person who is the main contact for a committee.
+          title: Main Contact
+        name:
+          description: The name for an entity.
+          title: Name
+          type: string
+        replaced_by:
+          description: Refers to the entity which replaces a currently deprecated
+            entity.
+          title: Replaced By
+          type: string
+        replaces:
+          description: Refers to a deprecated entity that is being replaced by the
+            current entity.
+          title: Replaces
+          type: string
+        type:
+          description: The type of an entity.
+          title: Type
+          type: string
+        update_date:
+          description: Timestamp (in ISO 8601 format) when the entity was updated.
+          title: Update Date
+          type: string
+        xref:
+          description: Alternate identifiers for an entity.
+          items:
+            type: string
+          title: Xref
+          type: array
+      title: DataAccessCommittee
+      type: object
+    DataAccessPolicy:
+      description: A Data Access Policy specifies under which circumstances, legal
+        or otherwise, a user can have access to one or more Datasets belonging to
+        one or more Studies.
+      properties:
+        accession:
+          description: A unique identifier assigned to an entity for the sole purpose
+            of referring to that entity in a global scope.
+          title: Accession
+          type: string
+        creation_date:
+          description: Timestamp (in ISO 8601 format) when the entity was created.
+          title: Creation Date
+          type: string
+        description:
+          description: Description of an entity.
+          title: Description
+          type: string
+        has_attribute:
+          description: Key/value pairs corresponding to an entity.
+          items:
+            $ref: '#/components/schemas/Attribute'
+          title: Has Attribute
+          type: array
+        has_data_access_committee:
+          allOf:
+          - $ref: '#/components/schemas/DataAccessCommittee'
+          description: Data Access Committee associated with an entity.
+          title: Has Data Access Committee
+        has_data_use_condition:
+          description: Data Use Condition entities that are associated with an entity.
+          items:
+            $ref: '#/components/schemas/DataUseCondition'
+          title: Has Data Use Condition
+          type: array
+        id:
+          description: An identifier that uniquely represents an entity.
+          title: Id
+          type: string
+        name:
+          description: The name for an entity.
+          title: Name
+          type: string
+        policy_text:
+          description: The complete text for the Data Access Policy.
+          title: Policy Text
+          type: string
+        policy_url:
+          description: Alternative to pasting the Data Access Policy text.
+          title: Policy Url
+          type: string
+        replaced_by:
+          description: Refers to the entity which replaces a currently deprecated
+            entity.
+          title: Replaced By
+          type: string
+        replaces:
+          description: Refers to a deprecated entity that is being replaced by the
+            current entity.
+          title: Replaces
+          type: string
+        type:
+          description: The type of an entity.
+          title: Type
+          type: string
+        update_date:
+          description: Timestamp (in ISO 8601 format) when the entity was updated.
+          title: Update Date
+          type: string
+        xref:
+          description: Alternate identifiers for an entity.
+          items:
+            type: string
+          title: Xref
+          type: array
+      title: DataAccessPolicy
+      type: object
+    DataUseCondition:
+      description: Data Use Condition represents the use conditions associated with
+        a Dataset. A permission field can have one or more terms that collectively
+        defines the data use condition. The modifier determines the interpretation
+        of the use permission(s).
+      properties:
+        modifier:
+          description: Modifier for Data user permission.
+          title: Modifier
+          type: string
+        permission:
+          description: Data use permission.
+          title: Permission
+          type: string
+      title: DataUseCondition
+      type: object
+    Disease:
+      description: A disease is a disposition to undergo pathological processes that
+        exists in an organism because of one or more disorders in that organism.
+      properties:
+        accession:
+          description: A unique identifier assigned to an entity for the sole purpose
+            of referring to that entity in a global scope.
+          title: Accession
+          type: string
+        creation_date:
+          description: Timestamp (in ISO 8601 format) when the entity was created.
+          title: Creation Date
+          type: string
+        description:
+          description: Description of an entity.
+          title: Description
+          type: string
+        has_attribute:
+          description: Key/value pairs corresponding to an entity.
+          items:
+            $ref: '#/components/schemas/Attribute'
+          title: Has Attribute
+          type: array
+        id:
+          description: An identifier that uniquely represents an entity.
+          title: Id
+          type: string
+        name:
+          description: The name for an entity.
+          title: Name
+          type: string
+        replaced_by:
+          description: Refers to the entity which replaces a currently deprecated
+            entity.
+          title: Replaced By
+          type: string
+        replaces:
+          description: Refers to a deprecated entity that is being replaced by the
+            current entity.
+          title: Replaces
+          type: string
+        type:
+          description: The type of an entity.
+          title: Type
+          type: string
+        update_date:
+          description: Timestamp (in ISO 8601 format) when the entity was updated.
+          title: Update Date
+          type: string
+        xref:
+          description: Alternate identifiers for an entity.
+          items:
+            type: string
+          title: Xref
+          type: array
+      title: Disease
+      type: object
+    Experiment:
+      description: An experiment is an investigation that consists of a coordinated
+        set of actions and observations designed to generate data with the goal of
+        verifying, falsifying, or establishing the validity of a hypothesis.
+      properties:
+        accession:
+          description: A unique identifier assigned to an entity for the sole purpose
+            of referring to that entity in a global scope.
+          title: Accession
+          type: string
+        biological_replicates:
+          description: Number of independent samples (biological replicates).
+          title: Biological Replicates
+          type: string
+        creation_date:
+          description: Timestamp (in ISO 8601 format) when the entity was created.
+          title: Creation Date
+          type: string
+        deprecation_date:
+          description: The date when the entity was deprecated.
+          title: Deprecation Date
+          type: string
+        description:
+          description: Description of an entity.
+          title: Description
+          type: string
+        experimental_replicates:
+          description: Number of experiment replications.
+          title: Experimental Replicates
+          type: string
+        has_attribute:
+          description: Key/value pairs corresponding to an entity.
+          items:
+            $ref: '#/components/schemas/Attribute'
+          title: Has Attribute
+          type: array
+        has_experiment_process:
+          items:
+            $ref: '#/components/schemas/ExperimentProcess'
+          title: Has Experiment Process
+          type: array
+        has_file:
+          description: The file associated with an entity.
+          items:
+            $ref: '#/components/schemas/File'
+          title: Has File
+          type: array
+        has_publication:
+          description: The Publication associated with an entity.
+          title: Has Publication
+          type: string
+        has_sample:
+          allOf:
+          - $ref: '#/components/schemas/Sample'
+          description: The sample associated with an entity.
+          title: Has Sample
+        has_study:
+          allOf:
+          - $ref: '#/components/schemas/Study'
+          description: The study associated with an entity.
+          title: Has Study
+        has_technology:
+          allOf:
+          - $ref: '#/components/schemas/Technology'
+          description: The technology associated with an entity.
+          title: Has Technology
+        id:
+          description: An identifier that uniquely represents an entity.
+          title: Id
+          type: string
+        release_date:
+          description: The date when the entity was released for public consumption.
+          title: Release Date
+          type: string
+        replaced_by:
+          description: Refers to the entity which replaces a currently deprecated
+            entity.
+          title: Replaced By
+          type: string
+        replaces:
+          description: Refers to a deprecated entity that is being replaced by the
+            current entity.
+          title: Replaces
+          type: string
+        status:
+          allOf:
+          - $ref: '#/components/schemas/StatusEnum'
+          description: The status of an entity.
+        technical_replicates:
+          description: Number of replicate samples (technical replicates).
+          title: Technical Replicates
+          type: string
+        title:
+          description: The title that describes an entity.
+          title: Title
+          type: string
+        type:
+          description: The type of an entity.
+          title: Type
+          type: string
+        update_date:
+          description: Timestamp (in ISO 8601 format) when the entity was updated.
+          title: Update Date
+          type: string
+        xref:
+          description: Alternate identifiers for an entity.
+          items:
+            type: string
+          title: Xref
+          type: array
       title: Experiment
       type: object
-    File:
+    ExperimentProcess:
+      description: An Experiment Process is a process that describes how a Sample
+        is transformed to a File via an assay. The Experiment Process also keeps track
+        of the Protocol used and the Agent that is running the experiment.
       properties:
+        accession:
+          description: A unique identifier assigned to an entity for the sole purpose
+            of referring to that entity in a global scope.
+          title: Accession
+          type: string
+        creation_date:
+          description: Timestamp (in ISO 8601 format) when the entity was created.
+          title: Creation Date
+          type: string
+        has_agent:
+          allOf:
+          - $ref: '#/components/schemas/Agent'
+          description: A person or an entity that is performing a Planned Process
+            entity.
+          title: Has Agent
+        has_attribute:
+          description: Key/value pairs corresponding to an entity.
+          items:
+            $ref: '#/components/schemas/Attribute'
+          title: Has Attribute
+          type: array
+        has_input:
+          allOf:
+          - $ref: '#/components/schemas/Sample'
+          description: The input to a Planned Process.
+          title: Has Input
+        has_output:
+          allOf:
+          - $ref: '#/components/schemas/File'
+          description: The output of a Planned Process entity.
+          title: Has Output
+        has_protocol:
+          allOf:
+          - $ref: '#/components/schemas/Protocol'
+          description: The protocol associated with an entity.
+          title: Has Protocol
+        id:
+          description: An identifier that uniquely represents an entity.
+          title: Id
+          type: string
+        replaced_by:
+          description: Refers to the entity which replaces a currently deprecated
+            entity.
+          title: Replaced By
+          type: string
+        replaces:
+          description: Refers to a deprecated entity that is being replaced by the
+            current entity.
+          title: Replaces
+          type: string
+        title:
+          description: The title that describes an entity.
+          title: Title
+          type: string
+        type:
+          description: The type of an entity.
+          title: Type
+          type: string
+        update_date:
+          description: Timestamp (in ISO 8601 format) when the entity was updated.
+          title: Update Date
+          type: string
+        xref:
+          description: Alternate identifiers for an entity.
+          items:
+            type: string
+          title: Xref
+          type: array
+      title: ExperimentProcess
+      type: object
+    File:
+      description: A generically dependent continuant that is about some thing.
+      properties:
+        accession:
+          description: A unique identifier assigned to an entity for the sole purpose
+            of referring to that entity in a global scope.
+          title: Accession
+          type: string
         category:
+          description: 'The category for this file: Whole Genome Sequencing, Whole
+            Exome Sequencing, etc.'
           title: Category
           type: string
         checksum:
+          description: A computed value which depends on the contents of a block of
+            data and which is transmitted or  stored along with the data in order
+            to detect corruption of the data.  The receiving system recomputes the
+            checksum based upon the received data and compares this  value with the
+            one sent with the data. If the two values are the same, the receiver has
+            some confidence  that the data was received correctly.
           title: Checksum
           type: string
+        creation_date:
+          description: Timestamp (in ISO 8601 format) when the entity was created.
+          title: Creation Date
+          type: string
+        file_index:
+          description: The index for this file. Commonly for BAM/VCF files.
+          title: File Index
+          type: string
         format:
+          description: 'The format of the file: BAM, SAM, CRAM, BAI, etc.'
           title: Format
           type: string
+        has_attribute:
+          description: Key/value pairs corresponding to an entity.
+          items:
+            $ref: '#/components/schemas/Attribute'
+          title: Has Attribute
+          type: array
         id:
+          description: An identifier that uniquely represents an entity.
           title: Id
           type: string
         name:
+          description: The name for an entity.
           title: Name
           type: string
+        replaced_by:
+          description: Refers to the entity which replaces a currently deprecated
+            entity.
+          title: Replaced By
+          type: string
+        replaces:
+          description: Refers to a deprecated entity that is being replaced by the
+            current entity.
+          title: Replaces
+          type: string
         size:
+          description: The size of a file in bytes.
           title: Size
           type: string
         type:
-          title: Type
+          allOf:
+          - $ref: '#/components/schemas/FileTypeEnum'
+          description: The type of an entity.
+        update_date:
+          description: Timestamp (in ISO 8601 format) when the entity was updated.
+          title: Update Date
           type: string
-      required:
-      - id
+        xref:
+          description: Alternate identifiers for an entity.
+          items:
+            type: string
+          title: Xref
+          type: array
       title: File
       type: object
+    FileTypeEnum:
+      description: Enum to capture file types.
+      enum:
+      - bam
+      - complete_genomics
+      - cram
+      - fasta
+      - fastq
+      - pacbio_hdf5
+      - sff
+      - srf
+      - vcf
+      title: FileTypeEnum
+      type: string
     HTTPValidationError:
       properties:
         detail:
@@ -80,40 +886,826 @@ components:
           type: array
       title: HTTPValidationError
       type: object
-    Publication:
+    Individual:
+      description: An Individual is a Person who is participating in a Study.
       properties:
+        accession:
+          description: A unique identifier assigned to an entity for the sole purpose
+            of referring to that entity in a global scope.
+          title: Accession
+          type: string
+        additional_name:
+          description: Additional name(s).
+          title: Additional Name
+          type: string
+        age:
+          description: Age of an individual.
+          title: Age
+          type: integer
+        ancestry:
+          description: A person's descent or lineage, from a person or from a population.
+          title: Ancestry
+          type: string
+        creation_date:
+          description: Timestamp (in ISO 8601 format) when the entity was created.
+          title: Creation Date
+          type: string
+        ethnicity:
+          description: A social group characterized by a distinctive social and cultural
+            tradition  that is maintained from generation to generation.
+          title: Ethnicity
+          type: string
+        family_name:
+          description: Last name.
+          title: Family Name
+          type: string
+        gender:
+          description: Identification as male/masculine, female/feminine or something
+            else,  and association with a (social) role or set of behavioral and cultural
+            traits.
+          title: Gender
+          type: string
+        geographical_region:
+          description: The geographical region where the Individual is located. Any
+            demarcated area of the Earth; may be determined by both natural and human
+            boundaries.
+          title: Geographical Region
+          type: string
+        given_name:
+          description: First name.
+          title: Given Name
+          type: string
+        has_attribute:
+          description: Key/value pairs corresponding to an entity.
+          items:
+            $ref: '#/components/schemas/Attribute'
+          title: Has Attribute
+          type: array
+        has_children:
+          description: The children of an entity.
+          items:
+            $ref: '#/components/schemas/Individual'
+          title: Has Children
+          type: array
+        has_disease:
+          description: Disease concept that the entity is associated with.
+          items:
+            $ref: '#/components/schemas/Disease'
+          title: Has Disease
+          type: array
+        has_parent:
+          description: The parent of an entity.
+          items:
+            $ref: '#/components/schemas/Individual'
+          title: Has Parent
+          type: array
+        has_phenotypic_feature:
+          description: Phenotypic feature concept that the entity is associated with.
+          items:
+            $ref: '#/components/schemas/PhenotypicFeature'
+          title: Has Phenotypic Feature
+          type: array
         id:
+          description: An identifier that uniquely represents an entity.
           title: Id
           type: string
-        title:
-          title: Title
+        replaced_by:
+          description: Refers to the entity which replaces a currently deprecated
+            entity.
+          title: Replaced By
           type: string
-      required:
-      - id
-      title: Publication
-      type: object
-    Study:
-      properties:
-        abstract:
-          title: Abstract
+        replaces:
+          description: Refers to a deprecated entity that is being replaced by the
+            current entity.
+          title: Replaces
           type: string
-        id:
-          title: Id
+        sex:
+          allOf:
+          - $ref: '#/components/schemas/BiologicalSexEnum'
+          description: The assemblage of physical properties or qualities by which
+            male is distinguished from female;  the physical difference between male
+            and female; the distinguishing peculiarity of male or female.
+        type:
+          description: The type of an entity.
+          title: Type
           type: string
-        publications:
+        update_date:
+          description: Timestamp (in ISO 8601 format) when the entity was updated.
+          title: Update Date
+          type: string
+        vital_status:
+          allOf:
+          - $ref: '#/components/schemas/VitalStatusEnum'
+          description: The state or condition of being living or deceased;  also includes
+            the case where the vital status is unknown.
+        xref:
+          description: Alternate identifiers for an entity.
           items:
             type: string
-          title: Publications
+          title: Xref
           type: array
+        year_of_birth:
+          description: The year in which the individual was born.
+          title: Year Of Birth
+          type: string
+      title: Individual
+      type: object
+    Member:
+      description: Member of an Organization or a Committee.
+      properties:
+        accession:
+          description: A unique identifier assigned to an entity for the sole purpose
+            of referring to that entity in a global scope.
+          title: Accession
+          type: string
+        additional_name:
+          description: Additional name(s).
+          title: Additional Name
+          type: string
+        creation_date:
+          description: Timestamp (in ISO 8601 format) when the entity was created.
+          title: Creation Date
+          type: string
+        email:
+          description: Email of a person.
+          title: Email
+          type: string
+        family_name:
+          description: Last name.
+          title: Family Name
+          type: string
+        given_name:
+          description: First name.
+          title: Given Name
+          type: string
+        has_attribute:
+          description: Key/value pairs corresponding to an entity.
+          items:
+            $ref: '#/components/schemas/Attribute'
+          title: Has Attribute
+          type: array
+        id:
+          description: An identifier that uniquely represents an entity.
+          title: Id
+          type: string
+        organization:
+          description: The organization associated with a person.
+          title: Organization
+          type: string
+        replaced_by:
+          description: Refers to the entity which replaces a currently deprecated
+            entity.
+          title: Replaced By
+          type: string
+        replaces:
+          description: Refers to a deprecated entity that is being replaced by the
+            current entity.
+          title: Replaces
+          type: string
+        telephone:
+          description: The telephone number associated with a person.
+          title: Telephone
+          type: string
+        type:
+          description: The type of an entity.
+          title: Type
+          type: string
+        update_date:
+          description: Timestamp (in ISO 8601 format) when the entity was updated.
+          title: Update Date
+          type: string
+        xref:
+          description: Alternate identifiers for an entity.
+          items:
+            type: string
+          title: Xref
+          type: array
+      title: Member
+      type: object
+    PhenotypicFeature:
+      description: The observable form taken by some character (or group of characters)
+        in an individual or an organism, excluding pathology and disease. The detectable
+        outward manifestations of a specific genotype.
+      properties:
+        accession:
+          description: A unique identifier assigned to an entity for the sole purpose
+            of referring to that entity in a global scope.
+          title: Accession
+          type: string
+        creation_date:
+          description: Timestamp (in ISO 8601 format) when the entity was created.
+          title: Creation Date
+          type: string
+        description:
+          description: Description of an entity.
+          title: Description
+          type: string
+        has_attribute:
+          description: Key/value pairs corresponding to an entity.
+          items:
+            $ref: '#/components/schemas/Attribute'
+          title: Has Attribute
+          type: array
+        id:
+          description: An identifier that uniquely represents an entity.
+          title: Id
+          type: string
+        name:
+          description: The name for an entity.
+          title: Name
+          type: string
+        replaced_by:
+          description: Refers to the entity which replaces a currently deprecated
+            entity.
+          title: Replaced By
+          type: string
+        replaces:
+          description: Refers to a deprecated entity that is being replaced by the
+            current entity.
+          title: Replaces
+          type: string
+        type:
+          description: The type of an entity.
+          title: Type
+          type: string
+        update_date:
+          description: Timestamp (in ISO 8601 format) when the entity was updated.
+          title: Update Date
+          type: string
+        xref:
+          description: Alternate identifiers for an entity.
+          items:
+            type: string
+          title: Xref
+          type: array
+      title: PhenotypicFeature
+      type: object
+    Project:
+      description: Any specifically defined piece of work that is undertaken or attempted
+        to meet a single requirement.
+      properties:
+        accession:
+          description: A unique identifier assigned to an entity for the sole purpose
+            of referring to that entity in a global scope.
+          title: Accession
+          type: string
+        creation_date:
+          description: Timestamp (in ISO 8601 format) when the entity was created.
+          title: Creation Date
+          type: string
+        description:
+          description: Description of an entity.
+          title: Description
+          type: string
+        has_attribute:
+          description: Key/value pairs corresponding to an entity.
+          items:
+            $ref: '#/components/schemas/Attribute'
+          title: Has Attribute
+          type: array
+        has_publication:
+          description: The Publication associated with an entity.
+          items:
+            $ref: '#/components/schemas/Publication'
+          title: Has Publication
+          type: array
+        has_study:
+          description: The study associated with an entity.
+          items:
+            $ref: '#/components/schemas/Study'
+          title: Has Study
+          type: array
+        id:
+          description: An identifier that uniquely represents an entity.
+          title: Id
+          type: string
+        replaced_by:
+          description: Refers to the entity which replaces a currently deprecated
+            entity.
+          title: Replaced By
+          type: string
+        replaces:
+          description: Refers to a deprecated entity that is being replaced by the
+            current entity.
+          title: Replaces
+          type: string
         title:
+          description: The title that describes an entity.
           title: Title
           type: string
         type:
+          description: The type of an entity.
           title: Type
           type: string
-      required:
-      - id
+        update_date:
+          description: Timestamp (in ISO 8601 format) when the entity was updated.
+          title: Update Date
+          type: string
+        xref:
+          description: Alternate identifiers for an entity.
+          items:
+            type: string
+          title: Xref
+          type: array
+      title: Project
+      type: object
+    Protocol:
+      description: A plan specification which has sufficient level of detail and quantitative
+        information to communicate it between investigation agents, so that different
+        investigation agents will reliably be able to independently reproduce the
+        process.
+      properties:
+        accession:
+          description: A unique identifier assigned to an entity for the sole purpose
+            of referring to that entity in a global scope.
+          title: Accession
+          type: string
+        creation_date:
+          description: Timestamp (in ISO 8601 format) when the entity was created.
+          title: Creation Date
+          type: string
+        description:
+          description: Description of an entity.
+          title: Description
+          type: string
+        has_attribute:
+          description: Key/value pairs corresponding to an entity.
+          items:
+            $ref: '#/components/schemas/Attribute'
+          title: Has Attribute
+          type: array
+        id:
+          description: An identifier that uniquely represents an entity.
+          title: Id
+          type: string
+        name:
+          description: The name for an entity.
+          title: Name
+          type: string
+        replaced_by:
+          description: Refers to the entity which replaces a currently deprecated
+            entity.
+          title: Replaced By
+          type: string
+        replaces:
+          description: Refers to a deprecated entity that is being replaced by the
+            current entity.
+          title: Replaces
+          type: string
+        type:
+          description: The type of an entity.
+          title: Type
+          type: string
+        update_date:
+          description: Timestamp (in ISO 8601 format) when the entity was updated.
+          title: Update Date
+          type: string
+        url:
+          description: A URL to a resource.
+          title: Url
+          type: string
+        xref:
+          description: Alternate identifiers for an entity.
+          items:
+            type: string
+          title: Xref
+          type: array
+      title: Protocol
+      type: object
+    Publication:
+      description: The Publication entity represents a publication. While a publication
+        can be any article that is published, the minimum expectation is that the
+        publication has a valid DOI.
+      properties:
+        abstract:
+          description: The study abstract that describes the goals.  Can also hold
+            abstract from a publication related to this study
+          title: Abstract
+          type: string
+        accession:
+          description: A unique identifier assigned to an entity for the sole purpose
+            of referring to that entity in a global scope.
+          title: Accession
+          type: string
+        creation_date:
+          description: Timestamp (in ISO 8601 format) when the entity was created.
+          title: Creation Date
+          type: string
+        has_attribute:
+          description: Key/value pairs corresponding to an entity.
+          items:
+            $ref: '#/components/schemas/Attribute'
+          title: Has Attribute
+          type: array
+        id:
+          description: An identifier that uniquely represents an entity.
+          title: Id
+          type: string
+        replaced_by:
+          description: Refers to the entity which replaces a currently deprecated
+            entity.
+          title: Replaced By
+          type: string
+        replaces:
+          description: Refers to a deprecated entity that is being replaced by the
+            current entity.
+          title: Replaces
+          type: string
+        title:
+          description: The title that describes an entity.
+          title: Title
+          type: string
+        type:
+          description: The type of an entity.
+          title: Type
+          type: string
+        update_date:
+          description: Timestamp (in ISO 8601 format) when the entity was updated.
+          title: Update Date
+          type: string
+        xref:
+          description: Alternate identifiers for an entity.
+          items:
+            type: string
+          title: Xref
+          type: array
+      title: Publication
+      type: object
+    Sample:
+      description: A sample is a limited quantity of something to be used for testing,
+        analysis, inspection, investigation, demonstration, or trial use. A sample
+        is prepared from a Biospecimen (isolate or tissue).
+      properties:
+        accession:
+          description: A unique identifier assigned to an entity for the sole purpose
+            of referring to that entity in a global scope.
+          title: Accession
+          type: string
+        creation_date:
+          description: Timestamp (in ISO 8601 format) when the entity was created.
+          title: Creation Date
+          type: string
+        description:
+          description: Description of an entity.
+          title: Description
+          type: string
+        has_attribute:
+          description: Key/value pairs corresponding to an entity.
+          items:
+            $ref: '#/components/schemas/Attribute'
+          title: Has Attribute
+          type: array
+        has_biospecimen:
+          allOf:
+          - $ref: '#/components/schemas/Biospecimen'
+          description: The biospecimen associated with an entity.
+          title: Has Biospecimen
+        has_individual:
+          allOf:
+          - $ref: '#/components/schemas/Individual'
+          description: The subject/individual associated with an entity.
+          title: Has Individual
+        id:
+          description: An identifier that uniquely represents an entity.
+          title: Id
+          type: string
+        isolation:
+          description: Method or device employed for collecting/isolating a sample.
+          title: Isolation
+          type: string
+        name:
+          description: The name for an entity.
+          title: Name
+          type: string
+        replaced_by:
+          description: Refers to the entity which replaces a currently deprecated
+            entity.
+          title: Replaced By
+          type: string
+        replaces:
+          description: Refers to a deprecated entity that is being replaced by the
+            current entity.
+          title: Replaces
+          type: string
+        storage:
+          description: Methods by which sample is stored  (e.g. frozen in liquid nitrogen).
+          title: Storage
+          type: string
+        tissue:
+          description: An anatomical structure consisting of similarly specialized
+            cells and intercellular matrix,  aggregated according to genetically determined
+            spatial relationships, performing a specific function.
+          title: Tissue
+          type: string
+        type:
+          allOf:
+          - $ref: '#/components/schemas/CaseControlEnum'
+          description: The type of an entity.
+        update_date:
+          description: Timestamp (in ISO 8601 format) when the entity was updated.
+          title: Update Date
+          type: string
+        vital_status_at_sampling:
+          description: Vital Status of an Individual at the point of sampling (eg:'Alive',
+            'Deceased').
+          title: Vital Status At Sampling
+          type: string
+        xref:
+          description: Alternate identifiers for an entity.
+          items:
+            type: string
+          title: Xref
+          type: array
+      title: Sample
+      type: object
+    StatusEnum:
+      description: Enum to capture the status of an entity.
+      enum:
+      - in progress
+      - submitted
+      - unreleased
+      - released
+      - deprecated
+      title: StatusEnum
+      type: string
+    Study:
+      description: Studies are experimental investigations of a particular phenomenon.
+        It involves a detailed examination and analysis of a subject to learn more
+        about the phenomenon being studied.
+      properties:
+        accession:
+          description: A unique identifier assigned to an entity for the sole purpose
+            of referring to that entity in a global scope.
+          title: Accession
+          type: string
+        affiliation:
+          description: Institutions associated with this study.
+          items:
+            type: string
+          title: Affiliation
+          type: array
+        creation_date:
+          description: Timestamp (in ISO 8601 format) when the entity was created.
+          title: Creation Date
+          type: string
+        deprecation_date:
+          description: The date when the entity was deprecated.
+          title: Deprecation Date
+          type: string
+        description:
+          description: Description of an entity.
+          title: Description
+          type: string
+        has_analysis:
+          description: The analysis associated with an entity.
+          items:
+            $ref: '#/components/schemas/Analysis'
+          title: Has Analysis
+          type: array
+        has_attribute:
+          description: Key/value pairs corresponding to an entity.
+          items:
+            $ref: '#/components/schemas/Attribute'
+          title: Has Attribute
+          type: array
+        has_experiment:
+          description: The experiment associated with an entity.
+          items:
+            $ref: '#/components/schemas/Experiment'
+          title: Has Experiment
+          type: array
+        has_project:
+          allOf:
+          - $ref: '#/components/schemas/Project'
+          description: The project associated with an entity.
+          title: Has Project
+        has_publication:
+          description: The Publication associated with an entity.
+          items:
+            $ref: '#/components/schemas/Publication'
+          title: Has Publication
+          type: array
+        id:
+          description: An identifier that uniquely represents an entity.
+          title: Id
+          type: string
+        release_date:
+          description: The date when the entity was released for public consumption.
+          title: Release Date
+          type: string
+        replaced_by:
+          description: Refers to the entity which replaces a currently deprecated
+            entity.
+          title: Replaced By
+          type: string
+        replaces:
+          description: Refers to a deprecated entity that is being replaced by the
+            current entity.
+          title: Replaces
+          type: string
+        status:
+          allOf:
+          - $ref: '#/components/schemas/StatusEnum'
+          description: The status of an entity.
+        title:
+          description: The title that describes an entity.
+          title: Title
+          type: string
+        type:
+          allOf:
+          - $ref: '#/components/schemas/StudyTypeEnum'
+          description: The type of an entity.
+        update_date:
+          description: Timestamp (in ISO 8601 format) when the entity was updated.
+          title: Update Date
+          type: string
+        xref:
+          description: Alternate identifiers for an entity.
+          items:
+            type: string
+          title: Xref
+          type: array
       title: Study
+      type: object
+    StudyTypeEnum:
+      description: Enum to capture the type of a study.
+      enum:
+      - whole_genome_sequencing
+      - metagenomics
+      - transcriptome_analysis
+      - resequencing
+      - epigenetics
+      - synthetic_genomics
+      - forensic_paleo_genomics
+      - gene_regulation
+      - cancer_genomics
+      - population_genomics
+      - rna_seq
+      - exome_sequencing
+      - pooled_clone_sequencing
+      - other
+      title: StudyTypeEnum
+      type: string
+    Submission:
+      description: A grouping entity that represents information about one or more
+        entities. A submission can be considered as a set of inter-related (and inter-connected)
+        entities that represent a data submission to GHGA.
+      properties:
+        accession:
+          description: A unique identifier assigned to an entity for the sole purpose
+            of referring to that entity in a global scope.
+          title: Accession
+          type: string
+        creation_date:
+          description: Timestamp (in ISO 8601 format) when the entity was created.
+          title: Creation Date
+          type: string
+        has_analysis:
+          description: The analysis associated with an entity.
+          items:
+            $ref: '#/components/schemas/Analysis'
+          title: Has Analysis
+          type: array
+        has_attribute:
+          description: Key/value pairs corresponding to an entity.
+          items:
+            $ref: '#/components/schemas/Attribute'
+          title: Has Attribute
+          type: array
+        has_biospecimen:
+          description: The biospecimen associated with an entity.
+          items:
+            $ref: '#/components/schemas/Biospecimen'
+          title: Has Biospecimen
+          type: array
+        has_data_access_policy:
+          allOf:
+          - $ref: '#/components/schemas/DataAccessPolicy'
+          description: Data Access Policy associated with an entity.
+          title: Has Data Access Policy
+        has_experiment:
+          description: The experiment associated with an entity.
+          items:
+            $ref: '#/components/schemas/Experiment'
+          title: Has Experiment
+          type: array
+        has_file:
+          description: The file associated with an entity.
+          items:
+            $ref: '#/components/schemas/File'
+          title: Has File
+          type: array
+        has_individual:
+          description: The subject/individual associated with an entity.
+          items:
+            $ref: '#/components/schemas/Individual'
+          title: Has Individual
+          type: array
+        has_project:
+          allOf:
+          - $ref: '#/components/schemas/Project'
+          description: The project associated with an entity.
+          title: Has Project
+        has_sample:
+          description: The sample associated with an entity.
+          items:
+            $ref: '#/components/schemas/Sample'
+          title: Has Sample
+          type: array
+        has_study:
+          allOf:
+          - $ref: '#/components/schemas/Study'
+          description: The study associated with an entity.
+          title: Has Study
+        id:
+          description: An identifier that uniquely represents an entity.
+          title: Id
+          type: string
+        replaced_by:
+          description: Refers to the entity which replaces a currently deprecated
+            entity.
+          title: Replaced By
+          type: string
+        replaces:
+          description: Refers to a deprecated entity that is being replaced by the
+            current entity.
+          title: Replaces
+          type: string
+        status:
+          allOf:
+          - $ref: '#/components/schemas/StatusEnum'
+          description: The status of an entity.
+        submission_date:
+          description: The date when submission was completed.
+          title: Submission Date
+          type: string
+        type:
+          description: The type of an entity.
+          title: Type
+          type: string
+        update_date:
+          description: Timestamp (in ISO 8601 format) when the entity was updated.
+          title: Update Date
+          type: string
+        xref:
+          description: Alternate identifiers for an entity.
+          items:
+            type: string
+          title: Xref
+          type: array
+      title: Submission
+      type: object
+    Technology:
+      description: A Technology is an abstraction that represents the instrument used
+        for an assay. The Technology entity captures instrument-specific attributes
+        that are relevant for an Experiment entity. The Technology entity may be further
+        characterized by its children where each child has fields that are relevant
+        to that particular technology.
+      properties:
+        accession:
+          description: A unique identifier assigned to an entity for the sole purpose
+            of referring to that entity in a global scope.
+          title: Accession
+          type: string
+        creation_date:
+          description: Timestamp (in ISO 8601 format) when the entity was created.
+          title: Creation Date
+          type: string
+        has_attribute:
+          description: Key/value pairs corresponding to an entity.
+          items:
+            $ref: '#/components/schemas/Attribute'
+          title: Has Attribute
+          type: array
+        id:
+          description: An identifier that uniquely represents an entity.
+          title: Id
+          type: string
+        replaced_by:
+          description: Refers to the entity which replaces a currently deprecated
+            entity.
+          title: Replaced By
+          type: string
+        replaces:
+          description: Refers to a deprecated entity that is being replaced by the
+            current entity.
+          title: Replaces
+          type: string
+        type:
+          description: The type of an entity.
+          title: Type
+          type: string
+        update_date:
+          description: Timestamp (in ISO 8601 format) when the entity was updated.
+          title: Update Date
+          type: string
+        xref:
+          description: Alternate identifiers for an entity.
+          items:
+            type: string
+          title: Xref
+          type: array
+      title: Technology
       type: object
     ValidationError:
       properties:
@@ -134,456 +1726,264 @@ components:
       - type
       title: ValidationError
       type: object
+    VitalStatusEnum:
+      description: Enum to capture the vital status of an individual.
+      enum:
+      - alive
+      - deceased
+      - unknown
+      title: VitalStatusEnum
+      type: string
+    Workflow:
+      description: A Workflow is an abstraction that represents the workflow used
+        to perform an analysis. The Workflow entity captures workflow-specific attributes
+        that are relevant for an Analysis entity. The Workflow entity may be further
+        characterized by its children where each child has fields that are relevant
+        to that particular workflow.
+      properties:
+        accession:
+          description: A unique identifier assigned to an entity for the sole purpose
+            of referring to that entity in a global scope.
+          title: Accession
+          type: string
+        creation_date:
+          description: Timestamp (in ISO 8601 format) when the entity was created.
+          title: Creation Date
+          type: string
+        has_attribute:
+          description: Key/value pairs corresponding to an entity.
+          items:
+            $ref: '#/components/schemas/Attribute'
+          title: Has Attribute
+          type: array
+        id:
+          description: An identifier that uniquely represents an entity.
+          title: Id
+          type: string
+        replaced_by:
+          description: Refers to the entity which replaces a currently deprecated
+            entity.
+          title: Replaced By
+          type: string
+        replaces:
+          description: Refers to a deprecated entity that is being replaced by the
+            current entity.
+          title: Replaces
+          type: string
+        type:
+          description: The type of an entity.
+          title: Type
+          type: string
+        update_date:
+          description: Timestamp (in ISO 8601 format) when the entity was updated.
+          title: Update Date
+          type: string
+        xref:
+          description: Alternate identifiers for an entity.
+          items:
+            type: string
+          title: Xref
+          type: array
+      title: Workflow
+      type: object
+    WorkflowParameter:
+      description: A key/value pair that represents a parameter used in a Workflow
+        Step.
+      properties:
+        key:
+          description: The key of an attribute.
+          title: Key
+          type: string
+        value:
+          description: The value of an attribute
+          title: Value
+          type: string
+      title: WorkflowParameter
+      type: object
+    WorkflowStep:
+      description: A Workflow Step represents each individual step performed in a
+        Workflow. If the Workflow is a single-step workflow then the Workflow has
+        just one Workflow Step entity. If the Workflow is a multi-step workflow then
+        the Workflow has a Workflow Step entity for each step. All Workflow step specific
+        attributes like parameters, and metadata about execution environment are captured
+        by the Workflow Step entity.
+      properties:
+        accession:
+          description: A unique identifier assigned to an entity for the sole purpose
+            of referring to that entity in a global scope.
+          title: Accession
+          type: string
+        creation_date:
+          description: Timestamp (in ISO 8601 format) when the entity was created.
+          title: Creation Date
+          type: string
+        has_attribute:
+          description: Key/value pairs corresponding to an entity.
+          items:
+            $ref: '#/components/schemas/Attribute'
+          title: Has Attribute
+          type: array
+        has_parameter:
+          description: The parameter(s) associated with a Workflow Step entity.
+          items:
+            $ref: '#/components/schemas/WorkflowParameter'
+          title: Has Parameter
+          type: array
+        id:
+          description: An identifier that uniquely represents an entity.
+          title: Id
+          type: string
+        replaced_by:
+          description: Refers to the entity which replaces a currently deprecated
+            entity.
+          title: Replaced By
+          type: string
+        replaces:
+          description: Refers to a deprecated entity that is being replaced by the
+            current entity.
+          title: Replaces
+          type: string
+        type:
+          description: The type of an entity.
+          title: Type
+          type: string
+        update_date:
+          description: Timestamp (in ISO 8601 format) when the entity was updated.
+          title: Update Date
+          type: string
+        xref:
+          description: Alternate identifiers for an entity.
+          items:
+            type: string
+          title: Xref
+          type: array
+      title: WorkflowStep
+      type: object
 info:
-  title: Metadata Service API
+  title: FastAPI
   version: 0.1.0
 openapi: 3.0.2
 paths:
-  /datasets:
+  /:
     get:
-      operationId: get_all_datasets_datasets_get
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                items:
-                  type: string
-                title: Response Get All Datasets Datasets Get
-                type: array
-          description: Successful Response
-      summary: Get All Datasets
-    post:
-      operationId: add_datasets_datasets_post
-      requestBody:
-        content:
-          application/json:
-            schema:
-              title: Data
-              type: object
-        required: true
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Dataset'
-          description: Successful Response
-        '422':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/HTTPValidationError'
-          description: Validation Error
-      summary: Add Datasets
-  /datasets/{dataset_id}:
-    get:
-      operationId: get_datasets_datasets__dataset_id__get
-      parameters:
-      - in: path
-        name: dataset_id
-        required: true
-        schema:
-          title: Dataset Id
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Dataset'
-          description: Successful Response
-        '422':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/HTTPValidationError'
-          description: Validation Error
-      summary: Get Datasets
-    put:
-      operationId: update_datasets_datasets__dataset_id__put
-      parameters:
-      - in: path
-        name: dataset_id
-        required: true
-        schema:
-          title: Dataset Id
-      requestBody:
-        content:
-          application/json:
-            schema:
-              title: Data
-              type: object
-        required: true
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Dataset'
-          description: Successful Response
-        '422':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/HTTPValidationError'
-          description: Validation Error
-      summary: Update Datasets
-  /experiments:
-    get:
-      operationId: get_all_experiments_experiments_get
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                items:
-                  type: string
-                title: Response Get All Experiments Experiments Get
-                type: array
-          description: Successful Response
-      summary: Get All Experiments
-    post:
-      operationId: add_experiments_experiments_post
-      requestBody:
-        content:
-          application/json:
-            schema:
-              title: Data
-              type: object
-        required: true
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Experiment'
-          description: Successful Response
-        '422':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/HTTPValidationError'
-          description: Validation Error
-      summary: Add Experiments
-  /experiments/{experiment_id}:
-    get:
-      operationId: get_experiments_experiments__experiment_id__get
-      parameters:
-      - in: path
-        name: experiment_id
-        required: true
-        schema:
-          title: Experiment Id
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Experiment'
-          description: Successful Response
-        '422':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/HTTPValidationError'
-          description: Validation Error
-      summary: Get Experiments
-    put:
-      operationId: update_experiments_experiments__experiment_id__put
-      parameters:
-      - in: path
-        name: experiment_id
-        required: true
-        schema:
-          title: Experiment Id
-      requestBody:
-        content:
-          application/json:
-            schema:
-              title: Data
-              type: object
-        required: true
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Experiment'
-          description: Successful Response
-        '422':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/HTTPValidationError'
-          description: Validation Error
-      summary: Update Experiments
-  /files:
-    get:
-      operationId: get_all_files_files_get
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                items:
-                  type: string
-                title: Response Get All Files Files Get
-                type: array
-          description: Successful Response
-      summary: Get All Files
-    post:
-      operationId: add_files_files_post
-      requestBody:
-        content:
-          application/json:
-            schema:
-              title: Data
-              type: object
-        required: true
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/File'
-          description: Successful Response
-        '422':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/HTTPValidationError'
-          description: Validation Error
-      summary: Add Files
-  /files/{file_id}:
-    get:
-      operationId: get_files_files__file_id__get
-      parameters:
-      - in: path
-        name: file_id
-        required: true
-        schema:
-          title: File Id
-          type: string
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/File'
-          description: Successful Response
-        '422':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/HTTPValidationError'
-          description: Validation Error
-      summary: Get Files
-    put:
-      operationId: update_files_files__file_id__put
-      parameters:
-      - in: path
-        name: file_id
-        required: true
-        schema:
-          title: File Id
-          type: string
-      requestBody:
-        content:
-          application/json:
-            schema:
-              title: Data
-              type: object
-        required: true
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/File'
-          description: Successful Response
-        '422':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/HTTPValidationError'
-          description: Validation Error
-      summary: Update Files
-  /publications:
-    get:
-      operationId: get_all_publications_publications_get
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                items:
-                  type: string
-                title: Response Get All Publications Publications Get
-                type: array
-          description: Successful Response
-      summary: Get All Publications
-    post:
-      operationId: add_publications_publications_post
-      requestBody:
-        content:
-          application/json:
-            schema:
-              title: Data
-              type: object
-        required: true
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Publication'
-          description: Successful Response
-        '422':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/HTTPValidationError'
-          description: Validation Error
-      summary: Add Publications
-  /publications/{publication_id}:
-    get:
-      operationId: get_publications_publications__publication_id__get
-      parameters:
-      - in: path
-        name: publication_id
-        required: true
-        schema:
-          title: Publication Id
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Publication'
-          description: Successful Response
-        '422':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/HTTPValidationError'
-          description: Validation Error
-      summary: Get Publications
-    put:
-      operationId: update_publications_publications__publication_id__put
-      parameters:
-      - in: path
-        name: publication_id
-        required: true
-        schema:
-          title: Publication Id
-      requestBody:
-        content:
-          application/json:
-            schema:
-              title: Data
-              type: object
-        required: true
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Publication'
-          description: Successful Response
-        '422':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/HTTPValidationError'
-          description: Validation Error
-      summary: Update Publications
-  /studies:
-    get:
-      operationId: get_all_studies_studies_get
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                items:
-                  type: string
-                title: Response Get All Studies Studies Get
-                type: array
-          description: Successful Response
-      summary: Get All Studies
-    post:
-      operationId: add_studies_studies_post
-      requestBody:
-        content:
-          application/json:
-            schema:
-              title: Data
-              type: object
-        required: true
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Study'
-          description: Successful Response
-        '422':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/HTTPValidationError'
-          description: Validation Error
-      summary: Add Studies
-  /studies/{study_id}:
-    get:
-      operationId: get_studies_studies__study_id__get
-      parameters:
-      - in: path
-        name: study_id
-        required: true
-        schema:
-          title: Study Id
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Study'
-          description: Successful Response
-        '422':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/HTTPValidationError'
-          description: Validation Error
-      summary: Get Studies
-    put:
-      operationId: update_studies_studies__study_id__put
-      parameters:
-      - in: path
-        name: study_id
-        required: true
-        schema:
-          title: Study Id
-      requestBody:
-        content:
-          application/json:
-            schema:
-              title: Data
-              type: object
-        required: true
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Study'
-          description: Successful Response
-        '422':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/HTTPValidationError'
-          description: Validation Error
-      summary: Update Studies
+      description: 'Index of the Metadata Repository Service that
 
+        redirects to the API documentation.'
+      operationId: index__get
+      responses:
+        '200':
+          content:
+            application/json:
+              schema: {}
+          description: Successful Response
+      summary: Index
+  /submissions/{submission_id}:
+    get:
+      operationId: get_submission_submissions__submission_id__get
+      parameters:
+      - in: path
+        name: submission_id
+        required: true
+        schema:
+          title: Submission Id
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Submission'
+          description: Successful Response
+        '422':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+          description: Validation Error
+      summary: Given a Submission ID, get the corresponding submission
+    patch:
+      operationId: update_submission_status_submissions__submission_id__patch
+      parameters:
+      - in: path
+        name: submission_id
+        required: true
+        schema:
+          title: Submission Id
+          type: string
+      - in: query
+        name: status
+        required: true
+        schema:
+          $ref: '#/components/schemas/StatusEnum'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Submission'
+          description: Successful Response
+        '422':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+          description: Validation Error
+      summary: Update the status of a Submission
+    post:
+      operationId: add_submission_submissions__submission_id__post
+      parameters:
+      - in: path
+        name: submission_id
+        required: true
+        schema:
+          title: Submission Id
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Submission'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Submission'
+          description: Successful Response
+        '422':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+          description: Validation Error
+      summary: Add a Submission
+    put:
+      operationId: update_submission_submissions__submission_id__put
+      parameters:
+      - in: path
+        name: submission_id
+        required: true
+        schema:
+          title: Submission Id
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Submission'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Submission'
+          description: Successful Response
+        '422':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+          description: Validation Error
+      summary: Update a Submission with additional metadata
