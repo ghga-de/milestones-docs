@@ -21,6 +21,20 @@ components:
         - option
       additionalProperties: false
 
+    FilterOption:
+      properties:
+        key:
+          title: Key
+          type: string
+        value:
+          title: Value
+          type: string
+      required:
+        - key
+        - value
+      title: FilterOption
+      type: object
+
     Facet:
       type: object
       properties:
@@ -36,17 +50,17 @@ components:
       additionalProperties: false
 
     SearchQuery:
-      type: object
+      description: Represents the Search Query.
       properties:
-        # please provide at least one of the following properties:
-        q:
+        filters:
+          $ref: '#/components/schemas/FilterOption'
+        query:
+          title: Query
           type: string
-          description: query string
-        facets:
-          type: object
       required:
-        - q
-      additionalProperties: false
+        - query
+      title: SearchQuery
+      type: object
 
     SearchHit:
       type: object
@@ -94,14 +108,14 @@ paths:
   /rpc/search:
     post:
       operationId: search
-      summary: Search metadata catalog by keywords and facets
+      summary: Search metadata catalog by keywords and filters
       requestBody:
         content:
           application/json:
             schema:
               $ref: "#/components/schemas/SearchQuery"
         description: >-
-          Search keywords and facets.
+          Search keywords and filters.
       responses:
         "200":
           content:
