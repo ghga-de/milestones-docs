@@ -1,2 +1,2 @@
-# milestones-docs
-Documentation and plans for service development milestones
+# epic-docs
+Documentation and plans for service development epics
