@@ -53,7 +53,9 @@ components:
       description: Represents the Search Query.
       properties:
         filters:
-          $ref: '#/components/schemas/FilterOption'
+          type: array
+          items:
+            $ref: '#/components/schemas/FilterOption'
         query:
           title: Query
           type: string
