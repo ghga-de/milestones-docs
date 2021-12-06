@@ -3,12 +3,13 @@ components:
     DocumentType:
       type: string
       enum:
-        # to be adjusted
-        - File
-        - Publication
-        - Experiment
-        - Study
         - Dataset
+        - Project
+        - Study
+        - Experiment
+        - Sample
+        - Publication
+        - File
 
     FacetOption:
       type: object
@@ -111,6 +112,33 @@ paths:
     post:
       operationId: search
       summary: Search metadata catalog by keywords and filters
+      parameters:
+      - in: query
+        name: document_type
+        required: true
+        schema:
+          $ref: '#/components/schemas/DocumentType'
+      - in: query
+        name: facet
+        required: false
+        schema:
+          default: false
+          title: Facet
+          type: boolean
+      - in: query
+        name: skip
+        required: false
+        schema:
+          default: 0
+          title: Skip
+          type: integer
+      - in: query
+        name: limit
+        required: false
+        schema:
+          default: 10
+          title: Limit
+          type: integer
       requestBody:
         content:
           application/json:
