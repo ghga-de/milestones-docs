@@ -1,0 +1,4 @@
+#!/bin/bash
+
+pip install -r /workspaces/epic-docs/requirements.txt
+pre-commit install
