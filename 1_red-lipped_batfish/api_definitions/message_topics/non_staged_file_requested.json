@@ -30,7 +30,6 @@
     "request_id",
     "file_id",
     "grouping_label",
-    "request_id",
     "timestamp"
   ],
   "title": "non_staged_file_requested",
