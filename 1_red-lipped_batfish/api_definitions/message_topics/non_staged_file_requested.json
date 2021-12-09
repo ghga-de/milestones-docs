@@ -29,7 +29,8 @@
   "required": [
     "request_id",
     "file_id",
-    "drs_id",
+    "grouping_label",
+    "request_id",
     "timestamp"
   ],
   "title": "non_staged_file_requested",

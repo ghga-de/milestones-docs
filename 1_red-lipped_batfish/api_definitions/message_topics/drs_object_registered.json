@@ -29,7 +29,7 @@
   "required": [
     "request_id",
     "file_id",
-    "drs_id",
+    "drs_uri",
     "timestamp"
   ],
   "title": "drs_object_registered",
