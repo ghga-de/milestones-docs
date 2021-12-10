@@ -88,6 +88,8 @@ components:
     SearchResult:
       type: object
       properties:
+        count:
+          type: int
         hits:
           type: array
           items:
