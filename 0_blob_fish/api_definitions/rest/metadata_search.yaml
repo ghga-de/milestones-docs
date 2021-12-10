@@ -90,6 +90,7 @@ components:
       properties:
         count:
           type: int
+          description: Total number of hits.
         hits:
           type: array
           items:
