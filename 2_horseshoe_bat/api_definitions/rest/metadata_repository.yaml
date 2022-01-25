@@ -1270,7 +1270,9 @@ components:
       enum:
       - in progress
       - submitted
+      - unreleased
       - released
+      - deprecated
       title: StatusEnum
       type: string
     Study:
@@ -1800,6 +1802,42 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
           description: Validation Error
       summary: Get a DataAccessPolicy
+  /datasets:
+    post:
+      description: 'Given a list of File IDs and a Data Access Policy ID, create a
+        new Dataset with
+
+        the files and and link it to the given DAP ID.'
+      operationId: create_dataset_datasets_post
+      parameters:
+      - in: query
+        name: data_access_policy_id
+        required: true
+        schema:
+          title: Data Access Policy Id
+      requestBody:
+        content:
+          application/json:
+            schema:
+              items:
+                type: string
+              title: Files
+              type: array
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Dataset'
+          description: Successful Response
+        '422':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+          description: Validation Error
+      summary: Create a new Dataset
   /datasets/{dataset_id}:
     get:
       description: Given a Dataset ID, get the Dataset record from the metadata store.
@@ -1832,6 +1870,35 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
           description: Validation Error
       summary: Get a Dataset
+    patch:
+      description: Update the status of a Dataset.
+      operationId: update_dataset_status_datasets__dataset_id__patch
+      parameters:
+      - in: path
+        name: dataset_id
+        required: true
+        schema:
+          title: Dataset Id
+          type: string
+      - in: query
+        name: status
+        required: true
+        schema:
+          $ref: '#/components/schemas/StatusEnum'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Dataset'
+          description: Successful Response
+        '422':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+          description: Validation Error
+      summary: Update the status of a Dataset
   /experiment_processes/{experiment_process_id}:
     get:
       description: Given a ExperimentProcess ID, get the ExperimentProcess record
@@ -2159,6 +2226,11 @@ paths:
       summary: Get a Study
   /submissions:
     post:
+      description: 'Add a Submission object to the metadata store, where the Submission
+        object
+
+        represents a Study with one or more Experiments, Analyses, Samples, Files,
+        etc.'
       operationId: add_submission_submissions_post
       requestBody:
         content:
@@ -2182,6 +2254,7 @@ paths:
       summary: Add a Submission
   /submissions/{submission_id}:
     get:
+      description: Given a Submission ID, get the corresponding Submission object.
       operationId: get_submission_submissions__submission_id__get
       parameters:
       - in: path
@@ -2205,6 +2278,7 @@ paths:
           description: Validation Error
       summary: Given a Submission ID, get the corresponding submission
     patch:
+      description: Update status of a Submission.
       operationId: update_submission_status_submissions__submission_id__patch
       parameters:
       - in: path
@@ -2233,6 +2307,7 @@ paths:
           description: Validation Error
       summary: Update the status of a Submission
     put:
+      description: Update a Submission object with a new/updated Submission object.
       operationId: update_submission_submissions__submission_id__put
       parameters:
       - in: path
