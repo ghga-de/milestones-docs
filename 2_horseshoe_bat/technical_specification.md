@@ -67,9 +67,8 @@ Upon a successful write operation, the Submission object (which includes a Submi
 returned to the Data Submitter for reference. If the validation fails then the data submitter
 is notified of a failure (2.2).
 
-**Note:** A Submission can have one of the following status: `in progress`, `submitted`, 
-`released`. At this stage, the Submission is neither considered 'submitted' nor
-is it considered as 'released' for public consumption.
+**Note:** A Submission can have one of the following status: `in progress` and `completed`.
+At this stage, the Submission is considered as 'in progress'.
 
 
 ### 3.0 Data Submitter wants to update a Submission
@@ -143,23 +142,54 @@ The individual steps for this process are detailed in
 
 The Data Submitter/Data Steward can now create a Dataset with one or more files.
 
-To do so, the Data Submitter/Data Steward sends a HTTP POST request to the MRS with a list
-of File IDs, and a Data Access Policy ID that applies to the Dataset (and thus applies to
-files that are part of this Dataset).
+To do so, first the Data Submitter/Data Steward must create a Data Access Policy (DAP) that
+represents the set of data access restrictions that ought to be applied to a Dataset
+and links it to a Data Access Committee (DAC) that is responsible for managing restricted
+access for a Dataset. If the DAC does not exist then the Data Submitter/Data Steward should
+first create a DAC, and then a DAP.
 
-The MRS ensures that these files exist, and that the DAP ID exists (5.1). Then it creates a
+#### Creating a Data Access Committee
+
+The Data Submitter/Data Steward first sends a POST request to the `/data_access_committees`
+endpoint of the MRS with the required metadata to create a new DAC (6.0).
+
+The MRS then creates a DAC entity with the provided metadata (6.1).
+
+Upon successful creation of a DAC, the MRS responds with the a DAC Accession (6.2).
+
+This DAC Accession is required for the creation of a DAP.
+
+#### Creating a Data Access Policy
+
+The Data Submitter/Data Steward sends a POST request to the `/data_access_policies` endpoint
+of the MRS with the required metadata (which includes a DAC Accession) (6.3).
+
+Using the DAC Accession, the MRS will first check if the DAC actually exists (6.4). Then it will
+create a Data Access Policy entity and link the DAP with the DAC.
+
+Upon successful creation of a DAP, the MRS responds with a DAP Accession (6.5).
+
+This DAP Accession is required for the creation of a Dataset.
+
+#### Creation of a Dataset
+
+To do so, the Data Submitter/Data Steward sends a HTTP POST request to the `/datasets` endpoint
+of the MRS with a list of File Accessions, and a Data Access Policy Accession that applies
+to the Dataset (and thus applies to files that are part of this Dataset) (6.6).
+
+The MRS ensures that the Files and the DAP exists. Then it creates a
 new Dataset object with the files, collates all the linked metadata at the Dataset level,
-and attaches the given DAP to the Dataset.
+and attaches the given DAP to the Dataset (6.7).
 
-Upon successful completion, the MRS provides the Dataset ID to the Data
-Submitter/Data Steward (6.2).
+Upon successful completion, the MRS provides the Dataset Accession to the Data
+Submitter/Data Steward (6.8).
 
 
 ### 7.0 Data Steward marks a Dataset as released
 
 A Dataset is not publicly available until its status is changed to `released`.
 
-To do so, a Data Steward sends a HTTP POST request to the MRS with a Dataset ID
+To do so, a Data Steward sends a HTTP PATCH request to the MRS with a Dataset ID
 and `status: released`.
 
 The MRS looks up the corresponding Dataset and changes its status from `unreleased`
@@ -183,13 +213,13 @@ The definitions are hosted here:
 
 The RESTful service API are described using OpenAPI:
 
-- MRS:
+- MRS: [OpenAPI YAML](api_definitions/rest/metadata_repository.yaml)
 
 ### Payload Schemas for Asynchronous Topics:
 
 The payloads for asynchronous topics are described using JSON schemas:
 
-- new_study_created: JSON Schema
+- new_study_created: [JSON Schema](https://raw.githubusercontent.com/ghga-de/epic-docs/main/1_red-lipped_batfish/api_definitions/message_topics/new_study_created.json)
 
 
 ## Technical planning:
