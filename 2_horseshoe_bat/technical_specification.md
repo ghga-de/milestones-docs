@@ -213,7 +213,7 @@ The definitions are hosted here:
 
 The RESTful service API are described using OpenAPI:
 
-MRS: [OpenAPI YAML](api_definitions/rest/metadata_repository.yaml) [Swagger UI](https://editor.swagger.io/?url=https://raw.githubusercontent.com/ghga-de/epic-docs/012ff5ca2ae35d8e958924dfaf78189a2c9ef768/2_horseshoe_bat/api_definitions/rest/metadata_repository.yaml)
+MRS: [OpenAPI YAML](api_definitions/rest/metadata_repository.yaml) [Swagger UI](https://editor.swagger.io/?url=https://raw.githubusercontent.com/ghga-de/epic-docs/cdadcf3a2926c0f564fec9c89052d43ce4eb423f/2_horseshoe_bat/api_definitions/rest/metadata_repository.yaml)
 
 
 ### Payload Schemas for Asynchronous Topics:
