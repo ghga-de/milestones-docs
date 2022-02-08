@@ -42,6 +42,12 @@ ghga-cli download-by-id \
 
 - [Typer](https://typer.tiangolo.com/) can be used to implement the CLI interface.
 - Ideally, avoid piping file bytes through python directly as this will slow down the upload/download significantly. Wrappers around C-based tools such as [pycurl](http://pycurl.io/docs/latest/) should be preferred.
+- The installation should make as little assumptions of the execution environment as possible to allow its usage on a large variety of compute infrastructures:
+    - The package should have minimal dependencies.
+    - The existing dependencies should allow maximal flexibility when it comes to versions.
+    - The package should be cross-platform compatible (Linux, Windows, MacOS).
+- The package should be installable via PyPI.
+- Name of the package is up for debate.
 
 ## Benchmarking
 This epic not only contains implementation work but the produced solution is also benchmarked against a production s3 system.
