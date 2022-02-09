@@ -418,12 +418,6 @@ components:
           description: Description of an entity.
           title: Description
           type: string
-        ega_accession:
-          description: A unique European Genome-Phenome Archive (EGA) identifier             assigned
-            to an entity for the sole purpose of referring to that entity             within
-            the EGA federated network.
-          title: Ega Accession
-          type: string
         has_analysis_process:
           anyOf:
           - items:
@@ -647,12 +641,6 @@ components:
           description: Description of an entity.
           title: Description
           type: string
-        ega_accession:
-          description: A unique European Genome-Phenome Archive (EGA) identifier             assigned
-            to an entity for the sole purpose of referring to that entity             within
-            the EGA federated network.
-          title: Ega Accession
-          type: string
         has_member:
           anyOf:
           - items:
@@ -680,16 +668,14 @@ components:
       title: CreateDataAccessCommittee
       type: object
     CreateDataAccessPolicy:
+      description: 'A Data Access Policy specifies under which circumstances, legal
+        or otherwise,
+
+        a user can have access to one or more Datasets belonging to one or more Studies.'
       properties:
         description:
           description: A short description for the Data Access Policy.
           title: Description
-          type: string
-        ega_accession:
-          description: A unique European Genome-Phenome Archive (EGA) identifier             assigned
-            to an entity for the sole purpose of referring to that entity             within
-            the EGA federated network.
-          title: Ega Accession
           type: string
         has_data_access_committee:
           anyOf:
@@ -731,22 +717,16 @@ components:
     CreateDataset:
       properties:
         has_data_access_policy:
-          anyOf:
-          - type: string
-          - $ref: '#/components/schemas/CreateDataAccessPolicy'
-          description: The Data Access Policy that applies to this Dataset.
+          description: The ID of the Data Access Policy that applies to this Dataset.
           title: Has Data Access Policy
+          type: string
         has_file:
-          anyOf:
-          - items:
-              type: string
-            type: array
-          - items:
-              $ref: '#/components/schemas/CreateFile'
-            type: array
-          description: One or more File entities that collectively are part of             this
+          description: One or more File IDs that collectively are part of             this
             Dataset.
+          items:
+            type: string
           title: Has File
+          type: array
       title: CreateDataset
       type: object
     CreateDisease:
@@ -795,12 +775,6 @@ components:
         description:
           description: A detailed description of the Experiment.
           title: Description
-          type: string
-        ega_accession:
-          description: A unique European Genome-Phenome Archive (EGA) identifier             assigned
-            to an entity for the sole purpose of referring to that entity             within
-            the EGA federated network.
-          title: Ega Accession
           type: string
         experimental_replicates:
           description: The replicate number of the assay, i.e. the numeric iteration             for
@@ -945,12 +919,6 @@ components:
             confidence  that the data was received correctly.
           title: Checksum
           type: string
-        ega_accession:
-          description: A unique European Genome-Phenome Archive (EGA) identifier             assigned
-            to an entity for the sole purpose of referring to that entity             within
-            the EGA federated network.
-          title: Ega Accession
-          type: string
         file_index:
           description: The index for this file. Commonly for BAM/VCF files.
           title: File Index
@@ -994,12 +962,6 @@ components:
           description: A person's descent or lineage, from a person or             from
             a population.
           title: Ancestry
-          type: string
-        ega_accession:
-          description: A unique European Genome-Phenome Archive (EGA) identifier             assigned
-            to an entity for the sole purpose of referring to that entity             within
-            the EGA federated network.
-          title: Ega Accession
           type: string
         ethnicity:
           description: A social group characterized by a distinctive social and             cultural
@@ -1281,12 +1243,6 @@ components:
             processing the sample etc).
           title: Description
           type: string
-        ega_accession:
-          description: A unique European Genome-Phenome Archive (EGA) identifier             assigned
-            to an entity for the sole purpose of referring to that entity             within
-            the EGA federated network.
-          title: Ega Accession
-          type: string
         has_anatomical_entity:
           anyOf:
           - type: string
@@ -1361,12 +1317,6 @@ components:
           description: A detailed description (abstract) that describes the goals
             of             this Study.
           title: Description
-          type: string
-        ega_accession:
-          description: A unique European Genome-Phenome Archive (EGA) identifier             assigned
-            to an entity for the sole purpose of referring to that entity             within
-            the EGA federated network.
-          title: Ega Accession
           type: string
         has_analysis:
           anyOf:
