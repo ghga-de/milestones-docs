@@ -24,7 +24,7 @@ A Data Requester Specifies the file ID,the URL to the DRS3 API,and the anticipat
 ### Upload CLI:
 ```
 ghga-cli upload-by-id \
-    --api_url <url_to_upload_contoller>
+    --api_url <url_to_upload_contoller> \
     --file-id <file_id> \
     --file_path <file_path>
 ```
