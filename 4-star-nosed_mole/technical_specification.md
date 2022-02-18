@@ -8,7 +8,7 @@ A scope definition can be found here: https://wiki.verbis.dkfz.de/x/fAFzCQ
 This epic covers the following user journeys:
 
 ### Data Upload:
-![Data Upload](./images/data_upload.jpg)
+![Data Upload](./images/data_upload.png)
 
 A Data Submitter specifies the file ID, the URL to the Upload Contoller API, and the file path on the local file system using the CLI interface of the client (1.0). Internally, the CLI client translates the user-defined data into a request to the Upload Contoller API to obtain a pre-signed post URL (1.1). The client reads multiple parts from the source file in parallel (1.2) and uploads them as a stream using the pre-signed URL (1.3). Once the upload has been completed the client sends a confirmation to the Upload Controller API (1.4).
 
