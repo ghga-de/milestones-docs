@@ -11,7 +11,7 @@ A scope definition can be found here: https://wiki.verbis.dkfz.de/x/SwFzCQ
 This epic covers the following user journeys:
 
 ![User Journey](./images/user_journey.jpg)
-Figure 1| Metadata Population and Usage via the Data Portal. (An editable version of this figure can be found here.)
+**Figure 1| Metadata Population and Usage via the Data Portal.** (An editable version of this figure can be found here.)
 
 The population of the Metadata Database:
 The Data Submitter (a GHGA employee, not an external researcher) uses a script to convert "raw" metadata (from some source, e.g. EGA metadata JSON or an Excel spreadsheet) to JSON that is compatible with our GHGA metadata schema (1.0). Another script uses this JSON to populate the Metadata Database (1.1). In the case that the database has already been populated, the database is erased first.
