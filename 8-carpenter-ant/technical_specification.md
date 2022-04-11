@@ -12,6 +12,9 @@ A scope definition can be found here: https://wiki.verbis.dkfz.de/x/YgFzCQ
 - Learn about the latest changes to the GA4GH AAI and passport standards (v1.2), and possible future developments (v2).
 - Investigate existing use cases and implementations (NIH, ELIXIR, REMS, EGA etc.).
 - Verify that the user journeys described below are feasible, flesh out details, and develop alternative proposals if necessary.
+- Explore (dis-)advantages of the proposal that are currently evaluated regarding:
+  - embedded passport token
+  - work order token
 
 ### Usage of LS AAI as passport broker:
 
