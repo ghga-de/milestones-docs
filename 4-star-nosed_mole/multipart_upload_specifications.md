@@ -31,7 +31,7 @@ A new table "multipart_uploads" is added, containing the following columns:
 - upload_status
 ```
 
-file_state is an Enum and can have the following values:
+upload_status is an Enum and can have the following values:
 
 ```
 - pending
