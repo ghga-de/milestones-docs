@@ -10,7 +10,7 @@ This epic covers the following user journeys:
 ### Data Upload:
 ![Data Upload](./images/multipart_data_upload.jpg)
 
-A Data Submitter specifies the file ID, the URL to the Upload Contoller API, and the file path on the local file system using the CLI interface of the client (1.0). Internally, the CLI client translates the user-defined data into a request to the Upload Contoller API to obtain an upload id (1.1). The client sends a request to the Upload Controller for each individual part of the uploaded file and recieves a presigned post for each individual part (1.2). The client reads multiple parts from the source file and uploads them as a stream using the pre-signed post (1.3). Once the upload has been completed the client sends a confirmation to the Upload Controller API thereby specifying the eTag for each file part (1.4).
+A Data Submitter specifies the file ID, the URL to the Upload Contoller API, and the file path on the local file system using the CLI interface of the client (1.0). Internally, the CLI client translates the user-defined data into a request to the Upload Contoller API to obtain an upload id (1.1). The client sends a request to the Upload Controller for each individual part of the uploaded file and recieves a presigned post for each individual part (1.2). The client reads multiple parts from the source file and uploads them as a stream using the pre-signed post (1.3). Once the upload has been completed the client sends a confirmation to the Upload Controller API (1.4).
 
 
 ### Data Download:
@@ -117,7 +117,6 @@ with:
 ```
 PATCH /multipart_uploads/{upload_id}/
     body:       status==uploaded/cancelled
-                part_no to eTag mapping (only if status==uploaded)
     if status=uploaded && upload_status of upload_id is pending:
         finish multipart upload via s3 api
         sets upload_status of upload_id to uploaded
