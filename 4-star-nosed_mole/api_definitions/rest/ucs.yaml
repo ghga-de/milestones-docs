@@ -89,7 +89,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#components/schemas/UploadUpdate"
+              $ref: "#/components/schemas/UploadUpdate"
       responses:
         "204":
           description: Multi-part upload successfully updated.
