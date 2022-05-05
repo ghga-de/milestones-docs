@@ -78,7 +78,7 @@ paths:
       operationId: updateUploadStatus
       description: |
         Declare a multi-part upload as complete by setting its status to "uploaded".
-        Or cancel a multi-part upload by setting its status to "cancel".
+        Or cancel a multi-part upload by setting its status to "cancelled".
       parameters:
         - name: upload_id
           in: path
