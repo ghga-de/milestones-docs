@@ -57,7 +57,7 @@ upload_status is an Enum and can have the following values:
 
 ```
 - pending
-- canceled
+- cancelled
 - failed
 - uploaded
 - accepted

@@ -157,4 +157,4 @@ components:
           type: string
           enum:
             - uploaded
-            - canceled
+            - cancelled
