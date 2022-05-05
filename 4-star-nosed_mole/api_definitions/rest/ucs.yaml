@@ -21,7 +21,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#components/schemas/UploadDetails"
+                $ref: "#/components/schemas/UploadDetails"
         "403":
           description: |
             Either the user is not registered as a Data Submitter for the
