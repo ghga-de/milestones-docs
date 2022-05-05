@@ -65,7 +65,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: "#components/schemas/UploadDetails"
+                  $ref: "#/components/schemas/UploadDetails"
         "403":
           description: |
             The user is not registered as a Data Submitter for the
