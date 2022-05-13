@@ -46,10 +46,10 @@ paths:
           required: true
           schema:
             type: string
-        - name: status
+        - name: upload_status
           in: query
           description: |
-            The status of the multi-part upload, only "pending" is allowed as
+            The upload_status of the multi-part upload, only "pending" is allowed as
             the single option.
           required: true
           schema:
@@ -77,8 +77,8 @@ paths:
     patch:
       operationId: updateUploadStatus
       description: |
-        Declare a multi-part upload as complete by setting its status to "uploaded".
-        Or cancel a multi-part upload by setting its status to "cancelled".
+        Declare a multi-part upload as complete by setting its upload_status to "uploaded".
+        Or cancel a multi-part upload by setting its upload_status to "cancelled".
       parameters:
         - name: upload_id
           in: path
@@ -153,7 +153,7 @@ components:
       title: Multi-Part Upload Update
       type: object
       properties:
-        status:
+        upload_status:
           type: string
           enum:
             - uploaded
