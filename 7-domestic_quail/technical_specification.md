@@ -55,7 +55,7 @@ test translators against protocol compliance and thereby use dedicated mock/test
 
 ~~With reference to that, it might be also useful to explore whether application states associated with specific protocols could be defined in a standardized specification (YAML or JSON-based) that is applicable to all providers implementing the protocol. Specialized tooling might interpret this specification and setup and teardown the application state when running tests but also when deploying a service to a staging environment (that uses the same infrastructure than the production environment).~~  
 Update: Since the protocol-centric test framework seems not suitable anymore (see above), a protocol-centric specification of test states
-is also not applicable to local unit and integration tests. It is propably more pratical to approach the setup and teardown of test states
+is also not applicable to local unit and integration tests. It is probably more pratical to approach the setup and teardown of test states
 differently for local service-specific and deployment-based multi-service testing. For the latter, a specification-based test state might
 still be interesting, however, that investigation shall be part of another epic.
 
