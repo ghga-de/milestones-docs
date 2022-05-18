@@ -47,7 +47,7 @@ One question that remains to be evaluated is how to best represent protocols in 
 
 Moreover, options for a test framework that is standardized around the provided protocols shall be explored. ~~Ideally, tests shall be written in a way that it can be decided at runtime whether fast in-memory/mock providers or realistic production providers are used. I.e. the in-memory/mock providers could be used for fast testing that integrates nicely into the development workflow on developer end devices, while the production providers can be run by CI tools to provide additional diagnostic power.~~  
 Update:
-*After further prototyping and discussions, it does not seems practical to implement a testing framework that allows to decide on the
+*After further prototyping and discussions, it does not seem practical to implement a testing framework that allows to decide on the
 provider to use at runtime. While the protocol definition provides a standardized interface for using different provider implementations, it is not standardized (and difficult to standardize) how to investigate the state of the infrastructure associated
 with the providers after running a protocol-compliant test operation. Moreover, if the providers are sufficiently tested for compliance with the protocol, the value of testing translators with production-ready providers seems limitted. It seems more pratical to only
 test translators against protocol compliance and thereby use dedicated mock/test provider implementations as further described here: https://wiki.verbis.dkfz.de/x/GoDtCg*
