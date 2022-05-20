@@ -6,7 +6,6 @@ info:
 
 paths:
   /files/{file_id}:
-
     get:
       operationId: getFileMetadata
       description: Get file metadata including the current upload attempt.
@@ -29,9 +28,8 @@ paths:
             corresponding file.
         "404":
           description: The file with the given ID has not (yet) been registered for upload.
-          
-  /uploads:
 
+  /uploads:
     post:
       operationId: createUpload
       description: Initiate a new mutli-part upload.
@@ -51,20 +49,14 @@ paths:
           description: |
             It is currently not possible to create a new upload for
             the file with the specified ID because another upload for that
-            file already exists and has not been completed yet
-            (its status is not "failed", "rejected", or "accepted").
+            file is already active or has been accepted
+            (its status is not "failed", "cancelled", or "rejected").
         "403":
           description: |
-            Either the user is not registered as a Data Submitter for the
+            The user is not registered as a Data Submitter for the
             corresponding file.
-            Or it is currently not possible to create a new upload for
-            the file with the specified ID because:
-              - a previous upload for that file was already accepted
-              - another upload for that file is currently in progress Or
-                is waiting for acceptance
 
   /uploads/{upload_id}:
-
     get:
       operationId: getUploadDetails
       description: Get details on a specific upload.
@@ -83,7 +75,7 @@ paths:
                 $ref: "#/components/schemas/UploadDetails"
         "403":
           description: |
-            Either the user is not registered as a Data Submitter for the
+            The user is not registered as a Data Submitter for the
             file corresponding to this upload.
         "404":
           description: The upload with the given ID does not exist (anymore).
@@ -160,7 +152,6 @@ components:
           description: The ID of the file corresponding to this upload.
       required:
         - upload_id
-
 
     UploadDetails:
       title: Multi-Part Upload Details
