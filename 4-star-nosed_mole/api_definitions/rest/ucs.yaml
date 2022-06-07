@@ -234,6 +234,7 @@ components:
       required:
         - file_id
         - file_name
+        - size
         - md5_checksum
         - grouping_label
         - creation_date
