@@ -136,7 +136,6 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/PreSignedURL"
-
         "403":
           description: |
             The user is not registered as a Data Submitter for the
