@@ -32,7 +32,7 @@ paths:
   /uploads:
     post:
       operationId: createUpload
-      description: Initiate a new mutli-part upload.
+      description: Initiate a new multi-part upload.
       requestBody:
         content:
           application/json:
