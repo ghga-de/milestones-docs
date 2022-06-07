@@ -159,11 +159,10 @@ components:
         data:
           type: object
           description: Additional machine-readable information on the exception.
-        required:
-          - description
-          - exceptionId
-          - data
-
+      required:
+        - description
+        - exceptionId
+        - data
 
     UploadCreation:
       title: Properties required to create a new upload
