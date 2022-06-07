@@ -131,11 +131,11 @@ paths:
       responses:
         "200":
           description: |
-            The newly create pre-signed url.
+            The newly created pre-signed url.
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/PreSignedUrl"
+                $ref: "#/components/schemas/PreSignedURL"
 
         "403":
           description: |
