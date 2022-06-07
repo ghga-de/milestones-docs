@@ -131,12 +131,12 @@ paths:
       responses:
         "200":
           description: |
-            The newly create pre-signed POST.
+            The newly create pre-signed url.
           content:
             application/json:
               schema:
-                description: To be defined in further detail.
-                type: object
+                $ref: "#/components/schemas/PreSignedUrl"
+
         "403":
           description: |
             The user is not registered as a Data Submitter for the
@@ -162,6 +162,15 @@ components:
         - description
         - exceptionId
         - data
+
+    PreSignedURL:
+      type: object
+      properties:
+        presigned_url:
+          type: string
+          description: The pre-signed URL for uploading the file part
+      required:
+        - presigned_url
 
     UploadCreation:
       title: Properties required to create a new upload
