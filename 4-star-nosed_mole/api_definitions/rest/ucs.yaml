@@ -109,11 +109,11 @@ paths:
         "404":
           description: The multi-part upload with the given ID does not exist.
 
-  /uploads/{upload_id}/parts/{part_no}/signed_posts:
+  /uploads/{upload_id}/parts/{part_no}/signed_url:
     post:
-      operationId: createPreSignedPost
+      operationId: createPreSignedURL
       description: |
-        Create a pre-signed post for the specified part number of the specified multi-part
+        Create a pre-signed URL for the specified part number of the specified multi-part
         upload.
       parameters:
         - name: upload_id
