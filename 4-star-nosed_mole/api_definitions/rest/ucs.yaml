@@ -173,7 +173,7 @@ components:
           type: string
           description: The ID of the file corresponding to this upload.
       required:
-        - upload_id
+        - file_id
 
     UploadDetails:
       title: Multi-Part Upload Details
