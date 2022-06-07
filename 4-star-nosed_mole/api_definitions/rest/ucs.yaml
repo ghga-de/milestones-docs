@@ -78,7 +78,7 @@ paths:
             The user is not registered as a Data Submitter for the
             file corresponding to this upload.
         "404":
-          description: The upload with the given ID does not exist (anymore).
+          description: The multi-part upload with the given ID does not exist.
 
     patch:
       operationId: updateUploadStatus
