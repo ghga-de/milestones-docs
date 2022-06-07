@@ -101,7 +101,7 @@ paths:
           description: Multi-part upload successfully updated.
         "400":
           description: |
-            The provided status value was invalid.
+            The provided status value was invalid or the status of this multi-part upload currently or permanently can't be changed.
         "403":
           description: |
             The user is not registered as a Data Submitter for the
