@@ -135,7 +135,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/PreSignedURL"
+                $ref: "#/components/schemas/AccessURL"
         "403":
           description: |
             The user is not registered as a Data Submitter for the
@@ -172,6 +172,7 @@ components:
           description: >-
             A fully resolvable URL that can be used to upload the actual object
             bytes for one upload part.
+
     UploadCreation:
       title: Properties required to create a new upload
       type: object
