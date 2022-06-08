@@ -162,15 +162,16 @@ components:
         - exceptionId
         - data
 
-    PreSignedURL:
+    AccessURL:
       type: object
-      properties:
-        presigned_url:
-          type: string
-          description: The pre-signed URL for uploading the file part
       required:
-        - presigned_url
-
+        - url
+      properties:
+        url:
+          type: string
+          description: >-
+            A fully resolvable URL that can be used to upload the actual object
+            bytes.
     UploadCreation:
       title: Properties required to create a new upload
       type: object
