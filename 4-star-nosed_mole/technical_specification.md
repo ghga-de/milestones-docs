@@ -68,6 +68,26 @@ The column "upload_status" from then table "files" is removed.
 
 Please note, not more that one upload per file_id may have a state that is set to `pending` , `uploaded`, or `accepted`. Moreover, within the list of states from uploads corresponding to one file, these `pending` , `uploaded`, and `accepted` are mutually exclusive.
 This also means that once an upload attempt corresponding to a file is set to `accepted`, no new uploads can be created for that file. In a future epic, we will implement a mechanism that allows controlled re-upload of a file by explicitly requesting to depreciate an old upload. We might also consider an `is_open` flag that is specified per file to control whether new upload attempts are currently allowed for that file.
+#### Valid State Changes
+
+```mermaid
+stateDiagram-v2
+    state initiate <<choice>>
+    [*] --> initiate: initiate upload
+    initiate --> pending
+    initiate --> failed
+    state upload <<choice>>
+    pending --> upload: upload file
+    upload --> uploaded
+    upload --> failed
+    state confirm <<choice>>
+    uploaded --> confirm: confirm upload
+    confirm --> accepted
+    confirm --> rejected
+    uploaded --> cancelled: cancel
+    pending --> cancelled: cancel
+```
+
 ### API Definition:
 
 [OpenAPI YAML](./api_definitions/rest/ucs.yaml) - [Swagger UI](https://editor.swagger.io/?url=https://raw.githubusercontent.com/ghga-de/epic-docs/main/4-star-nosed_mole/api_definitions/rest/ucs.yaml)
