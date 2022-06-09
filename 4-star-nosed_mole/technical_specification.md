@@ -73,19 +73,36 @@ This also means that once an upload attempt corresponding to a file is set to `a
 ```mermaid
 stateDiagram-v2
     state initiate <<choice>>
-    [*] --> initiate: initiate upload
+    state "uninitiated (no status)" as uninitiated
+    state "Upload Attempt" as upload_attempt
+
+    [*] --> initiate: intiate upload attempt
+    initiate --> uninitiated: 
+    note right of uninitiated
+    upload attempt for file
+    already present
+    in pending, uploaded 
+    or accepted state 
+    end note
     initiate --> pending
-    initiate --> failed
-    state upload <<choice>>
-    pending --> upload: upload file
-    upload --> uploaded
-    upload --> failed
-    state confirm <<choice>>
-    uploaded --> confirm: confirm upload
-    confirm --> accepted
-    confirm --> rejected
-    uploaded --> cancelled: cancel
-    pending --> cancelled: cancel
+    state upload_attempt {
+    state part_upload_choice <<choice>>
+    
+    pending --> part_upload_choice: create part upload url
+    part_upload_choice --> pending
+    part_upload_choice --> failed
+    
+    pending --> cancelled: user cancels
+    state confirm_choice <<choice>>
+    pending --> confirm_choice: user confirms upload completion
+    confirm_choice --> failed
+    confirm_choice --> uploaded
+    
+    state check_choice <<choice>>
+    uploaded --> check_choice: check and persist uploaded file
+    check_choice --> accepted
+    check_choice --> rejected
+    }
 ```
 
 ### API Definition:
