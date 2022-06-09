@@ -73,7 +73,7 @@ This also means that once an upload attempt corresponding to a file is set to `a
 ```mermaid
 stateDiagram-v2
     state initiate <<choice>>
-    state "uninitiated (no status)" as uninitiated
+    state "no upload attempt created" as uninitiated
     state "Upload Attempt" as upload_attempt
 
     [*] --> initiate: intiate upload attempt
