@@ -1,47 +1,60 @@
-# \<Epic Title\> (\<Epic Code Name\>)
+# File Tech Stack Exploration (Carrion Crow)
 **Epic Type:** Exploratory Epic
 
-**Attention: Please do not put any confidential content here.**
+## Scope:
+A scope definition can be found here: https://wiki.verbis.dkfz.de/x/YQH9Cg
 
-\<Please replace all appearances of `<...>`.\>
+## Components of Exploration:
+This epic covers principle technologies that might be used in the context of file handling
 
-## Principle Components of Exploration:
 
-\<Try to decompose the exploratory epics into components or categories of tasks:\>
+### Crypt4GH
 
-- \<Provide a list here.\>
+### Checksum validation
+
+Provide advantages and disadvantages of common checksum functions. Compare the following widely used checksum algorithms:
+
+- MD5
+- CRC-32
+- CRC-32C
+- SHA-1
+- SHA-256
+
+List advantages and disadvantages of each algorithm. Compare checksum calculations for the same file with each algorithm. Use the following file sizes:
+
+- Small file: Between 10 and 100 MiB
+- Medium file: Between 1 and 10 GiB
+- Expected big file: ~ 50 GiB
+- Maximum possible file~ 150 GiB
+
+
+### FastQC
+
+### Volume/ Hardware Level encryption
 
 
 ## Material and Resources:
 
-\<List any materials to be studied (e.g. articles, book chapters, youtube videos, etc.) and any (external) persons/experts to talk to here:\>
+### Realistic Sample files:
+Take samples from the Genome in a bottle (GIAB) project: https://ftp-trace.ncbi.nih.gov/ReferenceSamples/giab/data/
+### crypt4GH:
+- crypt4GH Documentation: http://samtools.github.io/hts-specs/crypt4gh.pdf
+- crypt4GH python utility: https://crypt4gh.readthedocs.io/en/latest/
+- crypt4GH rust utility: https://docs.rs/crypt4gh/latest/crypt4gh/
 
-- \<Provide a list here.\>
+### FastQC
+- FastQC Documentation: https://www.bioinformatics.babraham.ac.uk/projects/fastqc/
 
-## User Journeys
-
-\<This is optional for exploratory epics\>
-
-This epic covers the following user journeys:
-
-\<Images and descriptions of user journeys go here. Images are deposited in the `./image` sub-directory.\>
-
-
-![\<Example Image\>](./images/data_upload.jpg)
-
-## User Journeys that are not part of this Epic:
-\<This is optional for exploratory epics\>
-#
-- \<Provide a list here.\>
-
-
-## Additional Implementation Details:
-
-- \<List further implemenation details here. (Anything that might be relevant for defining and executing tasks.)>
+### Volume/Hardware Level Encryption
+- IBM COS Documentation: https://cloud.ibm.com/docs/cloud-object-storage
+- IBM COS expert in Heidelberg: Koray
+- Ceph Documentation: https://docs.ceph.com/en/quincy/
+- Ceph Storage in Tübingen deployed by Sardina Systems (info@sardinasystems.com)
+- Ceph Storage & de.NBI expert in Tübingen: Moritz
 
 
 ## Human Resource/Time Estimation:
 
-Number of sprints required: \<Insert a number.\>
+Number of sprints required: 2
 
-Number of developers required: \<Insert a number.\>
+Number of developers required: 2
