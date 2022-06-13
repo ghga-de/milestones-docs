@@ -64,7 +64,7 @@ paths:
         "403":
           description: |
             Exceptions by ID:
-              - userNotRegisteredUploadCreation: The user is not registered
+              - noFileAccess: The user is not registered
                 as a Data Submitter for the corresponding file.
 
   /uploads/{upload_id}:
