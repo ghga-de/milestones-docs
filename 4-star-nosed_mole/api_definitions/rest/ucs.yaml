@@ -92,7 +92,7 @@ paths:
         "404":
           description: |
             Exceptions by ID:
-              - uploadNotExisting: The multi-part upload with the given ID
+              - NoSuchUpload: The multi-part upload with the given ID
                 does not exist.
 
     patch:
