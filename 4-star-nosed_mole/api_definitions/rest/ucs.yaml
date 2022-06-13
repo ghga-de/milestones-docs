@@ -130,7 +130,7 @@ paths:
         "403":
           description: |
             Exceptions by ID:
-              - userNotRegisteredUploadPatch: The user is not registered as a
+              - noFileAccess: The user is not registered
                 Data Submitter for the file corresponding to this multi-part upload.
         "404":
           description: |
