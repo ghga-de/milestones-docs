@@ -173,7 +173,7 @@ paths:
         "404":
           description: |
             Exceptions by ID:
-              - uploadNotExistingPresignPart: The multi-part upload with the given ID
+              - noSuchUpload: The multi-part upload with the given ID
                 does not exist.
 
 components:
