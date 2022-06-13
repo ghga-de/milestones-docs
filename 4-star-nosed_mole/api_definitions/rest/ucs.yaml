@@ -87,7 +87,7 @@ paths:
         "403":
           description: |
             Exceptions by ID:
-              - userNotRegisteredUploadAccess: The user is not registered
+              - noFileAccess: The user is not registered
                 as a Data Submitter for the file corresponding to this upload.
         "404":
           description: |
