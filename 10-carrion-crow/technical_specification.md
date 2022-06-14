@@ -37,6 +37,7 @@ List advantages and disadvantages of each algorithm. Compare checksum calculatio
 
 ### Realistic Sample files:
 Take samples from the Genome in a bottle (GIAB) project: https://ftp-trace.ncbi.nih.gov/ReferenceSamples/giab/data/
+Another source for publicly available genome files would be the 1000 Genomes project: http://ftp.1000genomes.ebi.ac.uk/
 ### crypt4GH:
 - crypt4GH Documentation: http://samtools.github.io/hts-specs/crypt4gh.pdf
 - crypt4GH python utility: https://crypt4gh.readthedocs.io/en/latest/
