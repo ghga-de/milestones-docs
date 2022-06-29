@@ -52,9 +52,11 @@ For reaching this flexibility, we might evaluate the following options:
 - using a factory that gets the pydantic model as input and returns protocols/providers configured accordingly
 
 ### Testing:
-To keep the roadmap lean, we will skip producing testing-specific provider implementations.
+To keep the roadmap lean, we might skip producing testing-specific provider implementations.
 However, we will provide pytest fixtures that will setup and teardown containers running the required infrastructure for
 integration testing.
+
+(We might provide a testing implementation for the CRUD Database Protocol, as this can be easily realized via a python dictionary.)
 
 ### Application
 The newly created building blocks shall be applied to the existing file service, incl.:
