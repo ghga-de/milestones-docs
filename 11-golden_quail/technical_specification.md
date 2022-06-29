@@ -37,7 +37,7 @@ A protocol for basic CRUD interactions with a database will be proposed. The ope
 - find resources by matching one of their attributes to a specific value
 
 Complex query operations will not be supported.
-Resource will be accepted and returned as pydantic models that encapsulate serilization and validation.
+Resources will be accepted and returned as pydantic models that encapsulate serialization and validation.
 
 There might be too flavours of this protocol:  
 One that lets the user of the protocol set the resource ID upon creation.  
