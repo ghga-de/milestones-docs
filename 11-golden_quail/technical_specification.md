@@ -42,7 +42,7 @@ Resources will be accepted and returned as pydantic models that encapsulate seri
 There might be two flavours of this protocol:  
 One that lets the user of the protocol set the resource ID upon creation.  
 And another one for which the provider (and the underlying infrastructure) is expected to assign
-an ID (will required a special pydantic model for creation).
+and return an ID (will required a special pydantic model for creation).
 
 There shall be one provider implementation of this protocol based on MongoDB and the async motor client library.
 
