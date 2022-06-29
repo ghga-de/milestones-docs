@@ -66,6 +66,11 @@ paths:
             Exceptions by ID:
               - noFileAccess: The user is not registered as a Data Submitter
                 for the corresponding file.
+        "404":
+          description: |
+            Exceptions by ID:
+              - fileNotRegistered: The file with the given ID has not (yet)
+                been registered for upload.
 
   /uploads/{upload_id}:
     get:
