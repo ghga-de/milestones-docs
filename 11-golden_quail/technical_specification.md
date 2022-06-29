@@ -34,7 +34,8 @@ A protocol for basic CRUD interactions with a database will be proposed. The ope
 - update resource
 - upsert resource (if resource exists, will update, otherwise will create)
 - delete resource by ID
-- find resources by matching one of their attributes to a specific value
+- find resources by a list of key/value pairs (i.e. a dictionary) where the keys are resource attributes
+  and the values corrspond to attribute values
 
 Complex query operations will not be supported.
 Resources will be accepted and returned as pydantic models that encapsulate serialization and validation.
