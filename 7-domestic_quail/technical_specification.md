@@ -39,7 +39,7 @@ Moreover, a provider that uses a lightweight local (single machine only) in-memo
 
 ### Application
 ~~The newly created chassis library shall be tested on the code base of the Upload Controller Service. There the above mentioned protocols and providers shall be used to replace the message handling functionality currently based on RabbitMQ.~~
-*This is currently not possible as the UCS code base is entirely synchronous while the Kafka providers are async. Before applying the hexkit building blocks to a microservice, protocol/provider pairs for other infrastructur needs to be implemented.
+*This is currently not possible, as the UCS code base is entirely synchronous, while the Kafka providers are async. Before applying the hexkit building blocks to a microservice, protocol/provider pairs for other infrastructure need to be implemented.
 Most importantly, this includes interactions with an S3-base object storage and with a MongoDB-based database.*
 
 
