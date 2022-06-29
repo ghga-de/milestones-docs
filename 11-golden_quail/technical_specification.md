@@ -39,7 +39,7 @@ A protocol for basic CRUD interactions with a database will be proposed. The ope
 Complex query operations will not be supported.
 Resources will be accepted and returned as pydantic models that encapsulate serialization and validation.
 
-There might be too flavours of this protocol:  
+There might be two flavours of this protocol:  
 One that lets the user of the protocol set the resource ID upon creation.  
 And another for which the provider (an the underlying infrastructure) is expected to assign
 an ID (will required a special pydantic model for creation).
