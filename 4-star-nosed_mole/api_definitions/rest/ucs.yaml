@@ -61,16 +61,13 @@ paths:
               - uploadAttemptPresentAccepted: Imposible to create a new upload for
                 the file with the specific ID. Another upload in accepted status
                 already exists for this file.
+              - fileNotRegistered: The file with the given ID has not (yet)
+                been registered for upload.
         "403":
           description: |
             Exceptions by ID:
               - noFileAccess: The user is not registered as a Data Submitter
                 for the corresponding file.
-        "404":
-          description: |
-            Exceptions by ID:
-              - fileNotRegistered: The file with the given ID has not (yet)
-                been registered for upload.
 
   /uploads/{upload_id}:
     get:
