@@ -62,7 +62,7 @@ The newly created building blocks shall be applied to the existing file service,
 - DRS3
 - IFRS
 
-Thereby, these service will be transformed into async applications.
+Thereby, these services will be transformed into async applications.
 
 ## Human Resource/Time Estimation:
 
