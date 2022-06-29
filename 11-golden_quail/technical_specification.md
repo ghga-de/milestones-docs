@@ -25,7 +25,7 @@ Thereby the [ObjectStorageDao](https://github.com/ghga-de/ghga-service-chassis-l
 
 These classes need to be ported to the hexkit and turned into async code.
 Since the underlying boto3 library is synchronous, blocking calls from that library will be wrapped with the
-`asyncio.to_thread` function to make them awailable.
+`asyncio.to_thread` function to make them available.
 
 ### Basic CRUD Database:
 A protocol for basic CRUD interactions with a database will be proposed. The operations shall include:
