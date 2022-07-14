@@ -25,7 +25,7 @@ Benchmarking will be performed on the Ceph Storage in Tübingen and the IBM COS 
 For Benchmarking, a dedicated VM in the de.NBI Cloud in the respective other location will be set up.
 Thus Tübingen will be tested from Heidelberg and vice versa.
 
-### Benchmarkin Script:
+### Benchmarking Script:
 
 Create a benchmarking scipt based on the S3 provider implementation in hexkit (https://github.com/ghga-de/hexkit/blob/main/hexkit/providers/s3/provider.py) and file operation functions from the CLI (https://github.com/ghga-de/ghga-connector/blob/main/ghga_connector/core/file_operations.py).
 
