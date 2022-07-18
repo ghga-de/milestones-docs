@@ -16,7 +16,7 @@ Test files consist of four categories:
 - Sub multipart: < 5 MiB
 - Small file: ~ 10GiB
 - Medium file: ~ 50GiB
-- Big file: ~ 200 GiB
+- Big file: ~ 150 GiB
 
 Content in the test files consists of sequence data in FASTA format.
 
