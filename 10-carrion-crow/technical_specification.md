@@ -50,7 +50,7 @@ Find out, which of these checksum algorithms are also supported by the Ceph and 
 
 ### FastQC
 
-FastQC has been omitted from this epic and move to a future epic (no specifics yet).
+FastQC has been omitted from this epic and moved to a future epic (no specifics yet).
 
 ### Volume/ Hardware Level encryption
 
