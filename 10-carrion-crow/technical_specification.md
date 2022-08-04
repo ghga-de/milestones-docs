@@ -54,7 +54,7 @@ FastQC has been omitted from this epic and moved to a future epic (no specifics 
 
 ### Volume/ Hardware Level encryption
 
-Volume/ Hardware Level encryption has been omitted from this epic and move to a future epic (no specifics yet).
+Volume/ Hardware Level encryption has been omitted from this epic and moved to a future epic (no specifics yet).
 
 ## Material and Resources:
 
