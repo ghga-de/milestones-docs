@@ -4,7 +4,8 @@
 
 ## Scope
 
-Implement the basic user registry backend as part of the auth service.
+Implement the basic user registry backend as part of the auth service and provide a simple UI.
+
 ## User Journeys
 
 This epic covers the following user journeys:
@@ -21,7 +22,7 @@ This epic covers the following user journeys:
 
 (2.1) The Auth Service responds by sending the user data back to the SPA if a user with the given LS Login user ID is found in the user registry database. In this case the user has been already registered and the user journey ends here.
 
-Additionally, the auth service should request the user information from the UserInfo endpoint of LS Login and verify that the information is identical with the information that has been stored in the internal database. This is similar to (3.1). If there is a mismatch, the auth service should set the user status to "deactivated" and send a notification to a data steward. In this case, the SPA should inform the user that the account is waiting for reactivation.
+Additionally, the auth service should request the user information from the UserInfo endpoint of LS Login and verify that the information is identical with the information that has been stored in the internal database. This is similar to (3.1). If there is a mismatch, the auth service should set the user status to "deactivated" and send a notification to a data steward. In this case, the SPA should inform the user which part of the information has changed and present the registration form again to confirm the changed information.
 
 (2.2) If the user is not found in the database, the Auth Service responds with a "user not found" error message. In this case, the user still needs to register with GHGA, the SPA gests the user from the UserInfo endpoint of LS Login using the access token it kept in (1.1). It then asks the user to register with GHGA.
 
