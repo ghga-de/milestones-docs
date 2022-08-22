@@ -73,7 +73,7 @@ This part of the user data that is kept in sync with the external identity provi
 
 The name can also be stored in two separate components (first name and last name or given name and family name) if these can be reliably retrieved via OIDC - currently only the full name (display name) is documented for LS Login. Also note that the semantics of these name parts can be different for international users coming from different cultures.
 
-The part of the user data that is not provided externally and must be provided in the registration process consists of the following fields:
+The part of the user data that is not provided externally must be provided in the registration process and consists of the following fields:
 
 - academic title
 - reason for registration
