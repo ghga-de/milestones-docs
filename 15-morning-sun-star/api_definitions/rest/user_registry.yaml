@@ -23,7 +23,10 @@ paths:
     post:
       operationId: post_user
       summary: Register a user
-      description: Endpoint used to register a new user
+      description: |
+        Endpoint used to register a new user.
+        May only be performed by the users themselves.
+        Data delivered by the OIDC provider may not be altered.
       tags:
         - users
       requestBody:
@@ -32,18 +35,31 @@ paths:
             schema:
               type: object
               properties:
-                id:
-                  title: External ID
+                subject:
+                  title: OpenID Subject
                   type: string
                 issuer:
-                  title: Issuer
+                  title: OpenID Issuer
                   type: string
                 name:
                   $ref: "#/components/schemas/FullName"
+                title: 
+                  $ref: "#/components/schemas/AcademicTitle"
                 email:
                   $ref: "#/components/schemas/EMail"
+                affiliation:
+                  $ref: "#/components/schemas/Affiliation"
+                orcid:
+                  title: ORCID identifier
+                  type: string
+                registration_reason:
+                  title: Reason for registration
+                  type: string
+                research_topics:
+                  title: Research topic(s)
+                  type: string
               required:
-                - id
+                - subject
                 - issuer
                 - name
                 - email
@@ -70,20 +86,22 @@ paths:
     get:
       operationId: get_user
       summary: Get user data
-      description: Endpoint used to get the user data for a specified user
+      description: |
+        Endpoint used to get the user data for a specified user.
+        Can only be performed by a data steward or the same user.
       tags:
         - users
       parameters:
         - in: path
           name: id
-          description: Internal ID or external ID if issuer is given
+          description: Internal ID or external ID (subject) if issuer is given
           schema:
             title: Internal ID
             type: string
           required: true
         - in: query
           name: issuer
-          description: Issuer if an external ID is specified
+          description: Issuer if an external ID (subject) is specified
           schema:
             title: Issuer
       responses:
@@ -107,7 +125,9 @@ paths:
     patch:
       operationId: patch_user
       summary: Modify user data
-      description: Endpoint used to modify the user data for a specified user
+      description: |
+        Endpoint used to modify the user data for a specified user.
+        Can only be performed by a data steward or the same user.
       tags:
         - users
       parameters:
@@ -125,11 +145,10 @@ paths:
               type: object
               properties:
                 status:
-                  $ref: "#/components/schemas/FullName"
-                test_result:
-                  $ref: "#/components/schemas/EMail"
-                test_date:
                   $ref: "#/components/schemas/UserStatus"
+                title: 
+                  title: Academic title
+                  type: string
         required: true
       responses:
         "204":
@@ -146,7 +165,9 @@ paths:
     delete:
       operationId: delete_user
       summary: Delete user
-      description: Endpoint used to get the user data for a specified user
+      description: |
+        Endpoint used to delete a user.
+        Can only be performed by a data steward.
       tags:
         - users
       parameters:
@@ -178,19 +199,41 @@ components:
         id:
           title: Internal ID
           type: string
-        ls_id:
-          title: LS AAI ID
+        subject:
+          title: External ID (OpenID Subject)
+          type: string
+        issuer:
+          title: External AAI (OpenID Issuer)
           type: string
         status:
           $ref: "#/components/schemas/UserStatus"
         name:
           $ref: "#/components/schemas/FullName"
+        title: 
+          $ref: "#/components/schemas/AcademicTitle"
         email:
           $ref: "#/components/schemas/EMail"
+        affiliation:
+          $ref: "#/components/schemas/Affiliation"
+        orcid:
+          title: ORCID identifier
+          type: string
+        registration_reason:
+          title: Reason for registration
+          type: string
+        research_topics:
+          title: Research topic(s)
+          type: string
       required:
         - id
         - status
         - name
+
+    Affiliation:
+      type: array
+      title: Affiliation
+      items:
+        type: string
 
     UserStatus:
       type: string
@@ -206,6 +249,13 @@ components:
       type: string
       title: Name
       description: Full name of the user.
+
+    AcademicTitle:
+      type: string
+      title: Academic title
+      enum:
+        - Dr.
+        - Prof.
 
     EMail:
       type: string
