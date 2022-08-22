@@ -127,3 +127,11 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# VS Code
+.vscode/
+
+# desktop settings and thumbnails
+.DS_Store
+desktop.ini
+thumbs.db
