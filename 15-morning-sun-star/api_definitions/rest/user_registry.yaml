@@ -147,8 +147,7 @@ paths:
                 status:
                   $ref: "#/components/schemas/UserStatus"
                 title: 
-                  title: Academic title
-                  type: string
+                  $ref: "#/components/schemas/AcademicTitle"
         required: true
       responses:
         "204":
