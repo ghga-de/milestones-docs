@@ -35,7 +35,7 @@ paths:
             schema:
               type: object
               properties:
-                ls id:
+                ls_id:
                   $ref: "#/components/schemas/LSID"
                 name:
                   $ref: "#/components/schemas/FullName"
