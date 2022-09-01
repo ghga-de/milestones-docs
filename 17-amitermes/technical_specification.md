@@ -32,6 +32,7 @@ Refactoring aims:
 and the Object Storage
 - [hexkit] add multipart copy method to the Object Storage Protocol and corresponding
   providers
+- [hexkit] add schema validation before sending and upon receiving events
 - harmonize the domain logic of all services with the [File Validation and Encryption 
   Concept](https://github.com/ghga-de/arch_concepts/blob/main/file_validation_and_encryption.md):
   - use SHA-256-based content ID as file identifiers
