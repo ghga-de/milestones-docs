@@ -42,7 +42,7 @@ In download, we currently do not use the interrogation room service.
 - prepare envelope
 - publish envelope
 
-### Optional funtions
+### Optional functions
 
 - Implement multiple users (at least two), where the script can be run with either user beeing the uploader and/or downloader.
 - Implement multiple files which can be tested, provide all combinations of users and files as crypt4gh-encrypted files.
