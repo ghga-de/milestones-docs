@@ -40,7 +40,9 @@ In download, we currently do not use the interrogation room service.
 - request (read) file decryption secret with file secret ID
 - request (read) current GHGA private key
 - prepare envelope
-- publish envelope
+- attach envelope to encrypted content
+- decrypt file with crypt4gh tool and credentials
+- calculate checksum of decrypted file, compare with provided checksum
 
 ### Optional functions
 
