@@ -58,7 +58,7 @@ This Epic aims to only produce functions that will be executed within the interr
 Communication between these services will only be simulated via function calls.
 Communication with other services will be hardcoded.
 Files that should be on object storage will be read from disc.
-Public and private keys needed for encryption will be either hardcoded or be read from disc.
+Public and private keys needed for encryption will either be hardcoded or read from disc.
 
 ## Human Resource/Time Estimation:
 
