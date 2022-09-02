@@ -15,10 +15,11 @@ The prototyping script will consist of two parts, upload and download. They shou
 - request (call function) decryption secret from encrypted key store (first file part attached)
 - receive file encryption secret, secret ID and content offest from encrypted key store
 - read file from disk part by part
+    - compute checksum of individual encrypted file part, store in list 
     - decrypt file part
     - feed file part into checksum algorithm
 - compare checksum of decrypted object with provided checksum
-- publish (write to stdout) outcome of validation
+- publish (write to stdout) outcome of validation, list of checksums
 
 #### Encrypted key store functionality
 
