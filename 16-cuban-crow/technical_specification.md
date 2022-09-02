@@ -24,7 +24,7 @@ The prototyping script will consist of two parts, upload and download. They shou
 
 #### Encrypted key store functionality
 
-- receive first file part from interrogation
+- receive first file part from interrogation room
 - extract crypt4gh envelope
 - decrypt envelope
 - generate ID for encryption secret
