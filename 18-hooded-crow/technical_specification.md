@@ -70,10 +70,14 @@ graph TD
     dlc -- 15. deliver file parts - combined file --> cli
 ```
 Following implementation goals for the *Encryption Key Store* shall be achieved in the context of this journey:
-> 1.
+> 1. The *Encryption Key Store* receives a file ID for which a personalized envelope shall be generated for a given user's public key.
+> 2. The GHGA secret key and the file encryption/decryption key for the given file id is retrieved.
+> 3. A personaluzed envelope is constructed based on those three keys and returned to the download controller.
 
 ## User Journeys that are not part of this Epic:
 
+Defining message formats for events at the boundaries of the *Interrogation Room* will be part of a follow-up epic.
+Adjusting and integrating existing services will also be handled in that same epic and not in *Hooded Crow*.
 
 ## API Definitions:
 
@@ -88,6 +92,8 @@ The definitions are hosted here:
 
 ## Additional Implementation Details:
 
+Some tasks at the boundaries need to be dealt with directly during implementation of this epic.
+Specific details on user public key storage and retrieval should go here, as well as secret ID storage and retrieval based on file ID.
 
 ## Human Resource/Time Estimation:
 
