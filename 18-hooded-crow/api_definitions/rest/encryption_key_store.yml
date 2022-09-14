@@ -6,48 +6,6 @@ info:
 
 paths:
   /envelopes:
-    put:
-      operationId: extractEnvelopeSecrets
-      summary: Extract file encryption/decryption secret and file content offset from enevelope
-      description: |
-        Extract file encryption/decryption secret, create secret ID and extract file content offset.
-        Saves first two in a secure store, returns all three to caller.
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/FilePart"
-
-      responses:
-        "200":
-          description: |
-            Information extracted from envelope
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/EnvelopeContent"
-        "201":
-          description: |
-            Information extracted from envelope
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/EnvelopeContent"
-        "400":
-          description: Envelope malformed or missing
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/MalformedOrMissingEnvelopeError"
-        "403":
-          description: Could not decrypt envelope content with given keys
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/EnvelopeDecryptionError"
-
-  /envelopes/{file_id}:
     get:
       operationId: getPersonalizedEnvelope
       summary: Get personalized envelope containing Crypt4GH file encryption/decryption key
@@ -56,7 +14,12 @@ paths:
         the current GHGA secret key and the download user's private key.
       parameters:
         - name: file_id
-          in: path
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: user_id
+          in: query
           required: true
           schema:
             type: string
@@ -76,6 +39,40 @@ paths:
                 oneOf:
                   - $ref: "#/components/schemas/FileNotFoundError"
                   - $ref: "#/components/schemas/PublicKeyNotFoundError"
+
+    put:
+      operationId: extractEnvelopeSecrets
+      summary: Extract file encryption/decryption secret and file content offset from enevelope
+      description: |
+        Extract file encryption/decryption secret, create secret ID and extract file content offset.
+        Saves first two in a secure store, returns all three to caller.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/EnvelopeQuery"
+
+      responses:
+        "200":
+          description: |
+            Information extracted from envelope
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/EnvelopeContent"
+        "400":
+          description: Envelope malformed or missing
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MalformedOrMissingEnvelopeError"
+        "403":
+          description: Could not decrypt envelope content with given keys
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/EnvelopeDecryptionError"
 
 components:
   schemas:
@@ -116,6 +113,19 @@ components:
       title: Envelope Decryption Error
       description: Error thrown when no provided key can successfully decrypt the file envelope.
       type: object
+
+    EnvelopeQuery:
+      title: Envelope Query
+      description: TODO
+      type: object
+      properties:
+        user_id:
+          type: string
+        file_part:
+          $ref: "#/components/schemas/FilePart"
+      required:
+        - user_id
+        - file_part
 
     FileNotFoundError:
       title: File Not Found Error
