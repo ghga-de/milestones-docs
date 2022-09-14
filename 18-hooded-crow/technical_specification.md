@@ -6,7 +6,7 @@
 A scope definition can be found here: https://wiki.verbis.dkfz.de/x/TgA5D
 ## User Journeys
 
-Building on the *16 - Cuban Crow* epic, this implementation epic aims to develop the functionality explored in the prototype script into fully fledged services to deal with encryption and decryption functionality using Crypt4GH along both the download and upload path.
+Building on the [*16 - Cuban Crow*](../16-cuban-crow/technical_specification.md) epic, this implementation epic aims to develop the functionality explored in the prototype script into fully fledged services to deal with encryption and decryption functionality using Crypt4GH along both the download and upload path.
 For this purpose, work is separated into two general user journeys, one for upload and one for download.
 
 ### 1. Implement *Interrogation Room* and  *Encryption Key Store* services for file upload
@@ -72,7 +72,7 @@ graph TD
 Following implementation goals for the *Encryption Key Store* shall be achieved in the context of this journey:
 > 1. The *Encryption Key Store* receives a file ID for which a personalized envelope shall be generated for a given user's public key.
 > 2. The GHGA secret key and the file encryption/decryption key for the given file id is retrieved.
-> 3. A personaluzed envelope is constructed based on those three keys and returned to the download controller.
+> 3. A personalized envelope is constructed based on those three keys and returned to the download controller.
 
 ## User Journeys that are not part of this Epic:
 
@@ -81,14 +81,8 @@ Adjusting and integrating existing services will also be handled in that same ep
 
 ## API Definitions:
 
-The definitions are hosted here:
-
-
 ### RESTful/Synchronous:
-
-
-### Payload Schemas for Asynchronous Topics:
-
+[Encryption Key Store REST API](./api_definitions/rest/encryption_key_store.yml)
 
 ## Additional Implementation Details:
 
