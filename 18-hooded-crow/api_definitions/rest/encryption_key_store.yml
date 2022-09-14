@@ -110,13 +110,38 @@ components:
         - offset
 
     EnvelopeDecryptionError:
-      title: Envelope Decryption Error
+      title: EnvelopeDecryptionError
       description: Error thrown when no provided key can successfully decrypt the file envelope.
       type: object
+      properties:
+        data:
+          $ref: "#/components/schemas/EnvelopeDecryptionErrorData"
+        description:
+          description:
+            A human readable message to the client explaining the cause
+            of the exception.
+          title: Description
+          type: string
+        exception_id:
+          enum:
+            - EnvelopeDecryptionError
+          title: Exceptionid
+          type: string
+
+    EnvelopeDecryptionErrorData:
+      title: EnvelopeDecryptionErrorData
+      description: Model for exception data
+      type: object
+      properties:
+        user_id:
+          title: User Id
+          type: string
+      required:
+        - user_id
 
     EnvelopeQuery:
       title: Envelope Query
-      description: TODO
+      description: Request object containing first file part and user ID.
       type: object
       properties:
         user_id:
@@ -128,11 +153,31 @@ components:
         - file_part
 
     FileNotFoundError:
-      title: File Not Found Error
+      title: FileNotFoundError
       description: File for the given ID is not known to the service.
       type: object
       properties:
+        data:
+          $ref: "#/components/schemas/FileNotFoundErrorData"
+        description:
+          description:
+            A human readable message to the client explaining the cause
+            of the exception.
+          title: Description
+          type: string
+        exception_id:
+          enum:
+            - FileNotFoundError
+          title: Exceptionid
+          type: string
+
+    FileNotFoundErrorData:
+      title: FileNotFoundErrorData
+      description: Model for exception data
+      type: object
+      properties:
         file_id:
+          title: File Id
           type: string
       required:
         - file_id
@@ -149,11 +194,55 @@ components:
         - content
 
     MalformedOrMissingEnvelopeError:
-      title: Malformed or Missing Envelope Error
+      title: MalformedOrMissingEnvelopeError
       description: Envelope decryption fails due to missing or malformed envelope.
+      type: object
+      properties:
+        data:
+          $ref: "#/components/schemas/MalformedOrMissingEnvelopeErrorData"
+        description:
+          description:
+            A human readable message to the client explaining the cause
+            of the exception.
+          title: Description
+          type: string
+        exception_id:
+          enum:
+            - MalformedOrMissingEnvelopeError
+          title: Exceptionid
+          type: string
+
+    MalformedOrMissingEnvelopeErrorData:
+      title: MalformedOrMissingEnvelopeErrorData
+      description: Model for exception data
       type: object
 
     PublicKeyNotFoundError:
-      title: Public Key Not Found Error
+      title: PublicKeyNotFoundError
       description: Public key for the requesting user is not registered with the service database.
       type: object
+      properties:
+        data:
+          $ref: "#/components/schemas/PublicKeyNotFoundErrorData"
+        description:
+          description:
+            A human readable message to the client explaining the cause
+            of the exception.
+          title: Description
+          type: string
+        exception_id:
+          enum:
+            - PublicKeyNotFoundError
+          title: Exceptionid
+          type: string
+
+    PublicKeyNotFoundErrorData:
+      title: PublicKeyNotFoundErrorData
+      description: Model for exception data
+      type: object
+      properties:
+        user_id:
+          title: User Id
+          type: string
+      required:
+        - user_id
