@@ -32,21 +32,21 @@ The user should be able to upload a file encrypted with the crypt4gh tool using 
 In addition a SHA256 checksum of the unencrypted file needs to be provided by either the user or computed by the CLI which is used to verify intergrity of the confirmed upload (will be done in an upcoming epic).
 
 > *Interrogation Room*
->> 1. The first file part of the confirmed uploaded file ist requested and forwarded to the *Encryption Key Store* to process information contained in the Crypt4GH envelope.
->> 2. The information returned is used to produce SHA256 checksums for all encrypted file parts corresponding to actual file content, i.e. excluding the envelope.
+> 1. The first file part of the confirmed uploaded file ist requested and forwarded to the *Encryption Key Store* to process information contained in the Crypt4GH envelope.
+> 2. The information returned is used to produce SHA256 checksums for all encrypted file parts corresponding to actual file content, i.e. excluding the envelope.
 File part size corresponds to the part size used in the multipart upload.
 In addition, the file content is decrypted in chunks in memory and fed into a SHA256 checksum algorithm to produce a checksum for the entire file content.
->> 3. This checksum is compared for equality with the user provided checksum.
+> 3. This checksum is compared for equality with the user provided checksum.
 In case of a mismatch an event is emitted to be processed by the *Upload Controller* to notify the user of the upload failure.
 Else an event is emitted to be processed by the *Internal File Registry* and the encrypted file content, i.e. without envelope, is moved to permanent storage.
 Defining the message formats for those events is part of an upcoming epic.
 
 > *Encryption Key Store*
->> 1. Retrieve the GHGA secret key from HashiCorp Vault.
->> 2. Crypt4GH functionality is used to find the envelope and extract the file encryption/decryption secret contained within using the GHGA secret key.
+> 1. Retrieve the GHGA secret key from HashiCorp Vault.
+> 2. Crypt4GH functionality is used to find the envelope and extract the file encryption/decryption secret contained within using the GHGA secret key.
 Furthermore, the file content offset is obtained.
->> 3. A SHA256 sum over the file encryption/decryption key is generated as its ID and both the key and ID are saved in HashiCorp Vault.
->> 4. The key, its ID and the file content offset are returned as response to the *Interrogation Room*.
+> 3. A SHA256 sum over the file encryption/decryption key is generated as its ID and both the key and ID are saved in HashiCorp Vault.
+> 4. The key, its ID and the file content offset are returned as response to the *Interrogation Room*.
 
 ### 2. Implement *Encryption Key Store* service for file download
 The diagram below shows the general flow between already existing services and the position of the new service in this network of interactions.
