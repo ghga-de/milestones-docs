@@ -34,7 +34,7 @@ In addition a SHA256 checksum of the unencrypted file needs to be provided by ei
 > *Interrogation Room*
 > 1. The first file part of the confirmed uploaded file ist requested and forwarded to the *Encryption Key Store* to process information contained in the Crypt4GH envelope.
 > 2. The information returned is used to produce SHA256 checksums for all encrypted file parts corresponding to actual file content, i.e. excluding the envelope.
-File part size corresponds to the part size used in the multipart upload.
+File part sizes do not corresponds to the part used in the multipart upload. As these new parts start at the encrypted content offset.
 In addition, the file content is decrypted in chunks in memory and fed into a SHA256 checksum algorithm to produce a checksum for the entire file content.
 > 3. This checksum is compared for equality with the user provided checksum.
 In case of a mismatch an event is emitted to be processed by the *Upload Controller* to notify the user of the upload failure.
@@ -70,8 +70,8 @@ graph TD
     dlc -- 15. deliver file parts - combined file --> cli
 ```
 Following implementation goals for the *Encryption Key Store* shall be achieved in the context of this journey:
-> 1. The *Encryption Key Store* receives a file ID for which a personalized envelope shall be generated for a given user's public key.
-> 2. The GHGA secret key and the file encryption/decryption key for the given file id is retrieved.
+> 1. The *Encryption Key Store* receives a secret ID corrspoding to a file for which a personalized envelope shall be generated for a given user's public key.
+> 2. The GHGA secret key and the file encryption/decryption key idenified by the provided secret ID are retrieved.
 > 3. A personalized envelope is constructed based on those three keys and returned to the download controller.
 
 ## User Journeys that are not part of this Epic:
