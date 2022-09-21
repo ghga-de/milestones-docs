@@ -70,7 +70,7 @@ graph TD
     dlc -- 15. deliver file parts - combined file --> cli
 ```
 Following implementation goals for the *Encryption Key Store* shall be achieved in the context of this journey:
-> 1. The *Encryption Key Store* receives a secret ID corrspoding to a file for which a personalized envelope shall be generated for a given user's public key.
+> 1. The *Encryption Key Store* receives a secret ID corresponding to a file for which a personalized envelope shall be generated for a given user's public key.
 > 2. The GHGA secret key and the file encryption/decryption key idenified by the provided secret ID are retrieved.
 > 3. A personalized envelope is constructed based on those three keys and returned to the download controller.
 
