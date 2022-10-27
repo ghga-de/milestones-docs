@@ -38,8 +38,9 @@ This includes moving (remaining) in-service event definitions to the https://git
 As all services dealing with file upload/download/encryption/decryption interact with each other, either during upload or download, a local setup to test functionality across all services would be beneficial.
 This would allow to capture issues early and replace mocks with actual data to see how well our microservice architecture performs.
 
-The implementation of this journey consists of providing a docker-compose file that yields a working local setup.
-A minimal test case ensuring functionality should be included.
+The implementation of this journey consists of:
+- a docker-compose for local deployment of all services along with relying infrastructure (MongoDB, HashiCorp Vault, Apache Kafka, LocalStack S3)
+- one or more minimal test cases that set up certain states in the infrastructure and simulate a basic user journey involving all the services
 
 ## Optional User Journeys:
 
