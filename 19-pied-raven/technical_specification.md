@@ -34,7 +34,7 @@ While models and events exist for all the necessary cross-service communication,
 Those updates should be applied after all services can communicate with each other.
 This includes moving (remaining) in-service event definitions to the https://github.com/ghga-de/ghga-event-schemas repository.
 
-### 4. Provide a local setup covering all services using docker-compose
+### 4. Provide a local testbed covering all services using docker-compose
 As all services dealing with file upload/download/encryption/decryption interact with each other, either during upload or download, a local setup to test functionality across all services would be beneficial.
 This would allow to capture issues early and replace mocks with actual data to see how well our microservice architecture performs.
 
