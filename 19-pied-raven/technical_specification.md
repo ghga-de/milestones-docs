@@ -15,26 +15,16 @@ The API should allow to store a secret and return a newly generated ID by which 
 
 Implementing this change includes multiple steps:
 
-1. Eplore how to set up HashiCorp Vault for our use case
+1. Eplore how to set up HashiCorp Vault for our use case - see also https://wiki.verbis.dkfz.de/x/SoKcCw for what has already been done
 2. Explore how to connect, store and retrieve secrets
-3. Provide a synchronous API for communication with the Vault
+3. Implement a HashiCorp vault setup for development (.devcontainer) and testing (python-testcontainers).
 
-### 2. Integrate with and adapt adjacent services
-Both the Encryption Key Store and the Interrogation Room depend on (synchronous and asynchronous) communication with other services.
-Interaction with the respective service on side of the caller/receiver is not implemented yet.
-Check and adjust all of the following services:
-
-1. Upload Controller - outbound event signaling file upload completed to Interrogation Room
-2. Upload Controller - handling of failure event from Interrogation Room
-3. Internal File Registry - handling of success event from Interrogation Room
-4. Download Controller - request and receive envelope, attach envelope to outgoing file cotent
-
-### 3. Finalize request/response models and incoming/outgoing events
+### 2. Finalize request/response models and incoming/outgoing events
 While models and events exist for all the necessary cross-service communication, some have a more prototypical character and might need updates to their definition based on spec compliance or practical concerns.
 Those updates should be applied after all services can communicate with each other.
 This includes moving (remaining) in-service event definitions to the https://github.com/ghga-de/ghga-event-schemas repository.
 
-### 4. Provide a local testbed covering all services using docker-compose
+### 3. Provide a local testbed covering all services using docker-compose
 As all services dealing with file upload/download/encryption/decryption interact with each other, either during upload or download, a local setup to test functionality across all services would be beneficial.
 This would allow to capture issues early and replace mocks with actual data to see how well our microservice architecture performs.
 
@@ -43,12 +33,20 @@ The implementation of this journey consists of:
 - one or more minimal test cases that set up certain states in the infrastructure and simulate a basic user journey involving all the services
 
 ## Optional User Journeys:
+### Integrate with and adapt adjacent services
+Both the Encryption Key Store and the Interrogation Room depend on (synchronous and asynchronous) communication with other services.
+Interaction with the respective service on side of the caller/receiver is not implemented yet.
+Check and adjust all of the following services:
 
-### 1. Decide on user public key propagation/storage/retrieval mechanism
+1. Upload Controller - outbound event signaling file upload completed to Interrogation Room
+2. Upload Controller - handling of failure event from Interrogation Room
+3. Internal File Registry - handling of success event from Interrogation Room
+4. Download Controller - request and receive envelope, attach envelope to outgoing file cotent
+## User Journeys that are not part of this Epic:
+### Decide on user public key propagation/storage/retrieval mechanism
 Currently a user's public key is piped through the interrogation room into the encryption key store.
 We need to discuss specifics of public key propagation and storage, as this permeates some of the models/events and issues like source of truth and expulsion of keys need to be resolved.
 However, this might be more fitting to consider in conjunction with a refactoring step for integration with the auth story.
-## User Journeys that are not part of this Epic:
 
 ## API Definitions:
 
@@ -62,4 +60,4 @@ However, this might be more fitting to consider in conjunction with a refactorin
 
 Number of sprints required: 2-3
 
-Number of developers required: 2
+Number of developers required: 3
