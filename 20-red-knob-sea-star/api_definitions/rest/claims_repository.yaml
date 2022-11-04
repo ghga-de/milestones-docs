@@ -365,3 +365,14 @@ components:
         - split_pattern
       type: string
       description: Type of matching a claim value
+
+  securitySchemes:
+    
+    AuthToken:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: Internal authentication token for GHGA.
+
+security:
+- AuthToken: []
