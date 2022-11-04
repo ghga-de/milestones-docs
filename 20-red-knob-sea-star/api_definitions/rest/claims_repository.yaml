@@ -381,6 +381,7 @@ components:
         - CONTROLLED_ACCESS_GRANTS
         - LINKED_IDENTITIES
         - GHGA_ROLE
+      type: string
       description: Visa type for the claim
 
   securitySchemes:
