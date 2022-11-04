@@ -159,11 +159,11 @@ components:
     AuthorityLevel:
       title: Authority Level
       enum:
-        - self
-        - peer
-        - system
-        - so
-        - dac
+        - SELF
+        - PEER
+        - SYSTEM
+        - SO
+        - DAC
       type: string
       description: Type of asserting authority
 
@@ -346,9 +346,9 @@ components:
     MatchType:
       title: Match Type
       enum:
-        - const
-        - pattern
-        - split_pattern
+        - CONST
+        - PATTERN
+        - SPLIT_PATTERN
       type: string
       description: Type of matching a claim value
 
