@@ -177,7 +177,7 @@ components:
   schemas:
 
     AuthorityLevel:
-      title: AuthorityLevel
+      title: Authority Level
       enum:
         - self
         - peer
@@ -206,7 +206,8 @@ components:
           description: Internally used ID of the user
         visa_type:
           title: Visa type
-          type: string
+          allOf:
+            - $ref: '#/components/schemas/VisaType'
         visa_value:
           title: Scope of the claim depending of the visa type
           type: string
@@ -260,7 +261,7 @@ components:
       description: A claim made about a user with a claim ID
 
     ClaimCreation:
-      title: ClaimCreation
+      title: Claim Creation
       required:
         - user_id
         - visa_type
@@ -277,7 +278,8 @@ components:
           description: Internally used ID of the user
         visa_type:
           title: Visa type
-          type: string
+          allOf:
+            - $ref: '#/components/schemas/VisaType'
         visa_value:
           title: Scope of the claim depending of the visa type
           type: string
@@ -327,7 +329,7 @@ components:
       description: A claim made about a user with a user ID
 
     ClaimMatch:
-      title: ClaimMatch
+      title: Claim Match
       required:
         - claim
         - match_type
@@ -362,13 +364,24 @@ components:
       description: A single condition to check a type and a set of claims
 
     MatchType:
-      title: MatchType
+      title: Match Type
       enum:
         - const
         - pattern
         - split_pattern
       type: string
       description: Type of matching a claim value
+
+    VisaType:
+      title: Visa Type
+      enum:
+        - AFFILIATION_AND_ROLE
+        - ACCEPTED_TERMS_AND_POLICIES
+        - RESEARCHER_STATUS
+        - CONTROLLED_ACCESS_GRANTS
+        - LINKED_IDENTITIES
+        - GHGA_ROLE
+      description: Visa type for the claim
 
   securitySchemes:
     
