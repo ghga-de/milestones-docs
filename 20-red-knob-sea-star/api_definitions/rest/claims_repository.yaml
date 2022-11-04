@@ -15,7 +15,7 @@ servers:
 
 tags:
   - name: claims
-    description: USer Claims
+    description: User Claims
 
 paths:
 
@@ -84,26 +84,6 @@ paths:
         '422':
           description: Validation error in submitted ID or claims data.
 
-    delete:
-      operationId: delete_claims
-      summary: Delete all claims about a given user
-      description: Endpoint used to delete all claims about a given user.
-      tags:
-        - claims
-      parameters:
-        - name: user_id
-          in: path
-          required: true
-          schema:
-            title: Internal user ID
-            type: string
-      responses:
-        '204':
-          description: User claims were successfully deleted.
-        '404':
-          description: The user was not found.
-        '422':
-          description: Validation error in submitted user ID.
 
   /users/{user_id}/claims/{claim_id}:
 
