@@ -153,13 +153,17 @@ paths:
           schema:
             title: Internal claim ID
             type: string
-        - name: revocation_date
-          in: query
-          required: true
-          schema:
-            title: Revocation Date
-            type: string
-            format: date-time
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                revocation_date:
+                  title: Date of revocation
+                  type: string
+                  format: date-time
+        required: true
       responses:
         '204':
           description: User claim was successfully saved.
