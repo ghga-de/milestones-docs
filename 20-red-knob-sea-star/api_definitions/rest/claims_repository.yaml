@@ -68,7 +68,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/ClaimData'
+              $ref: '#/components/schemas/ClaimCreation'
         required: true
       responses:
         '201':
@@ -259,8 +259,8 @@ components:
           description: Internally used ID of the claim
       description: A claim made about a user with a claim ID
 
-    ClaimData:
-      title: ClaimData
+    ClaimCreation:
+      title: ClaimCreation
       required:
         - user_id
         - visa_type
