@@ -57,4 +57,4 @@ This epic covers the following user journeys:
 
 Number of sprints required: 3
 
-Number of developers required: 3
+Number of developers required: 1
