@@ -3,13 +3,13 @@
 
 The goal is to create a prototype.
 
-**Attention: Please do not put any confidential content here.**
+<!-- **Attention: Please do not put any confidential content here.** -->
 
 ## Principle Components of Exploration:
 
 - Metadata generator based on GHGA model
     - Controlled vocabulary for CV fields
-    - (Random but realistic) Value in non-CV data fields (string, int etc)
+    - (Random but realistic) Value in non-CV data fields following right data type
     - Dataset generator
     - Submission JSON model
     - Post creation json model
@@ -18,11 +18,9 @@ The goal is to create a prototype.
     - Realistic file name and size
 - FASTQ file generator
     - Employ dummy_data_generator
-    - Publicly available genome data (local?)
-    - Storage space requirements (ABI cluster or de.NBI?)
+    - Storage space requirements (platform selection: ABI cluster or de.NBI)
 - Connection between metadata and file generators for file related parameters
-- Run time
-
+- Run time - Not a focus on the performance, but aim for reasonable
 
 
 <!-- ## Material and Resources:
@@ -37,10 +35,10 @@ This epic covers the following user journeys:
 
 ![\scenario1](./images/scenario1.png)
 
-### User only requests metadata
+### User requests only metadata
 ![\scenario2](./images/scenario2.png)
 
-### User only requests fastq files
+### User requests only fastq files
 ![\scenario3](./images/scenario3.png)
 
 
