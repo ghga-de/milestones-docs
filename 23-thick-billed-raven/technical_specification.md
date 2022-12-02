@@ -26,7 +26,7 @@ The new OpenAPI doc can be found here:
 ### All Services
 
 - Update & cleanup dockerfiles to use only slim containers
-- Update dependencys to the current version
+- Update dependencies to the current version
     - ghga-chassis-lib
     - hexkit
     - ghga-event-schemas (Version 0.7.4 changed handling of datetimes)
