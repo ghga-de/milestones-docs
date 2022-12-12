@@ -12,12 +12,12 @@ This epic covers the following user journeys:
 
 ### Integration of File Services (Upload Journey)
 
-Adapt the DCS, EKSS and IFRS to allow for a fully functionioning download path in the testbed.
+Produce a script to test the download path in the testbed and adapt the DCS, EKSS and IFRS to allow for a fully functionioning download path.
 
 ## RESTful API changes
 
 The new OpenAPI doc can be found here:
-[OpenAPI YAML]() - [Swagger UI]()
+[OpenAPI YAML](./api_definitions/dcs.yaml) - [Swagger UI](https://editor.swagger.io/?url=https://raw.githubusercontent.com/ghga-de/epic-docs/main/24-common-raven/api_definitions/dcs.yaml)
 
 ## Additional Implementation Details:
 
@@ -25,14 +25,6 @@ The new OpenAPI doc can be found here:
 ### DCS
 
 - Adapt to request envelope from EKSS and serve the assembled file using download ranges
-
-### EKSS
-
-- Check for needed changes
-
-### IFRS
-
-- Check for needed changes
 
 ### Testbed:
 
