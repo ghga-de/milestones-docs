@@ -23,15 +23,17 @@ The new OpenAPI doc can be found here:
 
 
 ### DCS
-
 - Adapt to request envelope from EKSS and serve the assembled file using download ranges
 
+### IFRS
+- The IFRS needs to consume the *NonStagedFileRequested* event, stage file to outbox and emit the *FileStagedForDownload* event afterwards
 ### Testbed:
 
 - Add a test script for the download path
     1. Run upload path script to populate permanent storage and IFRS state
     2. Request a file download through the ghga-connector
-    3. Verify the downloaded file corresponds to the uploaded one
+    3. Check for download staging events happening
+    4. Verify the downloaded file corresponds to the uploaded one
 
 
 ## Human Resource/Time Estimation:
