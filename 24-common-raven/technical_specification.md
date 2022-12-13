@@ -1,7 +1,7 @@
 # Integration of all File Services - Download Stream (Common Raven)
 **Epic Type:** Implementation Epic
 
-The goal for this epic is to integrate all Backend File Services into the Testbed developed in [*19 - Pied Raven*](../19-pied-raven/technical_specification.md). This includes updating dependency versions in all services as well as ironing out possible differences in API usage and event processing to include the complete file download path.
+The goal for this epic is to integrate all Backend File Services into the Testbed developed in [*19 - Pied Raven*](../19-pied-raven/technical_specification.md). This epic builds on [*23 - Thick-Billed Raven*](../23-thick-billed-raven/technical_specification.md) and aims to bring the Testbed to completion by including the complete file download path and changes required to make everything work according to the arch-concept.
 
 ## Scope:
 A scope definition can be found here: https://wiki.verbis.dkfz.de/x/MIBSDQ
@@ -10,7 +10,7 @@ A scope definition can be found here: https://wiki.verbis.dkfz.de/x/MIBSDQ
 
 This epic covers the following user journeys:
 
-### Integration of File Services (Upload Journey)
+### Integration of File Services (Download Journey)
 
 Produce a script to test the download path in the testbed and adapt the DCS, IFRS and UCS to allow for a fully functionioning download path.
 
