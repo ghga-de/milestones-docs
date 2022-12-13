@@ -12,14 +12,14 @@ This epic covers the following user journeys:
 
 ### Integration of File Services (Download Journey)
 
-Produce a script to test the download path in the testbed and adapt the DCS, IFRS and UCS to allow for a fully functionioning download path.
+Produce a script to test the download path in the testbed and adapt the DCS and IFRS to allow for a fully functionioning download path.
 
 ## Additional Implementation Details:
 
 ### IFRS
 - The IFRS needs to consume the *NonStagedFileRequested* event, stage file to outbox and emit the *FileStagedForDownload* event afterwards
 
-### UCS/Hexkit
+### IFRS/Hexkit
 - Implement multipart copy with offset to store file object without envelope in permanent storage
 
 ### DCS
