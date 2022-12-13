@@ -23,7 +23,7 @@ Produce a script to test the download path in the testbed and adapt the DCS, IFR
 - Implement multipart copy with offset to store file object without envelope in permanent storage
 
 ### DCS
-- Adapt to request envelope from EKSS and serve the assembled file using download ranges
+- Adapt to request envelope from EKSS and serve the assembled file (envelope + encrypted file content) using custom download ranges
 ### Testbed:
 
 - Add a test script for the download path
