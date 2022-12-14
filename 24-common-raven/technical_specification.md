@@ -24,6 +24,7 @@ Produce a script to test the download path in the testbed and adapt the DCS and 
 
 ### DCS
 - Adapt to request envelope from EKSS and serve the assembled file (envelope + encrypted file content) using custom download ranges
+
 ### Testbed:
 
 - Add a test script for the download path
