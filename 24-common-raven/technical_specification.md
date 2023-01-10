@@ -22,7 +22,7 @@ Add a new S3 bucket called "staging", with IRS write and IFRS read permissions. 
 
 ### IFRS
 - The IFRS needs to consume the *NonStagedFileRequested* event, stage file to outbox and emit the *FileStagedForDownload* event afterwards
-- Copy the encrypted, headless file from the staging bucket to the permanent storage after "interrogation_successfull"
+- Copy the encrypted, headless file from the staging bucket to the permanent storage after the "file_interrogation_success" event has been received
 
 ### DCS
 - Adapt to request envelope from EKSS and serve the assembled file (envelope + encrypted file content) using custom download ranges
