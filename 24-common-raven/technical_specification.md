@@ -14,16 +14,25 @@ This epic covers the following user journeys:
 
 Produce a script to test the download path in the testbed and adapt the DCS and IFRS to allow for a fully functionioning download path.
 
+### Re-Encryption
+
+Add a new S3 - Bucket called "Staging", there the IRS has write and the IFRS has read permissions. The IRS is now re-encrypting all files during checksum validation and the file is staged to the staging bucket.
+
 ## Additional Implementation Details:
 
 ### IFRS
 - The IFRS needs to consume the *NonStagedFileRequested* event, stage file to outbox and emit the *FileStagedForDownload* event afterwards
-
-### IFRS/Hexkit
-- Implement multipart copy with offset to store file object without envelope in permanent storage
+- Copy the encrypted, headless file from the staging bucket there after "interrogation_successfull"
 
 ### DCS
 - Adapt to request envelope from EKSS and serve the assembled file (envelope + encrypted file content) using custom download ranges
+
+### EKSS
+- When the IRS sends the first part, the EKSS now creates a new secret (using os.urandom32), and stores the new, instead of the old secret in vault. Both secrets are then sent back.
+
+### IRS
+- During Interrogation: Re-Encrypt with the new key obtained from the EKSS, send file to staging bucket.
+- Create Checksums for re-encrypted file instead of the original encrypted file. Part checksums now start directly from the encrypted file, as there is no header present.
 
 ### Testbed:
 
@@ -36,6 +45,6 @@ Produce a script to test the download path in the testbed and adapt the DCS and 
 
 ## Human Resource/Time Estimation:
 
-Number of sprints required: 1
+Number of sprints required: 2
 
 Number of developers required: 2
