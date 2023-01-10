@@ -28,7 +28,7 @@ Add a new S3 bucket called "staging", with IRS write and IFRS read permissions. 
 - Adapt to request envelope from EKSS and serve the assembled file (envelope + encrypted file content) using custom download ranges
 
 ### EKSS
-- When the IRS sends the first part, the EKSS now creates a new secret (using os.urandom32), and stores the new, instead of the old secret in vault. Both secrets are then sent back.
+- When the IRS sends the first part, the EKSS now creates a new secret (using os.urandom(32) as per crypt4gh), and stores the new, instead of the old secret in vault. Both secrets are then sent back along with the ID generated for the new secret
 
 ### IRS
 - During Interrogation: Re-Encrypt with the new key obtained from the EKSS, send file to staging bucket.
