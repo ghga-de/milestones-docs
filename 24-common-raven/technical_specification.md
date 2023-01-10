@@ -16,7 +16,7 @@ Produce a script to test the download path in the testbed and adapt the DCS and 
 
 ### Re-Encryption
 
-Add a new S3 - Bucket called "Staging", there the IRS has write and the IFRS has read permissions. The IRS is now re-encrypting all files during checksum validation and the file is staged to the staging bucket.
+Add a new S3 bucket called "staging", with IRS write and IFRS read permissions. The IRS re-encrypts all files during checksum validation and the re-encrypted file is moved to the the staging bucket.
 
 ## Additional Implementation Details:
 
