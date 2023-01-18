@@ -29,6 +29,7 @@ https://docs.ghga-dev.de/main/architecture_concepts/ac002_metadata_lifecycle.htm
     - status changes for submissions (all submissions will be immediately be treated
       as completed and published)
     - Deprecation and emptying of submissions
+    - multiple schemas and schema migrations
 
 ## Human Resource/Time Estimation:
 
