@@ -1,4 +1,4 @@
-# Metadata refactoring proof of concept (\<Epic Code Name\>)
+# Metadata refactoring proof of concept (Pacific Lamprey)
 **Epic Type:** Implementation Epic
 
 **Attention: Please do not put any confidential content here.**
