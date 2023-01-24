@@ -23,7 +23,7 @@ https://docs.ghga-dev.de/main/architecture_concepts/ac002_metadata_lifecycle.htm
         - Summary statistics
         - Mongodb-based search index
     - REST APIs for querying the above artifacts
-- not includes:
+- does not include:
     - difference between published and non published submissions
     - reviews of submissions
     - status changes for submissions (all submissions will be immediately be treated
