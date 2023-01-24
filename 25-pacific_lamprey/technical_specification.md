@@ -11,7 +11,7 @@ https://docs.ghga-dev.de/main/architecture_concepts/ac002_metadata_lifecycle.htm
 
 ## Additional Implementation Details:
 
-- A implementation that can be run by data stewards locally,
+- An implementation that can be run by data stewards locally,
   no production-ready and independently deployed services.
 - includes:
     - basic in implementation of the submission store
