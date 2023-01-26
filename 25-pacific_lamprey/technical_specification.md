@@ -23,8 +23,8 @@ https://docs.ghga-dev.de/main/architecture_concepts/ac002_metadata_lifecycle.htm
         - Summary statistics
         - Mongodb-based search index
     - Loading the above artifacts into deployed mongodb instances
-    - REST APIs for querying the artifacts in the deployed databases
-- not includes:
+    - REST APIs for querying the above artifacts
+- does not include:
     - difference between published and non published submissions
     - reviews of submissions
     - status changes for submissions (all submissions will be immediately be treated
