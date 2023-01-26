@@ -11,7 +11,7 @@ https://docs.ghga-dev.de/main/architecture_concepts/ac002_metadata_lifecycle.htm
 
 ## Additional Implementation Details:
 
-- A implementation that can be run by data stewards locally,
+- An implementation that can be run by data stewards locally,
   no production-ready and independently deployed services.
 - includes:
     - basic in implementation of the submission store
@@ -22,7 +22,8 @@ https://docs.ghga-dev.de/main/architecture_concepts/ac002_metadata_lifecycle.htm
         - Non-restricted (public) metadata
         - Summary statistics
         - Mongodb-based search index
-    - REST APIs for querying the above artifacts
+    - Loading the above artifacts into deployed mongodb instances
+    - REST APIs for querying the artifacts in the deployed databases
 - not includes:
     - difference between published and non published submissions
     - reviews of submissions
