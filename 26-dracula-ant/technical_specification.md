@@ -56,7 +56,7 @@ This is a JWT with a very short time to live (maximum 30 seconds). It is signed 
 - `user_id`: the internal ID of the user
 - `public_key`: the public key stored in the work package
 
-The work package access and work order tokens are both signed by the Work Package Service. A separate key pair (different from the keys used for the internal access tokens) should be created for this purpose. The public key must be also communicated to the download/upload controller services so that they can validate the work order token.
+The work order tokens are signed by the Work Package Service. A separate key pair (different from the keys used for the internal access tokens) should be created for this purpose. The public key must be also communicated to the download/upload controller services so that they can validate the work order token.
 
 ### Dataset access checks
 
