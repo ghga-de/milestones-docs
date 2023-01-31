@@ -65,6 +65,10 @@ This is a JWT with a very short time to live (maximum 30 seconds). It is signed 
 - `file_id`: the ID of the file that shall be downloaded or uploaded
 - `user_id`: the internal ID of the user
 - `public_key`: the public key stored in the work package
+- `full_user_name`: the full name of the user (with academic title)
+- `email`: the email address of the user
+
+The user name and email are part of the token so that the upload/download controllers can log this information and notify the users.
 
 The work order tokens are signed by the Work Package Service. A separate key pair (different from the keys used for the internal access tokens) should be created for this purpose. The public key must be also communicated to the download/upload controller services so that they can validate the work order token.
 
@@ -83,15 +87,17 @@ The database of the Work Package Service should store the following WorkPackage 
 
 ```python
 WorkPackage:
-  id: str
-  user_id: str  # the internal used id
-  dataset_id: str  # all files must belong to this dataset
-  type: enum  # download or upload
-  file_ids: list[str]  # a list of ids for all files that shall be downloaded or uploaded
+  id: str  # the ID of this work package
+  user_id: str  # the internal user ID
+  dataset_id: str  # all files must belong to the dataset with this ID
+  type: enum  # the work order type, either download or upload
+  file_ids: list[str]  # a list of IDs for all files that shall be downloaded or uploaded
   public_key: str  # the user's public Crypt4GH key
+  full_user_name: str  # the full name of the user (with academic title)
+  email: str  # he email address of the user
   token_hash: str  # hash of the work package access token
-  created: datetime
-  expires: datetime
+  created: datetime  # creation date of this work package
+  expires: datetime  # expiry date of this work package
 ```
 
 The database must also keep track of which file IDs belong to which dataset in an association collection indexed by dataset_ids:
