@@ -15,7 +15,7 @@ https://docs.ghga-dev.de/main/architecture_concepts/ac001_file_validation_and_en
 
 The Work Package Service REST API should have the following end points:
 
-- `POST /work_packages`
+- `POST /work-packages`
   - auth header: internal access token
   - request body:
     - `dataset_id`: str
@@ -25,20 +25,20 @@ The Work Package Service REST API should have the following end points:
   - response body:
     - `id`: the work package id
     - `token`: work package access token
-- `GET /work_packages`
+- `GET /work-packages`
   - auth header: internal access token
   - gets all list of all work packages of the current user
-- `GET /work_packages/{id}`
+- `GET /work-packages/{id}`
   - auth header: internal access token
   - gets work package with given id if it belongs to the current user
-- `DELETE /work_packages/{id}`
+- `DELETE /work-packages/{id}`
   - auth header: internal access token
   - deletes work package with given id if it belongs to the current user
-- `GET /work_package`
+- `GET /work-package`
   - auth header: work package access token
   - gets work package that has the same hash as the given token
     (note that this is not really RESTful, the work package is passed in directly via the token)
-- `GET /work_order_token`
+- `GET /work-order-token`
   - auth header: work package access token
   - query path parameter: `file_id`
   - gets an encrypted work order token for the given work package access token
