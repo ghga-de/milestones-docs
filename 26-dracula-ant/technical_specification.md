@@ -74,12 +74,20 @@ The work order tokens are signed by the Work Package Service. A separate key pai
 
 ### Dataset access checks
 
-In order to check whether a given user has access to a given dataset, the claims repository provides an *internal* RPC endpoint that would return `false` or `true` according to whether the user has access or not.
-- `/rpc/has_access?dataset_id=...&user_id=...`
+In order to check whether a given user has *download* access to a given dataset, the claims repository provides the following *internal* endpoint:
 
-This endpoint will be consulted by the Work Package Service as well as the download/upload services controllers.
+- `GET /datasets/{dataset_id}/users/{user_id}/download-access`
+  - authorization: only internal from download controller (via Istio)
+  - returns `true` or `false` as a scalar resource
 
-Access permissions may later be stored in an internal database populated by evens sent by a data access service.
+In order to facilitate authorization, the path of this endpoint starts with `datasets` and not with `users` which is already used by other endpoints fo the claims repository.
+
+This endpoint will be consulted by the Work Package Service as well as the download service controller.
+
+This information will later be provided by the visa issuer service and checked with the help of the visa library.
+
+In order to check whether a given user has *upload* access to a given dataset, ... TODO
+
 
 ### Data schema
 
@@ -100,7 +108,7 @@ WorkPackage:
   expires: datetime  # expiry date of this work package
 ```
 
-The database must also keep track of which file IDs belong to which dataset in an association collection indexed by dataset_ids:
+The database must also keep track of which file IDs belong to which dataset in an association collection indexed by `dataset_id`s:
 
 ```python
 DatasetFiles:
@@ -108,7 +116,7 @@ DatasetFiles:
   file_ids: list[str]
 ```
 
-To populate this collection, the Work Package Service listens to events from the file submission service. (to be clarified)
+To populate this collection, the Work Package Service listens to events from the file submission service. TODO
 
 If an empty `file_ids` array is submitted in the POST request, then the Work Package Service populates it with the complete list taken from this collection.
 
