@@ -114,7 +114,7 @@ The `file_ids` list must not be empty. It contains either the `file_ids` specifi
 
 An entry in the `WorkPackage` collection is only created by the Work Package Service after verification that the user with the given `user_id` is allowed to access the dataset with the given `dataset_id` (see access checks above).
 
-In the database, the Work Package Service also keeps track of which file IDs belong to which dataset and which users are allowed to submit data for the individual datasets. The following association collection is used for this purpose:
+In the database, the Work Package Service also keeps track of which file IDs belong to which dataset. The following association collection is used for this purpose:
 
 ```python
 DatasetFiles:
