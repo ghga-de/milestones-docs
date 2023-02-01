@@ -37,8 +37,7 @@ Used by the CLI client to retrieve work packages and create work order tokens:
   - auth header: work package access token
   - gets an encrypted work order token for the specified work package and file
 
-The following endpoints could be added later to manage work packages in the web frontend,
-but for now, this will *not* be implemented and they are not part of the API.
+The following endpoints could be added later to manage work packages in the web frontend, but for now, this will *not* be implemented and they are *not* part of the API.
 
 - `GET /work-packages`
   - auth header: internal access token
@@ -49,6 +48,8 @@ but for now, this will *not* be implemented and they are not part of the API.
 - `DELETE /work-packages/{work_package_id}`
   - auth header: internal access token
   - deletes work package with given id if it belongs to the current user
+
+Deletion of work packages should be logged or implemented as deactivation (immediate expiration) so that the fact that a work package access token had been created by a user is archived in the system.
 
 ### Work package access token
 
@@ -85,7 +86,7 @@ In order to facilitate authorization, the path of this endpoint starts with `dat
 
 This information will later be provided by the visa issuer service and checked with the help of the visa library.
 
-In order to check whether a given user has *upload* access to a given dataset, the Work Package Service consults the `DataSetFiles` collection specified below.
+In order to check whether a given user has *upload* access to a given dataset, we may introduce a similar endpoint that will be based on checking custom visa types for dataset submission in the claims repository. Alternatively, we could store a list of internal user IDs of dataset submitters also in the `DatasetFiles` collection described below and update them similarly to the file IDs belonging to the dataset. (To be clarified, will be implemented later.)
 
 #### Access checks by the Download/Upload Controllers
 
@@ -114,7 +115,7 @@ The `file_ids` list must not be empty. It contains either the `file_ids` specifi
 
 An entry in the `WorkPackage` collection is only created by the Work Package Service after verification that the user with the given `user_id` is allowed to access the dataset with the given `dataset_id` (see access checks above).
 
-In the database, the Work Package Service also keeps track of which file IDs belong to which dataset. The following association collection is used for this purpose:
+In the database, the Work Package Service also keeps track of which file IDs belong to which dataset and which users are allowed to submit data for the individual datasets. The following association collection is used for this purpose:
 
 ```python
 DatasetFiles:
@@ -122,7 +123,7 @@ DatasetFiles:
   file_ids: list[str]  # all file IDs that are part of the dataset
 ```
 
-To populate this collections, the Work Package Service listens to events published by another service (to be clarified).
+To populate this collections, the Work Package Service listens to events published by another service. (To be clarified.)
 
 ## Human Resource/Time Estimation:
 
