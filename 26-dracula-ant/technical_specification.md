@@ -123,7 +123,7 @@ DatasetFiles:
   submitter_ids: list[str]  # all users allowed to submit the dataset
 ```
 
-To populate this collections, the Work Package Service listens to events from the file submission service (submission store).
+To populate this collections, the Work Package Service listens to events published by another service (to be clarified).
 
 ## Human Resource/Time Estimation:
 
