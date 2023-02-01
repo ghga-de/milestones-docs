@@ -120,7 +120,6 @@ In the database, the Work Package Service also keeps track of which file IDs bel
 DatasetFiles:
   dataset_id: str  # (should have a unique index)
   file_ids: list[str]  # all file IDs that are part of the dataset
-  submitter_ids: list[str]  # all users allowed to submit the dataset
 ```
 
 To populate this collections, the Work Package Service listens to events published by another service (to be clarified).
