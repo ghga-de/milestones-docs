@@ -17,7 +17,7 @@ This epic covers two features to be implemented in the ghga-connector:
 ### Encryption
 
 Crypt4GH encryption needs the user's private key and the GHGA public key.
-For now, both these keys should be provided by adding configuration options that expect the respective paths to the key files.
+For now the GHGA public key should be provided by injecting it directly into the config file, while the private and public key of the user should be provided by specifying the path to the key files as command line option.
 As the connector already expects a user public key, the private key should belong to the same keypair.
 
 Once the work package service is finished, this will change slightly.
@@ -26,11 +26,11 @@ Following changes, which are not part of this epic, need to be made then:
 - Verify the provided keypair matches the announced public key
 
 The implementation should check if a provided file is already Crypt4GH encrypted and reject such files for now.
-Such a check could interrogate the magic bytes in the file header and additionally verify that the file ending is correct.
+Such a check should interrogate the magic bytes in the file header and additionally verify that the file name ending is correct.
 For non-rejected files, encryption should produce a Cypt4GH compliant temporary on disk file that is subsequently uploaded.
 
 A possible issue might arise with the Crypt4GH private key being unreadable by the connector due to strict permissions.
-This should be considered and might need additional time for investigation and experimentation.
+For now, this should raise an exception instructing the user to provide a readable file.
 
 ### File Part Parallelization
 
