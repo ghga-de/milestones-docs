@@ -7,16 +7,10 @@
 
 This Epic covers the following features to be implemented into the GHGA-Connector:
 
-1. Batch download of multiple files in sequence.
+- Batch download of multiple files
+- files will be downloaded in sequence, no parallelization across files
 
-## User Journeys
-
-This epic covers the following user journeys:
-
-- Batch download of multiple files in sequence.
-
-## User Journeys that are not part of this Epic:
-
+It does not include:
 - Batch upload of multiple files
 
 ## Additional Implementation Details:
