@@ -1,13 +1,16 @@
 # \<Epic Title\> (\<Epic Code Name\>)
 **Epic Type:** Exploratory Epic
 
+Epic planning and implementation follows the
+[Epic Planning and Marathon SOP](https://docs.ghga-dev.de/main/sops/sop001_epic_planning.html)
+
 **Attention: Please do not put any confidential content here.**
 
 \<Please replace all appearances of `<...>`.\>
 
 ## Principle Components of Exploration:
 
-Principal topics and components that shall be part of this exporation. 
+Principal topics and components that shall be part of this exporation.
 Moreover, lists the questions that shall be answered.
 
 - \<Provide a list here.\>
@@ -43,7 +46,3 @@ This epic covers the following user journeys:
 Number of sprints required: \<Insert a number.\>
 
 Number of developers required: \<Insert a number.\>
-
-## Epic Planning SOP Checklist:
-
-- [ ] test 
