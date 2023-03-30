@@ -46,4 +46,4 @@ Number of developers required: \<Insert a number.\>
 
 ## Epic Planning SOP Checklist:
 
-- [ ] test 
+- [x] test 
