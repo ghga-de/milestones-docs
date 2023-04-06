@@ -30,7 +30,18 @@ This information will be used to create an email with a consistent format.
 This is a microservice dedicated to consuming EmailNotification events from the "notifications" topic in kafka.
 Other types of notification events will not be handled by this service at this time, but the service could be expanded in the future if needed.
 In order to utilize the notification service to send emails, publishers will need to publish an event to the "notifications" topic using the "email_notification" event type, with a payload conforming to the schema defined by EmailNotification in the ghga-event-schemas repository.
-The sender's address, email signature, connection strings, and other details will be provided through configuration.
+Emails will be sent via SMTP, and email contents will be injected into a configurable jinja2 template. The parameters required to successfully configure the service are as follows:
+- smtp_host: The Host portion of the connection string for the server
+- smtp_port: The port to use
+- login_email: Email used to log in to the email server
+- login_password: The password used to log in
+- sender_address: Sender's email address (if different from login address)
+- template_name: Name of the jinja2 HTML template file (e.g. "email_template.html")
+  - The template should be stored in ns/templates/
+  - The template should use the following template variables:
+    - recipient: The name of the recipient (e.g. "Dear {{ recipient }},...")
+    - body: The body text of the email, located between the greeting and signature
+    - If the template variables are not named correctly, the HTML version of the email will not be generated correctly.
 
 ## Human Resource/Time Estimation:
 
