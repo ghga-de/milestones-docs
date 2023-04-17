@@ -36,12 +36,12 @@ Emails will be sent via SMTP, and email contents will be injected into a configu
 - login_email: Email used to log in to the email server
 - login_password: The password used to log in
 - sender_address: Sender's email address (if different from login address)
-- template_name: Name of the jinja2 HTML template file (e.g. "email_template.html")
-  - The template should be stored in ns/templates/
-  - The template should use the following template variables:
-    - recipient: The name of the recipient (e.g. "Dear {{ recipient }},...")
-    - body: The body text of the email, located between the greeting and signature
-    - If the template variables are not named correctly, the HTML version of the email will not be generated correctly.
+- plaintext_email_template: The email template to use for the plaintext email version.
+- html_email_template: The email template to use for the HTML email version.
+  - BOTH the html and plaintext template should use the following template variables:
+    - $recipient_name: The name of the recipient (e.g. "Dear $recipient_name,...")
+    - $plaintext_body: The body text of the email, located between the greeting and signature. Nothing here will be further substituted, so don't include any variables within this section.
+    - If the template variables are not named correctly, the email will not be generated correctly.
 
 ## Human Resource/Time Estimation:
 
