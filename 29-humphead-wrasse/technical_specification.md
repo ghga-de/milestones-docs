@@ -38,9 +38,10 @@ Emails will be sent via SMTP, and email contents will be injected into configura
 - sender_address: Sender's email address (if different from login address)
 - plaintext_email_template: The email template to use for the plaintext email version.
 - html_email_template: The email template to use for the HTML email version.
-  - BOTH the html and plaintext template should use the following template variables:
-    - $recipient_name: The name of the recipient (e.g. "Dear $recipient_name,...")
-    - $plaintext_body: The body text of the email, located between the greeting and signature. Nothing here will be further substituted, so don't include any variables within this section.
+  - BOTH the html and plaintext template should use template variables with the same name as the event keys:
+    - Variables are formed in the template like $variable_name. Consider the following:
+      - $recipient_name: The name of the recipient (e.g. "Dear $recipient_name,...")
+      - $plaintext_body: The body text of the email, located between the greeting and signature. Nothing here will be further substituted, so don't include any variables within this section.
     - If the template variables are not named correctly, the email will not be generated correctly.
 
 ## Human Resource/Time Estimation:
