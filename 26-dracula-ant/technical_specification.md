@@ -109,6 +109,8 @@ In order to provide the user with a list of downloadable datasets, the Work Pack
 
 *TODO*: Maybe this should be `/users/{user_id}/datasets` to make it more RESTful? However, the user registry has the same prefix, and the API gateway can only use the prefix to map requests to services. Any better idea?
 
+*TODO*: Maybe the dataset objects returned here could also be supplemented with information on when user access expires, obtained via the acess checks explained above (if these are extended to provide this information). This information could then be also shown to the user on the profile page or the work package creation page.
+
 #### Access checks by the Download/Upload Controllers
 
 The download and upload service controllers authorize access to files by validating the content and signature of the passed work order token. The work order tokens are only valid for a very short time and for a specific file.
