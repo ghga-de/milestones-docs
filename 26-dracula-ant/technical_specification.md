@@ -66,7 +66,7 @@ This is a JWT with a very short time to live (maximum 30 seconds). It is signed 
 - `type`: `download` or `upload`
 - `file_id`: the ID of the file that shall be downloaded or uploaded
 - `user_id`: the internal ID of the user
-- `public_key`: the public key of the user stored in the work package
+- `user_public_crypt4gh_key`: the public key of the user stored in the work package
 - `full_user_name`: the full name of the user (with academic title)
 - `email`: the email address of the user
 
