@@ -155,6 +155,17 @@ DatasetFile:
 
 To populate this collection, the Work Package Service listens to [events](https://github.com/ghga-de/ghga-event-schemas/tree/main) of type `metadata_dataset_overview` which contain all the necessary information.
 
+### Frontend
+
+As part of this epic, a simple form for creating work packages should be added to the data portal as frontend. The form should allow to:
+- Select a dataset from the list of accessible datasets
+- Show the description of the dataset
+- Enter a list of file IDs to restrict the scope of the work pacakge (if the list is empty, all files will be included)
+- Create a work package and access token after clicking a submit button
+- Show the access token together with the work package ID in the format that can be pasted to the CLI (GHGA connector)
+- Add a button to copy this to the clipboard
+- Show how long the access token is valid (TODO, see above)
+
 ## Human Resource/Time Estimation:
 
 Number of sprints required: 2
