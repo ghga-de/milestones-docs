@@ -65,7 +65,6 @@ This is a JWT with a very short time to live (maximum 30 seconds). It is signed 
 
 - `type`: `download` or `upload`
 - `file_id`: the ID of the file that shall be downloaded or uploaded
-- `file_ext`: the file extension of the requested filed including the dot
 - `user_id`: the internal ID of the user
 - `public_key`: the public key of the user stored in the work package
 - `full_user_name`: the full name of the user (with academic title)
@@ -134,7 +133,7 @@ WorkPackage:
   expires: datetime  # expiry date of this work package
 ```
 
-The `files` mapping must not be empty. It contains either the `file_ids` specified by the user when creating the work package (in this case the Work Package Service checks whether they belong to the given `dataset_id`), or the full list of all `file_id`s that belong to the given `dataset_id` if the user didn't specify a list of file IDs. The values of this mapping are the file extensions including the dot.
+The `files` mapping must not be empty. It contains either the `file_ids` specified by the user when creating the work package (in this case the Work Package Service checks whether they belong to the given `dataset_id`), or the full map of all `file_id`s that belong to the given `dataset_id` if the user didn't specify a list of file IDs. The values of this mapping are the file extensions including the dot.
 
 An entry in the `WorkPackage` collection is only created by the Work Package Service after verification that the user with the given `user_id` is allowed to access the dataset with the given `dataset_id` (see access checks above).
 
