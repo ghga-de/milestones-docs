@@ -147,7 +147,6 @@ Dataset:
 
 DatasetFile:
   id: str  # id of the file
-  description: str  # a description of the file
   extension: str  # the file extension with a leading dot
 ```
 
