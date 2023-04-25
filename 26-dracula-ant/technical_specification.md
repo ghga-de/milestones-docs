@@ -20,14 +20,13 @@ Used by the web frontend to create work packages:
 - `POST /work-packages`
   - auth header: internal access token
   - request body:
-    - `dataset_id`: str (the ID of a dataset)
+    - `dataset_id`: string (the ID of a dataset)
     - `type`: enum (download/upload)
     - `file_ids`: array of strings  (null = all files of the dataset)
-    - `user_public_crypt4gh_key`: str (the user's public Crypt4GH key)
+    - `user_public_crypt4gh_key`: string (the user's public Crypt4GH key)
   - response body:
-    - `id`: str (the ID of the created work package)
-    - `token`: str (encrypted work and base64 encoded package access token)
-
+    - `id`: string (the ID of the created work package)
+    - `token`: string (encrypted work and base64 encoded package access token)
 *TODO:* The response body could also contain info about the expiration of the token.
 
 Used by the GHGA connector to retrieve work packages and create work order tokens:
