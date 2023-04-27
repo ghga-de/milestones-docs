@@ -27,7 +27,8 @@ Used by the web frontend to create work packages:
   - response body:
     - `id`: string (the ID of the created work package)
     - `token`: string (encrypted work and base64 encoded package access token)
-*TODO:* The response body could also contain info about the expiration of the token.
+
+*Possible extension (not in this epic)*: The response body could also contain info about the expiration of the token.
 
 Used by the GHGA connector to retrieve work packages and create work order tokens:
 
@@ -87,27 +88,25 @@ To allow the Work Package Service to check whether a given user has *download* a
   - authorization: only internal from download controller (via Istio)
   - returns `true` or `false` as a scalar resource
 
-*TODO:* Instead of true/false, the latter endpoint could also return null or the date when the access expires (null could be confused with unlimited access though). This could be used by the Work Package Service to limit the expiration date of the tokens, even though the Work Package Service re-checks access on every operation anyway.
+*Possible extension (not in this epic)*: Instead of true/false, the latter endpoint could return null or the date when the access expires (null could be confused with unlimited access though). This could be used by the Work Package Service to limit the expiration date of the tokens, even though the Work Package Service re-checks access on every operation anyway.
 
 In order to facilitate authorization, the path of these endpoint starts with `download-access` and not with `users` which is already used by other endpoints of the user registry and claims repository.
 
 Note that this is a shortcut as long as we don't have a visa issuer service. Later, the claims repository should not be contacted directly, but the information about access grants will be requested from the visa issuer service and checked with the help of the visa library.
 
-In order to check whether a given user has *upload* access to a given dataset, we may introduce a similar endpoint that will be based on checking custom visa types for dataset submission in the claims repository. Alternatively, we could store a list of internal user IDs of dataset submitters also in the `Dataset` collection described below and update them similarly to the file IDs belonging to the dataset.
-
-*TODO:* This can be decided later, since for now only download will be implemented.
+*Possible extension (not in this epic)*: In order to check whether a given user has *upload* access to a given dataset, we may introduce a similar endpoint that will be based on checking custom visa types for dataset submission in the claims repository. Alternatively, we could store a list of internal user IDs of dataset submitters also in the `Dataset` collection described below and update them similarly to the file IDs belonging to the dataset.
 
 #### Access checks by the Frontend
 
 In order to provide the user with a list of downloadable datasets, the Work Package Service combines the information from the access checks explained above with information about the dataset as explained below and makes it avaliable to the frontend via the following endpoint:
 
-- `GET /datasets`
+- `GET /users/{user_id}/datasets`
   - auth header: internal access token with the user context
   - returns a list of all dataset IDs that can be downloaded by the user
 
-*TODO*: Maybe this should be `/users/{user_id}/datasets` to make it more RESTful? However, the user registry has the same prefix, and the API gateway can only use the prefix to map requests to services. Any better idea?
+Note: The `users/` part has been included in the endpoint to make it more RESTful, even though the user is already known from the user context. The endpoint must validate that the `user_id` matches the auth context. It is assumed that this endpoint is used with a special prefix for the work package service so that this does not collide e.g. with the `/users` endpoint of the user registry.
 
-*TODO*: Maybe the dataset objects returned here could also be supplemented with information on when user access expires, obtained via the acess checks explained above (if these are extended to provide this information). This information could then be also shown to the user on the profile page or the work package creation page.
+*Possible extension (not in this epic)*: The dataset objects returned here could be supplemented with information on when user access expires, obtained via the acess checks explained above, if these are extended as well. This information could then be also shown to the user on the profile page or the work package creation page.
 
 #### Access checks by the Download/Upload Controllers
 
@@ -132,7 +131,7 @@ WorkPackage:
   expires: datetime  # expiry date of this work package
 ```
 
-The `files` mapping must not be empty. It contains either the `file_ids` specified by the user when creating the work package (in this case the Work Package Service checks whether they belong to the given `dataset_id`), or the full map of all `file_id`s that belong to the given `dataset_id` if the user didn't specify a list of file IDs. The values of this mapping are the file extensions including the dot.
+The `files` field is a mapping of `file_ids` to file extensions. If the user specified a list of file IDs when creating the work package, the Work Package Service checks that they actually belong to the given `dataset_id`. If the user didn't specify a list of file IDs, the mapping will contain all `file_id`s that belong to the given `dataset_id`. So it can be assumed this mapping is never empty.
 
 An entry in the `WorkPackage` collection is only created by the Work Package Service after verification that the user with the given `user_id` is allowed to access the dataset with the given `dataset_id` (see access checks above).
 
@@ -161,7 +160,7 @@ As part of this epic, a simple form for creating work packages should be added t
 - Create a work package and access token after clicking a submit button
 - Show the access token together with the work package ID in the format that can be pasted to the CLI (GHGA connector)
 - Add a button to copy this to the clipboard
-- Show how long the access token is valid (TODO, see above)
+- *Possible extension (not in this epic)*: Show how long the access token is valid
 
 ## Human Resource/Time Estimation:
 
