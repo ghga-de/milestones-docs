@@ -23,16 +23,16 @@ The hits returned in the response will contain the fully embedded documents, whi
 
 - POST /rpc/search: Submit search query
   - Request Body:
-    - query: string - the search string
-    - filters: list (optional) - contains dictionaries with keys "key" and "value" for specifying filters
     - document_type: string - the name of the document type being searched (e.g. "Dataset")
     - return_facets: boolean (default False)- Whether or not to facet results
     - skip: integer (default 0) - the number of initial results to skip. Used for pagination.
     - limit: integer (default 10) - the number of results to return, representing one page's worth of results.
+    - query: string - the search string
+    - filters: list (optional) - contains dictionaries with keys "key" and "value" for specifying filters
   - Response Body:
-    - hits: list - contains the search results
     - facets: list - contains the facets (if faceting)
     - count: integer - hit count (although 'hits' will only contain up to 'limit' elements)
+    - hits: list - contains the search results
 
 
 ## Human Resource/Time Estimation:
