@@ -4,7 +4,7 @@
 
 ## Scope
 ### Outline:
-The metadata search service will be rewritten to conform to standards/best practices our current architectural approach. The focus is on refactoring the service and not on adding or altering functionality.
+The metadata search service will be rewritten to conform to standards/best practices of our current architectural approach. The focus is on re-implementing the service and not on adding or altering functionality.
 
 ### Included/Required:
 - Restructuring the project to conform to the Triple Hexagonal architectural approach
