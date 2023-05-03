@@ -19,24 +19,22 @@ and the frontend functionality in the Data Portal UI for users and data stewards
 
 The UI currently provides a button "Request access" that opens a form that allows
 sending a request to a DAC team. This form should be changed so that instead the
-request is stored in the backend database. The backend should then inform the data
+request is stored in the backend database. The backend should then inform a data
 steward and the user via email that a new request is pending.
 
-The UI should provide data stewards with functionality to list all requests grouped
-by state (pending, denied, accepted) and modifying the state of the existing requests.
-When access has been granted, it should be also possible to enter an expiration date.
-When the status of a request was changed, the backend should inform the user via email
-about the status change.
-
-### Optional
-
-Optionally, the UI should also provide users with functionality to list their requests
-with current state.
+The UI should provide data stewards with functionality to list all access requests
+grouped by their current state (pending, denied, accepted) and modifying that state.
+When access has been granted, it should be also possible to enter start and expiration
+dates. When the status of a request was changed, the backend should again inform the
+data steward and the user via email about the status change.
 
 ### Not included
 
+Later, the UI could also provide users with functionality to list their requests with
+their current state and notify them after logging about status changes.
+
 Currently, the access management only covers download access. However, the same service
-could be later extended to cover upload access management as well.
+could potentially be later extended to cover upload access management as well.
 
 This epic does not include functionality for managing access directly by the DAC
 (data access committee) or to support the decision making and communication between
@@ -49,28 +47,33 @@ Actors: Data Requester (DR), Data Steward (DS).
 
 When data is requested:
 
-- DR finds and views a dataset in the data portal
+- DR finds and views a dataset in the Data Portal
 - DR clicks on "Request access" button for a dataset
 - If user is not yet logged in via LS Login, user is required to do so
 - Form is displayed with info on required information from requester
-- DR fills required fields
-- TODO: specify fields (probably only one free text field for now)
+- DR fills required fields:
+  - pre-filled text field for details about the request
+  - pre-filled requested access start and end dates
+    (in the frame defined in the configuration)
+  - contact email, pre-filled with the email of the DR
+- DR clicks on "Continue"
+- A preview of the sent data (text, dates, e-mail) is shown
+  in order to let the DR confirm sending this request
 - DR clicks on "Submit request"
-- Request is stored in the backend database
+- The access request is stored in the backend database
 - Notification email is sent out to DS
-- Confirmation email is sent out to DR
 - Confirmation email is sent out to DR
 
 When access was granted or denied:
 
-- DS logs in to data portal
+- DS logs in to Data Portal
 - DS views list of access requests
 - DS finds access request of DR
 - DS changes the status from "pending" to either
   - "allowed": access permitted, setting an expiration date
   - "denied": access denied
-- An email is sent to the DR informing about the status change
-- DR logs in to data portal
+- An email is sent to the DR + DS informing about the status change
+- DR logs in to Data Portal
 - DR visits the download or profile page
 - DR should see the newly accessible dataset
 - DR can now create a work package for download.
@@ -88,12 +91,11 @@ Used by the web frontend to create and view access requests:
   - request body:
     - `user_id`: string (the registered user ID of the requester)
     - `dataset_id`: string (the ID of the requested dataset)
-    - `word_type`: enum (download or upload, must be download for now)
-    - `request_info`: string (the text submitted with the request)
+    - `work_type`: enum (download or upload, must be download for now)
+    - `email`: string (the contact email address of the requester)
+    - `request_text`: string (the text submitted with the request)
     - `request_start_date`: date (optional, when access should start)
     - `request_end_date`: date (optional, when access should end)
-
-TODO: Discuss exact fields in the request body.
 
 The response body should include the ID of the newly created access request.
 
@@ -143,6 +145,10 @@ also notes in the database the user ID of the data steward and the date
 when the change was made. If the status is set to "allowed", then the two
 date fields must be also provided, otherwise they must not be provided.
 
+The time interval between `access_starts` and `access_ends` dates must lie
+inside the time interval between `requested_start` and `requested_end`,
+otherwise a validation error will be returned.
+
 ## Additional Implementation Details
 
 ### Access Request Object
@@ -152,10 +158,11 @@ The access requests are stored in the database with the following details:
 - `id`: string (the auto generated ID of this object)
 - `user_id`: string (the registered user ID of the requester)
 - `dataset_id`: string (the ID of the requested dataset)
-- `word_type`: enum (download or upload, must be download for now)
-- `request_info`: string (the text submitted with the request)
-- `request_start_date`: date (optional, when access should start)
-- `request_end_date`: date (optional, when access should end)
+- `work_type`: enum (download or upload, must be download for now)
+- `email`: string (the e-mail address of the requester for notifications)
+- `request_text`: string (the text submitted with the request)
+- `requested_start`: date (optional, when access should start)
+- `requested_end`: date (optional, when access should end)
 - `request_created`: date (when the request has been created)
 - `status`: enum (allowed/denied/pending)
 - `access_starts`: data (when the access permission should start)
@@ -176,7 +183,7 @@ To allow the Access Request Service to send changed permissions to the
 Claims Repository, the latter provides the following *internal* endpoint:
 
 - `POST /download-access/users/{user_id}/datasets/{dataset_id}`
-  - authorization: only internal from Access Request Service (via Istio)
+  - authorization: only internal from Access Request Service (via service mesh)
   - request body:
     - `download_access`: bool
     - `valid_from`: date
@@ -195,9 +202,20 @@ In order to facilitate authorization, the path of these endpoint starts with
 `download-access` and not with `users` which is already used by other endpoints
 of the user registry and claims repository. Also note that a corresponding
 GET endpoint already exists for use by the Download Controller Service.
-An Istio policy should be implemented that allows the Access Request Service
-to only use the POST method, and the Download Controller Service to only use
-the GET method.
+A service mesh policy should be implemented that allows the Access Request
+Service to only use the POST method, and the Download Controller Service to
+only use the GET method.
+
+### Configuration
+
+In order to know which data stewards should be notified, the configuration of
+the service should include a parameter that is a list of all email addresses
+that should be notified. This could be set to the email address of one or
+more responsible data steward(s), or just contain the email of the help-desk.
+
+The configuration should also contain a parameter for the maximum time interval
+that the start date of the access request can be postponed and the maximum time
+interval between start date and end date (the maximum access validity period).
 
 ## Human Resource/Time Estimation
 

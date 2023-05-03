@@ -81,11 +81,11 @@ The work order tokens are signed by the Work Package Service. A separate key pai
 To allow the Work Package Service to check whether a given user has *download* access to a given dataset, the claims repository provides the following *internal* endpoint:
 
 - `GET /download-access/users/{user_id}/datasets`
-  - authorization: only internal from download controller (via Istio)
+  - authorization: only internal from download controller (via service mesh)
   - returns a list of all dataset IDs that can be downloaded by the user
 
 - `GET /download-access/users/{user_id}/datasets/{dataset_id}`
-  - authorization: only internal from download controller (via Istio)
+  - authorization: only internal from download controller (via service mesh)
   - returns `true` or `false` as a scalar resource
 
 *Possible extension (not in this epic)*: Instead of true/false, the latter endpoint could return null or the date when the access expires (null could be confused with unlimited access though). This could be used by the Work Package Service to limit the expiration date of the tokens, even though the Work Package Service re-checks access on every operation anyway.
