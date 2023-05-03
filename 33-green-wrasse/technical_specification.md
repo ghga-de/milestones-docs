@@ -17,10 +17,10 @@ The epic includes the development of a backend service "Access Request Service" 
 that stores access requests by users and allows changing their state by data stewards,
 and the frontend functionality in the Data Portal UI for users and data stewards.
 
-The UI currently provides a button "Request access" that opens a form that allows sending
-a request to a DAC team. This form should be changed so that instead the request is
-stored in the backend database. The backend should then inform the data steward and
-the user via email that a new request is pending.
+The UI currently provides a button "Request access" that opens a form that allows
+sending a request to a DAC team. This form should be changed so that instead the
+request is stored in the backend database. The backend should then inform the data
+steward and the user via email that a new request is pending.
 
 The UI should provide data stewards with functionality to list all requests grouped
 by state (pending, denied, accepted) and modifying the state of the existing requests.
@@ -48,6 +48,7 @@ as a broker and drives the process manually.
 Actors: Data Requester (DR), Data Steward (DS).
 
 When data is requested:
+
 - DR finds and views a dataset in the data portal
 - DR clicks on "Request access" button for a dataset
 - If user is not yet logged in via LS Login, user is required to do so
@@ -61,6 +62,7 @@ When data is requested:
 - Confirmation email is sent out to DR
 
 When access was granted or denied:
+
 - DS logs in to data portal
 - DS views list of access requests
 - DS finds access request of DR
@@ -86,7 +88,7 @@ Used by the web frontend to create and view access requests:
   - request body:
     - `user_id`: string (the registered user ID of the requester)
     - `dataset_id`: string (the ID of the requested dataset)
-    - `word_type`: enum (dowload or upload, must be download for now)
+    - `word_type`: enum (download or upload, must be download for now)
     - `request_info`: string (the text submitted with the request)
     - `request_start_date`: date (optional, when access should start)
     - `request_end_date`: date (optional, when access should end)
@@ -141,14 +143,16 @@ also notes in the database the user ID of the data steward and the date
 when the change was made. If the status is set to "allowed", then the two
 date fields must be also provided, otherwise they must not be provided.
 
-## Access Request Object
+## Additional Implementation Details
+
+### Access Request Object
 
 The access requests are stored in the database with the following details:
 
 - `id`: string (the auto generated ID of this object)
 - `user_id`: string (the registered user ID of the requester)
 - `dataset_id`: string (the ID of the requested dataset)
-- `word_type`: enum (dowload or upload, must be download for now)
+- `word_type`: enum (download or upload, must be download for now)
 - `request_info`: string (the text submitted with the request)
 - `request_start_date`: date (optional, when access should start)
 - `request_end_date`: date (optional, when access should end)
@@ -162,13 +166,38 @@ The access requests are stored in the database with the following details:
 The `status` field should be automatically set to "pending" upon creation,
 and the `request_created` field should be filled with the current date.
 
-## Communication with the Claims Repository
+### Communication with the Claims Repository
 
-TBD
+When changes to the status of an access request have been made, these need to
+be communicated to the Claims Repository which is the source of truth for all
+controlled access grants in GHGA.
 
-## Additional Implementation Details
+To allow the Access Request Service to send changed permissions to the
+Claims Repository, the latter provides the following *internal* endpoint:
 
-...
+- `POST /download-access/users/{user_id}/datasets/{dataset_id}`
+  - authorization: only internal from Access Request Service (via Istio)
+  - request body:
+    - `download_access`: bool
+    - `valid_from`: date
+    - `valid_until`: date
+  - returns nothing
+
+If `download_access` is set to true, then a controlled access grant for the
+specified user and dataset with the given dates will be added to the Claims
+Repository, replacing any other controlled access grants for the same user
+and the same dataset (this means that multiple access grants with different
+time frames are not supported). If `download_access` is set to false, then all
+controlled access grants for the same user and the same dataset will be removed
+from the Claims Repository.
+
+In order to facilitate authorization, the path of these endpoint starts with
+`download-access` and not with `users` which is already used by other endpoints
+of the user registry and claims repository. Also note that a corresponding
+GET endpoint already exists for use by the Download Controller Service.
+An Istio policy should be implemented that allows the Access Request Service
+to only use the POST method, and the Download Controller Service to only use
+the GET method.
 
 ## Human Resource/Time Estimation
 
