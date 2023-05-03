@@ -2,9 +2,6 @@
 
 **Epic Type:** Implementation Epic
 
-Epic planning and implementation follows the
-[Epic Planning and Marathon SOP](https://docs.ghga-dev.de/main/sops/sop001_epic_planning.html).
-
 ## Scope
 
 ### Outline
@@ -70,9 +67,10 @@ When access was granted or denied:
 - DS views list of access requests
 - DS finds access request of DR
 - DS changes the status from "pending" to either
-  - "allowed": access permitted, setting an expiration date
+  - "allowed": access permitted, setting start and end date
   - "denied": access denied
-- An email is sent to the DR + DS informing about the status change
+- Notification email is sent out to DR
+- Confirmation email is sent out to DS
 - DR logs in to Data Portal
 - DR visits the download or profile page
 - DR should see the newly accessible dataset
