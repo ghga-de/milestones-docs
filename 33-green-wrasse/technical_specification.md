@@ -15,8 +15,10 @@ The epic includes:
 - development of a backend service "Access Request Service" (ARS) that
   stores access requests by users and allows changing their state by data stewards
 - additions to the Claims Repository Service to support the ARS
-- the functionality for users to submit download access request in the Data Portal UI
+- the functionality for users to send download access requests
+  in the Data Portal UI
 - the functionality for data stewards to browse, allow or deny such requests
+  in the Data Portal UI
 
 These parts of the epic are described in detail below.
 
@@ -83,7 +85,6 @@ Used by the web frontend to create and view access requests:
   - request body:
     - `user_id`: string (the registered user ID of the requester)
     - `dataset_id`: string (the ID of the requested dataset)
-    - `work_type`: enum (download or upload, must be download for now)
     - `email`: string (the contact email address of the requester)
     - `request_text`: string (the text submitted with the request)
     - `access_starts`: date (optional, when access should start)
@@ -100,7 +101,6 @@ Used by the web frontend to fetch all existing requests:
     - `dataset_id`: string (a dataset ID)
     - `user_id`: string (a registered user ID)
     - `state`: an access request state
-    - `work_type`: enum (download or upload)
 
 This endpoint gets the existing requests, filtered using the specified
 query parameters, and ordered by descending creation date.
@@ -158,7 +158,6 @@ The access requests are stored in the database with the following details:
 - `id`: string (the auto generated ID of this object)
 - `user_id`: string (the registered user ID of the requester)
 - `dataset_id`: string (the ID of the requested dataset)
-- `work_type`: enum (download or upload, must be download for now)
 - `full_user_name`: string (the full user name with title)
 - `email`: string (the e-mail address of the requester for notifications)
 - `request_text`: string (the text submitted with the request)
@@ -216,10 +215,12 @@ that should be notified. This could be set to the email address of one or
 more responsible data steward(s), or just contain the email of the help-desk.
 
 The configuration should also contain parameters for the maximum time interval
-that the start date of the access request can be postponed and the maximum time
-interval between start date and end date (the maximum access validity period).
+that the start date of the access request can be postponed and the default and
+maximum time interval between start date and end date (access validity period).
 This configuration must be added to both the Data Portal and the ARS, since it
 is used for default values and validation on both the frontend and the backend.
+We may consider postponing the functionality to change these values; specifying
+the default access validity in the backend should then be enough.
 
 In order to make sure that the data stewards are known to the system, the
 configuration of the Auth Service (Claims Repository) should be extended with
@@ -333,7 +334,9 @@ the already existing endpoint to delete a Claim object can be used, since the
 ID of the Data Access object is the same as the one of the corresponding
 Claim Object.
 
-Both endpoints should be proxied by the Access Request Service API to allow client access by data stewards.
+Both of these endpoints of the Claims Repository should be proxied by the ARS
+to allow client access by data stewards, since the Clais Repository does not
+have a public API that can be used by data stewards.
 
 ## Human Resource/Time Estimation
 
