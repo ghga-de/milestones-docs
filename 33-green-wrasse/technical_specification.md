@@ -15,7 +15,7 @@ The epic includes:
 - development of a backend service "Access Request Service" (ARS) that
   stores access requests by users and allows changing their state by data stewards
 - additions to the Claims Repository Service to support the ARS
-- the functionality for users to download access request in the Data Portal UI
+- the functionality for users to submit download access request in the Data Portal UI
 - the functionality for data stewards to browse, allow or deny such requests
 
 These parts of the epic are described in detail below.
