@@ -333,6 +333,8 @@ the already existing endpoint to delete a Claim object can be used, since the
 ID of the Data Access object is the same as the one of the corresponding
 Claim Object.
 
+Both endpoints should be proxied by the Access Request Service API to allow client access by data stewards.
+
 ## Human Resource/Time Estimation
 
 Number of sprints required: 2
