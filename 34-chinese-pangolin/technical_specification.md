@@ -73,8 +73,7 @@ The event schema will contain:
     - file_id (outward-facing id of that file)
 The exact field names and constraints will be provided in the ghga-event-schemas repository, which is considered the source of truth.
 
-This event will be used to announce, that a file and its database entry has been deleted from the S3 storage
-and the database controlled by the service that sent the event.
+This event will announce the deletion of a file from the S3 storage buckets that fall within the responsibility of the service emitting the event and the removal of all corresponding entries in the service database.
 
 ## Human Resource/Time Estimation:
 
