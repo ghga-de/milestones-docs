@@ -13,7 +13,7 @@ All services subscribing to this event will then delete the corresponding file a
 This Epic includes:
 
 - The creation of a new service, the **Purge Controller Service (PCS)**, which provides a RESTfull HTTP DELETE enpoint /files/{file_id}.
-- Upon receiving the deletion request, and validation of the access token it publishes an event
+- Upon receiving the deletion request and validation of the access token it publishes an event
 - The following services subscribe to the new event and do the following after consuming:
     - IFRS: Deletes the file from permanent storage (IRS would be better, but IRS does not have the connection between outward-facing file_id and S3 file name)
     - IFRS: Send API Call to EKSS to delete the secret
