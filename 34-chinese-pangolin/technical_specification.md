@@ -69,7 +69,7 @@ The exact field names and constraints will be provided in the ghga-event-schemas
 This event will be used to announce a file deletion by the PCS.
 
 A deletion event confimation schema will be defined in the ghga-event-schemas repository.
-The event schema will detail contain:
+The event schema will contain:
     - file_id (outward-facing id of that file)
 The exact field names and constraints will be provided in the ghga-event-schemas repository, which is considered the source of truth.
 
