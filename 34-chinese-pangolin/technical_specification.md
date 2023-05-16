@@ -6,7 +6,7 @@
 
 This Epic adds a new service, which provides a deletion endpoint for files.
 Calling this enpoint internally publishes an event.
-All services subscribing to this event will then delete this file from their databases and from S3 buckets they have write access to.
+All services subscribing to this event will then delete the corresponding file and information pertaining to it from their databases and from the S3 buckets they have write access to.
 
 ### Included/Required:
 
