@@ -43,7 +43,7 @@ Any functionality concerning caching/cleanup of the upload path.
 
 ### RESTful/Synchronous:
 
-The PCS should have a single endpoint that can be accessed to delete files, conforming to the GDPRs right to be forgotten.
+The PCS should have a single endpoint that can be accessed to delete files, conforming to the GDPR's right to be forgotten.
 
 - PCS: DELETE /files/{file_id}
     - auth header: internal access token
