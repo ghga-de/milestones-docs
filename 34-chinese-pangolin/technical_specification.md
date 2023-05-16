@@ -29,7 +29,7 @@ These parts of the epic are described in detail below.
 
 - Add a "last_accessed" field for each entry in the DCS files database
 - Each time a file is sucessfully accessed via a download request, update its "last_accessed" field
-- Provide Script that looks through all files currently in the Outbox. If their "last_accessed" time is longer ago then a certain threshold, delete that file.
+- Provide a script that scans the "last_accessed" field of all files currently present in the Outbox. If the timedelta since the last access is above a certain (to be determined) threshold, delete the respective file from the Outbox.
 
 ### Not included:
 
