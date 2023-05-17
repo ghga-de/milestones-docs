@@ -16,10 +16,10 @@ This Epic includes:
 - Upon receiving the deletion request and validation of the access token it publishes an event
 - The following services subscribe to the new event and do the following after consuming:
     - IFRS: Deletes the file from permanent storage (IRS would be better, but IRS does not have the connection between outward-facing file_id and S3 file name)
-    - IFRS: Send API Call to EKSS to delete the secret
-    - IFRS: Delete file from outbox
     - IFRS: Delete file entry from its database
     - DCS: Delete file entry from its database
+    - IFRS: Send API Call to EKSS to delete the secret
+    - IFRS: Delete file from outbox
     - Both services: Publish confirmation event afterwards
 - The EKSS provides a new RESTful HTTP DELETE endpoint /sercets/{secret_id} that deletes the corresponding secret from vault.
 
