@@ -56,7 +56,7 @@ The EKSS will get a corresponding endpoint to delete a file secret.
 
 - EKSS: DELETE /secrets/{secret_id}:
     - no header, no body
-    - Response: 204 'No Content'
+    - Response: 202 'Accepted'
     - If the secret could not be found, send 404 with a "secretNotFoundError"
 
 ### Payload Schemas for Events:
