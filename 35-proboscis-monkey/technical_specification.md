@@ -12,12 +12,16 @@ The second task is the implementation of an ingestion service that processes met
 
 #### Ingestion Service:
 
-The ingestion service should process either a list of files or a take the path to a directory containing the metadata files to ingest.
-Interaction with the service should be enable by a command line argument.
+The ingestion service will provide a RESTful endpoint to process the output files of the upload script, one at a time.
+This endpoint expects the assymetrically encrypted output metadata as body and an authentication token hash in the header.
+To simplify the process, the public key of the encryption keypair is provided as a configuration option to the service, as is the token hash for authentication.
+The actual token from which the hash is derived and the private key remain with the submitter.
 
 The service needs to take care of
  1) firing an event to propagate information to the IFRS/DCS databases using existing mechanisms
  2) communication with the vault to store the encryption/decryption secret
+
+In addition, the data steward scripts need to be extended to include a script interacting with this endpoint.
 
 #### Unique S3 ID:
 
