@@ -13,8 +13,8 @@ The second task is the implementation of an ingestion service that processes met
 
 The ingestion service will provide a RESTful endpoint to process the output files of the upload script, one at a time.
 This endpoint expects the assymetrically encrypted output metadata as body and an authentication token hash in the header.
-To simplify the process, the public key of the encryption keypair is provided as a configuration option to the service, as is the token hash for authentication.
-The actual token from which the hash is derived and the private key remain with the submitter.
+To simplify the process, the private key of the encryption keypair is provided as a configuration option to the service, as is the token hash for authentication.
+The actual token from which the hash is derived and the public key remain with the submitter.
 
 The service needs to take care of
  1) firing a `FileUploadValidationSuccess` event to propagate information to the IFRS/DCS databases using existing mechanisms
