@@ -1,4 +1,4 @@
-# Missing Glue Code for Ingress Inter-service Communication (Tokay Gecko)
+# Missing Glue Code for Metadata Ingress Inter-service Communication (Tokay Gecko)
 **Epic Type:** Implementation Epic
 
 ## Scope
@@ -26,7 +26,7 @@ This epic aims to fill in the missing parts in inter-service communication along
 - Question to solve: Which service produces DatasetOverview?
 - Add event subscriber config for deletion and population events
 - Add functionality to delete datasets
-- Kafka Key Name: dataset_embedded_{id}?
+- Kafka Key Name: dataset_embedded_{id}
 
 
 #### Sequence Diagram for Proposed Interactions
