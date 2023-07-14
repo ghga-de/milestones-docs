@@ -11,7 +11,7 @@ This epic aims to fill in the missing parts in inter-service communication along
 
 - Implement publisher for deletion and population events
 - Needs to know about MASS and WPS DB and be able to query them
-- Invesigate: Communication with MASS DB might be possible through existing API
+- Investigate: Communication with MASS DB might be possible through existing API
 
 #### MASS:
 
