@@ -10,8 +10,8 @@ This epic aims to fill in the missing parts in inter-service communication along
 #### Metldata Service:
 
 - Implement publisher for deletion and population events
-- Needs to know about MASS and WPS DB and be able to query them
-- Investigate: Communication with MASS DB might be possible through existing API
+- Needs to clear and repopulate own DB to track current datasets
+- Needs to communicate with new claims repository endpoint to remove access grants
 
 #### MASS:
 
@@ -24,10 +24,12 @@ This epic aims to fill in the missing parts in inter-service communication along
 #### WPS:
 
 - Question to solve: Which service produces DatasetOverview?
-- Add event subscriber config for deletion and population events
-- Add functionality to delete datasets
+- Adjust event subscriber config for population events (if needed)
 - Kafka Key Name: dataset_embedded_{id}
 
+#### Auth Service Claims Repository
+
+- Add endpoint to delete access grant claims for a specific dataset
 
 #### Sequence Diagram for Proposed Interactions
 
@@ -36,23 +38,22 @@ sequenceDiagram
   participant Kit as Datasteward Kit
   participant API as Metldata Service
   participant MASS
-  participant MASS_DB as MASS Database
+  participant claims as Claims Repository
   participant WPS
-  participant WPS_DB as WPS Database
 
   Kit ->> API: Load artifacts from all submissions
+  API ->> API: Query for currently existing datasets in internal DB
 
-  API ->> MASS_DB: Query known datasets
-  MASS_DB ->> API: Return known datasets
   loop Each dataset
   API -->> MASS: Send deletion event for dataset
   end
 
-  API ->> WPS_DB: Query known datasets
-  WPS_DB ->> API: Return known datasets
   loop Each dataset
-  API -->> WPS: Send deletion event for dataset
+  API ->> claims: Call API to remove grant for dataset
   end
+
+  API ->> API: Clear internal DB
+  API ->> API: Repopulate DB from submission artifacts
 
   loop Each dataset
   API -->> MASS: Inform about new dataset
