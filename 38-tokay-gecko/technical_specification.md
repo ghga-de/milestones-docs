@@ -11,7 +11,6 @@ This epic aims to fill in the missing parts in inter-service communication along
 
 - Implement publisher for deletion and population events
 - Needs to clear and repopulate own DB to track current datasets
-- Needs to communicate with new claims repository endpoint to remove access grants
 
 #### MASS:
 
@@ -23,13 +22,13 @@ This epic aims to fill in the missing parts in inter-service communication along
 
 #### WPS:
 
-- Question to solve: Which service produces DatasetOverview?
+- Receive event conforming to MetadataDatasetOverview from Metldata Service
 - Adjust event subscriber config for population events (if needed)
 - Kafka Key Name: dataset_embedded_{id}
 
 #### Auth Service Claims Repository
 
-- Add endpoint to delete access grant claims for a specific dataset
+- Add event subscriber to delete controlled access grant claims for a specific dataset
 
 #### Sequence Diagram for Proposed Interactions
 
@@ -44,12 +43,12 @@ sequenceDiagram
   Kit ->> API: Load artifacts from all submissions
   API ->> API: Query for currently existing datasets in internal DB
 
-  loop Each dataset
+  loop Each deleted dataset
   API -->> MASS: Send deletion event for dataset
   end
 
-  loop Each dataset
-  API ->> claims: Call API to remove grant for dataset
+  loop Each deleted dataset
+  API -->> claims: Send deletion event for dataset
   end
 
   API ->> API: Clear internal DB
@@ -64,7 +63,7 @@ sequenceDiagram
   end
 ```
 
-Kafka topic has to be the same for deletion and creation to guarantee order for events with same key - use type to distinguish
+Kafka topic has to be the same for deletion and creation (where applicable) to guarantee order for events with same key - use type to distinguish.
 
 ## Human Resource/Time Estimation:
 
