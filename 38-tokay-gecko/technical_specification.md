@@ -51,7 +51,7 @@ sequenceDiagram
   end
 
   loop Each deleted embedded dataset resource
-  API -->> claims: Send deletion event for respource
+  API -->> claims: Send deletion event for resource
   end
 
   API ->> API: Upsert new and changed resources, delete deleted resources
