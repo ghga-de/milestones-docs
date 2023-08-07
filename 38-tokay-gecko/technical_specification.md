@@ -54,7 +54,7 @@ sequenceDiagram
   API -->> claims: Send deletion event for respource
   end
 
-  API ->> API: Upsert new and changed resources
+  API ->> API: Upsert new and changed resources, delete deleted resources
 
   loop Each new/changed embedded dataset resource
   API -->> MASS: Inform about resource upsert
