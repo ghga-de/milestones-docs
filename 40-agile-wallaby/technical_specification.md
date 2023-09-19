@@ -18,14 +18,14 @@ Each location is identified by a label and the nested dict holds both the bucket
 
 ```
 s3_object_storages:
-    "DKFZ":
+    DKFZ:
         permanent_bucket: ghga_permanent
         credentials:
             s3_access_key_id: test
             s3_endpoint_url: http://localstack:4566
             s3_secret_access_key: '**********'
             s3_session_token: null
-    “Tuebingen”:
+    Tuebingen:
         permanent_bucket: permanent
         credentials:
             s3_access_key_id: test
@@ -35,7 +35,8 @@ s3_object_storages:
     ...
 ```
 
-In addition to the already propagated bucket name, the `s3_endpoint_url` is now propagated downstream in events and a corresponding field is populated in the respective databases.
+In addition to the already propagated bucket name, the `s3_endpoint_alias` is now propagated downstream in events and a corresponding field is populated in the respective databases.
+This endpoint alias is a unique identifier for an object storage location, providing a 1:1 mapping to an endpoint URL.
 It is assumed that files are never moved or copied across object storage locations, just between buckets of the same location, i.e. the given endpoint URL is immutable across a file's lifecycle with respect to the location it is pointing to.
 
 The proposed changes do not include redundancy across object storage locations.
