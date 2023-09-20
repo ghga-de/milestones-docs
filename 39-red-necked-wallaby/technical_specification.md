@@ -29,7 +29,7 @@ All three major tasks are independent of each other and can be done in parallel.
 
 #### GHGA Connector Changes:
 
-- The Connector currently is a bit brittle with regard to being modifyable/extendable. Existing upload/download code should be refactored to a more object oriented approach, using abstract base classes to decouple concerns between different parts of the functionality where possible.
+- The Connector currently is a bit brittle with regard to being modifiable/extendable. Existing upload/download code should be refactored to a more object oriented approach, using abstract base classes to decouple concerns between different parts of the functionality where possible.
 
 #### Upload Controller Changes:
 
