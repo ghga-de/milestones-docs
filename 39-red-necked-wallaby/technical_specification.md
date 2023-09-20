@@ -33,7 +33,7 @@ All three major tasks are independent of each other and can be done in parallel.
 
 #### Upload Controller Changes:
 
-- The upload controller is currently the most outdated service in the file backend microservice landscape. Thus two subtasks are needed to bring it up to state with the other microservices: 1) Investigate, what needs to be changed/updated and 2) implement the required changes.
+- The upload controller is currently the most outdated service in the file backend microservice landscape. Thus two subtasks are needed to bring it up to state with the other microservices: 1) Investigate what needs to be changed/updated and 2) implement the required changes.
 
 ## Human Resource/Time Estimation:
 
