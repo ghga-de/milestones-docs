@@ -19,14 +19,14 @@ Each location is identified by a label and the nested dict holds both the bucket
 ```
 s3_object_storages:
     DKFZ:
-        permanent_bucket: ghga_permanent
+        bucket: ghga_permanent
         credentials:
             s3_access_key_id: test
             s3_endpoint_url: http://localstack:4566
             s3_secret_access_key: '**********'
             s3_session_token: null
     Tuebingen:
-        permanent_bucket: permanent
+        bucket: permanent
         credentials:
             s3_access_key_id: test
             s3_endpoint_url: http://localstack:4566
