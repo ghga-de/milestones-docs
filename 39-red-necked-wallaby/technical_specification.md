@@ -20,7 +20,7 @@ All three major tasks are independent of each other and can be done in parallel.
 
 #### File Ingest Service Changes:
 
-- Keep the existing `POST /ingest` endpoint to handle metadata for already update files
+- Keep the existing `POST /ingest` endpoint to handle metadata for already updated files
 - Add two new endpoints, that split the existing functionality between them:
     - `POST /federated/ingest_metadata` that should be used by a central data steward to ingest the metadata into the file services, i.e. this endpoint no longer communicates with the vault but directly gets the secret ID in the received file metadata
     - `POST /federated/ingest_secret` that should be used by local data stewards during file uploads to ingest the secret into vault and return the corresponding secret ID
