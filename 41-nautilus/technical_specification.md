@@ -74,7 +74,7 @@ A separate package might also be move out of the microservice template repositor
 Moreover, the solution should also allow for easy configuration of which checks shall be run in which context, e.g. to
 address different requirements of libraries vs. service or CI vs. local execution.
 
-The solution will be prototype in the DCS repository and distributed through applicable measure.
+The solution will be prototyped in the DCS repository and distributed through applicable measure.
 
 ## Human Resource/Time Estimation:
 
