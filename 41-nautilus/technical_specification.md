@@ -29,6 +29,8 @@ Currently, we are using the dependency_injector library and are experiencing the
     - the debugger cannot enter the cython code
 - initialization does not happen lazy, i.e. event consumers are also started when starting the REST API of a service
 - non-idomatic to python developers, initialization using constructers feels "magic" but unusual to new developers
+- single developer, many open issues, maintenance unclear
+
 
 Alternatives to evaluate:
 1. do not use a DI framework at all but define one function that does the dependency resolution per entrypoint
