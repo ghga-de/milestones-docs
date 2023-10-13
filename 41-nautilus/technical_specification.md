@@ -69,7 +69,7 @@ Alternatives to evaluate:
 - running GitHub actions locally using [act](https://github.com/nektos/act)
 - Represent the entire developer workflows (GitHub actions and scripts) in one local package e.g. using [invoke](https://www.pyinvoke.org/) 
 
-A separate package might also be move out of the microservice template repository and distributed via PyPI.
+A separate package might also be moved out of the microservice template repository and distributed via PyPI.
 
 Moreover, the solution should also allow for easy configuration of which checks shall be run in which context, e.g. to
 address different requirements of libraries vs. service or CI vs. local execution.
