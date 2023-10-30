@@ -1,7 +1,7 @@
 # Custom Specification Separating Schema Validation and Schema Linkage (Eurasian Wolf)
 **Epic Type:** Implementation Epic
 
-Epic planning and implementation follows the
+Epic planning and implementation follow the
 [Epic Planning and Marathon SOP](https://docs.ghga-dev.de/main/sops/sop001_epic_planning.html).
 
 **Attention: Please do not put any confidential content here.**
@@ -41,11 +41,11 @@ Only the lookup method "in-document" is supported.
 Data is structured with content and resources being separated as demonstrated
 [here](https://github.com/ghga-de/metadata_schema_explorations/blob/main/data/desintegrated.yaml#L33-L41).
 
-Uniqueness of IDs is only checked among the instances of one class.
+The uniqueness of IDs is only checked among the instances of one class.
 
 Uniqueness constraints as demonstrated
 [here](https://github.com/ghga-de/metadata_schema_explorations/blob/main/schema/schemapack.yaml#L9-L12)
-are ignored for the POC.
+are ignored by the POC.
 
 Support for validating both rooted (as shown [here](https://github.com/ghga-de/metadata_schema_explorations/blob/main/data/desintegrated.yaml#L42-L44))
 and non-rooted documents will be implemented.
@@ -56,11 +56,11 @@ and non-rooted documents will be implemented.
 Tooling for creating multiple rooted documents, which focus on an individual resource,
 from a non-rooted document will be implemented.
 
-So prepared rooted documents can them be integrated to result in an ordinary JSON
+So prepared rooted documents can then be integrated to result in an ordinary JSON
 document that has its references embedded. This process may be configured by
 providing a so-called embedding profile to control which references are included.
 
-The reverse transformation from an integrated to a non-intergated document is not
+The reverse transformation from an integrated to a non-integrated document is not
 part of this POC.
 
 ### Re-implementation of a Simple Metldata Workflow:
@@ -81,7 +81,7 @@ of a transformation workflow.
 
 Simple performance metrics such as execution time will be recorded to assess the
 general feasibility of the approach. No performance optimization should be performed.
-However, performance might be a criteria for selecting dependencies for this POC.
+However, performance might be a criterion for selecting dependencies for this POC.
 
 
 ## Human Resource/Time Estimation:
