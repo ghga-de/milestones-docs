@@ -16,6 +16,7 @@ Please see the prototype [here](https://github.com/ghga-de/prototype-correlation
 - Correlation ID Utilities in Hexkit
 - Correlation ID in Kafka Event Header
 - Middleware for FastAPI Apps
+- Pilot Repository
 
 ### Not Included:
 - Updating services to use correlation IDs
@@ -48,6 +49,9 @@ The `_consume_event()` method in the `KafkaEventSubscriber` class needs to be up
 A new middleware function for FastAPI apps should be added to `ghga-service-commons` to validate correlation IDs upon receiving requests.
 All requests should have a correlation ID already set by the gateway, so no logic is needed for ID generation.
 If the correlation ID is missing or invalid, an error should be raised. After getting the validated correlation ID, the middlware should set the correlation ID ContextVar using the utility created in `hexkit`. Doing so will allow services to retrieve the correlation ID from the ContextVar without any extra work.
+
+### Pilot Repository
+One repository (which is to be determined) will be updated as part of this epic. The purpose of this is to verify the aforementioned changes and identify any problems before rolling out the changes to other services. This should be a repository that utilizes a FastAPI app and both a Kafka producer and consumer.
 
 ## Human Resource/Time Estimation:
 
