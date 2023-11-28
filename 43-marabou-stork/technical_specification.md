@@ -41,7 +41,7 @@ created in `hexkit`, which should be added as a dependency in `ghga-service-comm
 The following are needed in `hexkit`:
 - A function to create new correlation IDs.
 - A ContextVar to store the correlation ID.
-An asynccontextmanager to set the correlation ID ContextVar to a given value,
+- An asynccontextmanager to set the correlation ID ContextVar to a given value,
 yield it, and then reset it to its previous state (via a token that was created
 when setting the value).
 - A function to retrieve the value stored in the ContextVar for the current context
@@ -68,13 +68,13 @@ invalid/missing), and set the ContextVar before calling `self._translator.consum
 A new middleware function for FastAPI apps should be added to `ghga-service-commons`
 to validate correlation IDs upon receiving requests. All requests should have a
 correlation ID already set by the gateway, so no logic is needed for ID generation.
+If the correlation ID is missing or invalid, an error should be raised.
 However, `ApiConfigBase` should get a new parameter to instruct the middleware to
 generate a new ID (using the function from `hexkit`) rather than raising an error.
 This way, testing can be carried out without an API gateway.
-If the correlation ID is missing or invalid, an error should be raised. After getting the
-validated correlation ID, the middleware should set the correlation ID ContextVar using the
-utility created in `hexkit`. Doing so will allow services to retrieve the correlation ID from
-the ContextVar without any extra work.
+After getting the validated correlation ID, the middleware should set the correlation
+ID ContextVar using the utility created in `hexkit`. Doing so will allow services to
+retrieve the correlation ID from the ContextVar without any extra work.
 
 ### Pilot Repositories
 A pair of repositories (which is to be determined) will be updated as part of this epic.
