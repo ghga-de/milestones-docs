@@ -62,7 +62,7 @@ method of both the `EventPublisherProtocol` and `KafkaEventPublisher` classes.
 
 The `_consume_event()` method in the `KafkaEventSubscriber` class needs to be updated
 to extract the correlation ID from the header, validate it (raising an error if
-invalid/missing), and set the ContextVar before calling `self._translator.consume()`
+invalid), and set the ContextVar before calling `self._translator.consume()`
 
 ### Middleware for FastAPI Apps
 A new middleware function for FastAPI apps should be added to `ghga-service-commons`
