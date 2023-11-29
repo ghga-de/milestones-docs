@@ -17,7 +17,7 @@ Please see the prototype [here](https://github.com/ghga-de/prototype-correlation
 - Correlation ID Utilities in Hexkit
 - Correlation ID in Kafka Event Header
 - Middleware for FastAPI Apps
-- Pilot Repository
+- Pilot Repositories
 
 ### Not Included:
 - Updating services to use correlation IDs
