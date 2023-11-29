@@ -1,4 +1,4 @@
-# Correlation ID Exploration (Marabou Stork)
+# Correlation ID Implementation (Marabou Stork)
 **Epic Type:** Implementation Epic
 
 Epic planning and implementation follow the
