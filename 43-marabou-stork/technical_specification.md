@@ -80,9 +80,12 @@ retrieve the correlation ID from the ContextVar without any extra work.
 A pair of repositories (which is to be determined) will be updated as part of this epic.
 The purpose of this is to verify the aforementioned changes and identify any problems
 before rolling out the changes to other services. This should include one repository that utilizes
-a FastAPI app and a Kafka producer (such as the `upload-controller-service`) and another that
-features a Kafka consumer to process events published by the former
-(e.g. `interrogation-room-service`).
+a FastAPI app and a Kafka producer, and another that features a Kafka consumer to process events published by the former.
+
+Examples of such pairings:
+- `metldata` and Metadata Artifact Search Service (`mass`)
+- File Ingest Service (`fis`) and the Internal File Registry Service (`ifrs`)
+- Access Request Service (`ars`) and the Notification Service (`ns`)
 
 ## Human Resource/Time Estimation:
 
