@@ -55,14 +55,18 @@ If the correlation ID is not supplied, one should be generated,
 but only if a flag has been explicitly set. Otherwise, an error should be raised.
 To that end, `hexkit` needs to be updated so the correlation ID is retrieved
 from the ContextVar for the current context and added as a header inside of the
-`publish()` method of the `KafkaEventPublisher` class. That method should also be
-updated to have a boolean parameter to act as the aforementioned flag.
-The correlation ID should be added as a parameter to the `_publish_validated()`
-method of both the `EventPublisherProtocol` and `KafkaEventPublisher` classes.
+`_publish_validated()` method of the `KafkaEventPublisher` class.
+To support testing, a boolean parameter should be added to the `KafkaConfig` class.
+The boolean should be used by `KafkaEventPublisher` to control the publishing behavior
+so that either:
+1. A valid correlation ID ContextVar value is required (raising an error otherwise), or
+2. A valid correlation ID will be generated if the ContextVar's value is the empty string.
+In both cases, an invalid ID should result in an error.
 
 The `_consume_event()` method in the `KafkaEventSubscriber` class needs to be updated
 to extract the correlation ID from the header, validate it (raising an error if
 invalid), and set the ContextVar before calling `self._translator.consume()`
+If the no header for correlation ID is found, the event should be ignored.
 
 ### Middleware for FastAPI Apps
 A new middleware function for FastAPI apps should be added to `ghga-service-commons`
