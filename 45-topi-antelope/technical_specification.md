@@ -63,9 +63,10 @@ Formatter and LoggerAdapter.
 `ghga-service-commons` needs to be modified so uvicorn's logging configuration can be changed.
 Uvicorn uses a special formatter class and comes with colored output. However, it does
 not include certain standard information by default, such as a timestamp.
-Uvicorn should be configured or set up such that any resulting log messages retain the
-same JSON format. The logs should be shipped with timestamps and all relevant information
-listed in the example above. Uvicorn is configured to use three different loggers by default:
+Uvicorn should be configured or set up such that any log produced by it have the same
+JSON format and contextual information. The logs should be shipped with timestamps and all
+relevant information listed in the example above. Uvicorn is configured to use three different
+loggers by default:
 - "uvicorn"
 - "uvicorn.error"
 - "uvicorn.access"
