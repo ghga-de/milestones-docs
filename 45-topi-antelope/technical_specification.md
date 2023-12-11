@@ -60,7 +60,8 @@ To summarize, this task includes all items in `hexkit`:
 Formatter and LoggerAdapter.
 
 ### Consolidating Uvicorn Logging
-`ghga-service-commons` needs to be modified so uvicorn's logging configuration can be changed.
+`ghga-service-commons` needs to be modified so uvicorn's logging can be configured using the same
+config model used in hexkit.
 Uvicorn uses a special formatter class and comes with colored output. However, it does
 not include certain standard information by default, such as a timestamp.
 Uvicorn should be configured or set up such that any log produced by it have the same
