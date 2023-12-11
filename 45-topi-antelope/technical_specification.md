@@ -9,8 +9,11 @@ Epic planning and implementation follow the
 ## Scope
 ### Outline:
 The aim of this epic is to implement tools that enable consistent structured logging,
-with the result being a set of minimally-invasive, configurable logging tools. In addition,
-`uvicorn` needs to be configured such that its formatting is consistent with other logs.
+with the result being a set of minimally-invasive, configurable logging tools. The
+logging functionality is not meant to live within providers or protocols within hexkit,
+but rather be provided as a utility similar to the basic correlation ID functionality.
+In addition, `uvicorn` needs to be configured such that its formatting is consistent
+with other logs.
 
 ### Included/Required:
 - Logging Tools in Hexkit
