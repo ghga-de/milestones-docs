@@ -28,8 +28,8 @@ There needs to be a way to easily invoke a logger object with minimal boilerplat
 There should also be a dedicated logging configuration class that subclasses `BaseSettings`.
 
 The configuration should at least include the log level for the service.
-The configuration should be consumed by a logger factory, which can then be used to
-create local logger objects with the configured log level and requisite formatting control.
+When employing loggers in a service, it should be as easy as calling a function with a logger
+name as an argument and then using the object to log as needed.
 The logs should be emitted in a JSON string format (one line). An example log message is as
 follows (formatted for ease of reading):
 
@@ -57,14 +57,15 @@ To summarize, this task includes all items in `hexkit`:
 Formatter and LoggerAdapter.
 
 ### Consolidating Uvicorn Logging
-The `ApiConfigBase` in `ghga-service-commons` class should be redefined to subclass from
-the new `LoggingConfig` class (name subject to change) in `hexkit.`
-The library also needs to be modified so uvicorn's logging configuration can be changed.
+`ghga-service-commons` needs to be modified so uvicorn's logging configuration can be changed.
 Uvicorn uses a special formatter class and comes with colored output. However, it does
 not include certain standard information by default, such as a timestamp.
 Uvicorn should be configured or set up such that any resulting log messages retain the
 same JSON format. The logs should be shipped with timestamps and all relevant information
-listed in the example above.
+listed in the example above. Uvicorn is configured to use three different loggers by default:
+- "uvicorn"
+- "uvicorn.error"
+- "uvicorn.access"
 
 ### Pilot Repository
 A single repository (which is to be determined) will be updated as part of this epic.
