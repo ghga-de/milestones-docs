@@ -30,7 +30,11 @@ with other logs.
 There needs to be a way to easily invoke a logger object with minimal boilerplate code.
 There should also be a dedicated logging configuration class that subclasses `BaseSettings`.
 
-The configuration should at least include the log level for the service.
+The configuration should at least include:
+    - The log level for the service (`log_level`),
+    - The service name (`service_name`)
+    - The service instance ID (`service_instance_id`)
+
 When employing loggers in a service, it should be as easy as calling a function with a logger
 name as an argument and then using the object to log as needed.
 The logs should be emitted in a JSON string format (one line). An example log message is as
@@ -45,13 +49,13 @@ follows (formatted for ease of reading):
 	"correlation_id": "d826361b-3734-4590-b3e8-3cbed68b9236",
 	"message": "The file with ID 123xyz is already in the inbox.",
     "details": {
-		"file_id": "123xyz"
+		"file_id": "123xyz" // example detail
 	}
 }
 ```
-Additional configurable properties could include a way to disable uvicorn integration
-(e.g. for easier reading during development), or a format string that can be used to override
-the JSON output format.
+Additional configurable properties could include:
+    - A flag to control uvicorn integration (e.g. for easier reading during development)
+    - A format string which, if used, will replace the JSON output format.
 
 To summarize, this task includes all items in `hexkit`:
 - Logging Configuration Class
