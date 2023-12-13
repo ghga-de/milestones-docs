@@ -54,8 +54,8 @@ follows (formatted for ease of reading):
 }
 ```
 Additional configurable properties could include:
-    - A flag to control uvicorn integration (e.g. for easier reading during development)
-    - A format string which, if used, will replace the JSON output format.
+- A flag to control uvicorn integration (e.g. for easier reading during development)
+- A format string which, if used, will replace the JSON output format.
 
 To summarize, this task includes all items in `hexkit`:
 - Logging Configuration Class
