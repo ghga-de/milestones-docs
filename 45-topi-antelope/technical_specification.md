@@ -42,15 +42,15 @@ follows (formatted for ease of reading):
 
 ```json
 {
-	"timestamp": "2023-12-04T15:30:00Z",
-	"service": "ucs",
-	"instance": "001",
-	"level": "ERROR",
-	"correlation_id": "d826361b-3734-4590-b3e8-3cbed68b9236",
-	"message": "The file with ID 123xyz is already in the inbox.",
-    "details": {
-		"file_id": "123xyz" // example detail
-	}
+  "timestamp": "2023-12-04T15:30:00Z",
+  "service": "ucs",
+  "instance": "001",
+  "level": "ERROR",
+  "correlation_id": "d826361b-3734-4590-b3e8-3cbed68b9236",
+  "message": "The file with ID 123xyz is already in the inbox.",
+  "details": {
+    "file_id": "123xyz" // example detail
+  }
 }
 ```
 Additional configurable properties could include:
