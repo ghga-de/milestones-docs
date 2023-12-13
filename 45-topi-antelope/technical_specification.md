@@ -31,9 +31,9 @@ There needs to be a way to easily invoke a logger object with minimal boilerplat
 There should also be a dedicated logging configuration class that subclasses `BaseSettings`.
 
 The configuration should at least include:
-    - The log level for the service (`log_level`),
-    - The service name (`service_name`)
-    - The service instance ID (`service_instance_id`)
+- The log level for the service (`log_level`),
+- The service name (`service_name`)
+- The service instance ID (`service_instance_id`)
 
 When employing loggers in a service, it should be as easy as calling a function with a logger
 name as an argument and then using the object to log as needed.
