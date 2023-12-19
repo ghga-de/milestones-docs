@@ -1,7 +1,7 @@
 // For format details, see https://aka.ms/devcontainer.json. For config options, see the README at:
 // https://github.com/microsoft/vscode-dev-containers/tree/v0.195.0/containers/python-3
 {
-	"name": "Python 3",
+	"name": "epic-docs",
 	"build": {
 		"dockerfile": "Dockerfile",
 		"context": "..",
@@ -37,7 +37,11 @@
 					88
 				],
 				"licenser.license": "Custom",
-				"licenser.customHeaderFile": "/workspace/.devcontainer/license_header.txt"
+				"licenser.customHeaderFile": "/workspace/.devcontainer/license_header.txt",
+				"[markdown]": {
+					"editor.wordWrapColumn": 88,
+					"editor.wordWrap": "wordWrapColumn"
+				}
 			},
 			// Add the IDs of extensions you want installed when the container is created.
 			"extensions": [
