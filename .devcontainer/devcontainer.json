@@ -1,7 +1,7 @@
 // For format details, see https://aka.ms/devcontainer.json. For config options, see the README at:
 // https://github.com/microsoft/vscode-dev-containers/tree/v0.195.0/containers/python-3
 {
-	"name": "Python 3",
+	"name": "epic-docs",
 	"build": {
 		"dockerfile": "Dockerfile",
 		"context": "..",
@@ -15,35 +15,39 @@
 		}
 	},
 	// Set *default* container specific settings.json values on container create.
-	"settings": {
-		"python.pythonPath": "/usr/local/bin/python",
-		"python.languageServer": "Pylance",
-		"python.linting.enabled": true,
-		"python.linting.pylintEnabled": true,
-		"python.formatting.autopep8Path": "/usr/local/py-utils/bin/autopep8",
-		"python.formatting.blackPath": "/usr/local/py-utils/bin/black",
-		"python.formatting.yapfPath": "/usr/local/py-utils/bin/yapf",
-		"python.formatting.provider": "black",
-		"editor.formatOnSave": true,
-		"python.linting.banditPath": "/usr/local/py-utils/bin/bandit",
-		"python.linting.flake8Path": "/usr/local/py-utils/bin/flake8",
-		"python.linting.mypyPath": "/usr/local/py-utils/bin/mypy",
-		"python.linting.pycodestylePath": "/usr/local/py-utils/bin/pycodestyle",
-		"python.linting.pydocstylePath": "/usr/local/py-utils/bin/pydocstyle",
-		"python.linting.pylintPath": "/usr/local/py-utils/bin/pylint"
+	"customizations": {
+		"vscode": {
+			// Set *default* container specific settings.json values on container create.
+			"settings": {
+				"files.eol": "\n",
+				"terminal.integrated.profiles.linux": {
+					"bash": {
+						"path": "/bin/bash"
+					}
+				},
+				"python.pythonPath": "/usr/local/bin/python",
+				"python.languageServer": "Pylance",
+				"editor.renderWhitespace": "all",
+				"editor.rulers": [
+					88
+				],
+				"[markdown]": {
+					"editor.wordWrapColumn": 88,
+					"editor.wordWrap": "wordWrapColumn"
+				}
+			},
+			// Add the IDs of extensions you want installed when the container is created.
+			"extensions": [
+				"ms-python.python",
+				"42crunch.vscode-openapi",
+				"eamodio.gitlens",
+				"ms-azuretools.vscode-docker",
+				"streetsidesoftware.code-spell-checker",
+				"github.vscode-pull-request-github",
+				"yzhang.markdown-all-in-one"
+			]
+		}
 	},
-	// Add the IDs of extensions you want installed when the container is created.
-	"extensions": [
-		"ms-toolsai.jupyter",
-		"ms-python.python",
-		"42crunch.vscode-openapi",
-		"eamodio.gitlens",
-		"formulahendry.terminal",
-		"tyriar.terminal-tabs",
-		"njpwerner.autodocstring",
-		"arjun.swagger-viewer",
-		"ms-azuretools.vscode-docker"
-	],
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
 	// "forwardPorts": [],
 	// Use 'postCreateCommand' to run commands after the container is created.
