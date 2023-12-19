@@ -31,8 +31,6 @@
 				"editor.rulers": [
 					88
 				],
-				"licenser.license": "Custom",
-				"licenser.customHeaderFile": "/workspace/.devcontainer/license_header.txt",
 				"[markdown]": {
 					"editor.wordWrapColumn": 88,
 					"editor.wordWrap": "wordWrapColumn"
