@@ -27,11 +27,6 @@
 				},
 				"python.pythonPath": "/usr/local/bin/python",
 				"python.languageServer": "Pylance",
-				"python.analysis.typeCheckingMode": "basic",
-				"python.testing.pytestPath": "/usr/local/py-utils/bin/pytest",
-				"python.testing.pytestArgs": [
-					"--profile"
-				],
 				"editor.renderWhitespace": "all",
 				"editor.rulers": [
 					88
