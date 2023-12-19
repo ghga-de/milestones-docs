@@ -40,17 +40,13 @@
 			},
 			// Add the IDs of extensions you want installed when the container is created.
 			"extensions": [
-				"ms-azuretools.vscode-docker",
 				"ms-python.python",
-				"ms-python.vscode-pylance",
-				"redhat.vscode-yaml",
 				"42crunch.vscode-openapi",
 				"eamodio.gitlens",
-				"github.vscode-pull-request-github",
+				"ms-azuretools.vscode-docker",
 				"streetsidesoftware.code-spell-checker",
-				"yzhang.markdown-all-in-one",
-				"visualstudioexptteam.vscodeintellicode",
-				"ymotongpoo.licenser"
+				"github.vscode-pull-request-github",
+				"yzhang.markdown-all-in-one"
 			]
 		}
 	},
