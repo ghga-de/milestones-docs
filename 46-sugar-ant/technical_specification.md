@@ -145,8 +145,8 @@ The claims repository currently has an endpoint
 This endpoint must be extended to become
 - `POST /download-access/users/{user_id}/ivas/{iva_id}/datasets/{dataset_id}`
 
- The claims repository also has endpoints at
- - `GET /download-access/users/{user_id}/`
+The claims repository also has endpoints at
+- `GET /download-access/users/{user_id}/`
 
 The routes of these endpoints do not need to be changed. However, these endpoints must now also check that the corresponding claims are bound to IVAs that have been verified for the given user.
 
@@ -155,7 +155,6 @@ The routes of these endpoints do not need to be changed. However, these endpoint
 The `AccessRequest` model should have a new optional `iva_id` field, as specified in the section on backend model changes below.
 
 The `PATCH /access-requests/{access_request_id}` endpoint that is used to allow or deny access requests must be extended so that it also accepts the corresponding `iva_id` in the body. The `iva_id` must then also be passed to the claims repository.
-
 
 ### Internal Auth Token
 
