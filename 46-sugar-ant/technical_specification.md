@@ -140,7 +140,7 @@ When the state of an IVA is changed from "unverified" to "requested", a random v
 The `Claims` model must provide a new `iva_id` field, as also specified in the section on backend model changes below.
 
 The claims repository currently has an endpoint
-- `POST /download-access/users/{user_id}/datasets/{dataset_id}
+- `POST /download-access/users/{user_id}/datasets/{dataset_id}`
 
 This endpoint must be extended to become
 - `POST /download-access/users/{user_id}/ivas/{iva_id}/datasets/{dataset_id}`
