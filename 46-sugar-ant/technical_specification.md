@@ -198,7 +198,7 @@ The `PATCH /access-requests/{access_request_id}` endpoint that is used to allow 
 
 ### Internal Auth Token
 
-Until now, an internal auth token was created and passed by the auth service after the user was successfully authenticated via LS Login. The token contained an additional `status` enum (active, inactive, invalid). It could contain the internal or external user id in the fields `id` and `ext_id`.
+Until now, an internal auth token was created and passed by the Auth Adapter via the API gateway after the user was successfully authenticated via LS Login. The token contained an additional `status` enum (active, inactive, invalid). It could contain the internal or external user id in the fields `id` and `ext_id`.
 
 In the new implementation, we change the internal auth token as follows:
 
