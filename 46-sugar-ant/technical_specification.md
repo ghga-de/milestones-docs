@@ -61,14 +61,14 @@ To implement two-factor authentication using TOTP, we need a mechanism to create
 The Auth Adapter should intercept the following four endpoints:
 
 - `POST /totp-token` - *creates a TOTP token*
-	- request body:
-		- `user_id`: string (the registered User ID)
-		- `force`: boolean (whether an existing TOTP can be replaced)
-	- response body:
-		- `uri`: string (the provisioning URI)
-	- alternative response body:
-		- `text`: string (the secret as text)
-		- `svg`: string (URI as QR-code in SVG format)
+  - request body:
+    - `user_id`: string (the registered User ID)
+    - `force`: boolean (whether an existing TOTP can be replaced)
+  - response body:
+    - `uri`: string (the provisioning URI)
+  - alternative response body:
+    - `text`: string (the secret as text)
+    - `svg`: string (URI as QR-code in SVG format)
 
 This endpoint first verifies that the user has a valid auth session, i.e. has been successfully logged in via LS Login. It then verifies that the session refers to an already registered user, and that the user has the same user ID as specified in the request body. Next, if `force` is not set to `true`, it verifies that this user does not already have an active TOTP token. If any of these verification steps fail, it responds with the HTTP status `401 Unauthorized`. Otherwise, creates a TOTP token and returns its provisioning URI which also contains the secret (seed) used by this token as a query parameter, using the HTTP status `201 Created`.
 
@@ -83,14 +83,14 @@ The QR code should be created in the frontend, e.g. using `react-qr-code` or the
 This endpoint first verifies that the user has a valid auth session, i.e. has been successfully logged in via LS Login and is a registered user. If this is the case, it then checks whether the user has already created an active TOTP token. A response HTTP header `Allow: OPTIONS, POST` is returned in this case or `Allow: OPTIONS` in all other cases. In any case an empty response with the HTTP status `204 No Content` will be returned (not `200 Ok` because that can not be returned using ExtAuth).
 
 - `POST /rpc/verify-totp` - *verifies a one-time password*
-	- request body:
-		- `user_id`: string (the registered User ID)
-		- `totp`: string (the one-time-password)
+  - request body:
+    - `user_id`: string (the registered User ID)
+    - `totp`: string (the one-time-password)
 
 This endpoint first verifies that the user has a valid auth session, i.e. has been successfully logged in via LS Login. It then verifies that the session refers to an already registered user, and that the user has the same user ID as specified in the request body. Next, it verifies that this user has already created a TOTP token. Finally, it verifies the given one-time password in `totp` using the current time and a configurable time window. If all verification steps succeed, the token is activated, and the HTTP status `204 No Content` is send in an empty response. Otherwise, if the one-time password could be verified, it responds with the HTTP status `401 Unauthorized`.
 
 - `POST /rpc/logout` - *removes the user session*
-	- request body: empty
+  - request body: empty
 
 This endpoint simply removes the auth session that is tracked in the Auth Adapter, thereby effectively logging the user out. Returns an empty response with the HTTPS status `204 No Content`.
 
@@ -175,12 +175,15 @@ Additionally, the following three RPC-style will be added:
 The `Claims` model must provide a new `iva_id` field, as also specified in the section on backend model changes below.
 
 The claims repository currently has an endpoint
+
 - `POST /download-access/users/{user_id}/datasets/{dataset_id}`
 
 This endpoint must be extended to become
+
 - `POST /download-access/users/{user_id}/ivas/{iva_id}/datasets/{dataset_id}`
 
 The claims repository also has endpoints at
+
 - `GET /download-access/users/{user_id}/`
 
 The routes of these endpoints do not need to be changed. However, these endpoints must now also check that the corresponding claims are bound to IVAs that have been verified for the given user.
@@ -206,15 +209,15 @@ The `ext_id` field will be removed from the auth token. There are only two excep
 There are only the following three exceptions where the auth token will be also added by the Auth Adapter if the user is only logged in via LS Login:
 
 - `POST /users`
-	- used to self-register a user
-	- the `id` field of the auth context will contain the external id, not the internal id
+  - used to self-register a user
+  - the `id` field of the auth context will contain the external id, not the internal id
 - `PUT /users/{user_id}`
-	- when requested by users to confirm a name an email change
-	- the user must be already registered
-	- the `id` field of the auth context will contain the internal id of the user, and it must correspond to the `user_id` in the path
+   when requested by users to confirm a name an email change
+  - the user must be already registered
+  - the `id` field of the auth context will contain the internal id of the user, and it must correspond to the `user_id` in the path
 - `GET /users/{ext_id}`
-	- when requested by users to check their own registered data
-	- the `id` field of the auth context will contain the external id, not the internal id, and it must correspond to the `ext_id` in the path
+  - when requested by users to check their own registered data
+  - the `id` field of the auth context will contain the external id, not the internal id, and it must correspond to the `ext_id` in the path
 
 ### Service Commons Library
 
@@ -260,6 +263,7 @@ The `AccessRequest` model must be extended to also include an optional `iva_id` 
 ### Login Flow in the Frontend
 
 The frontend keeps the state of the current user in the session storage. The in the frontend can be one of the following stages:
+
 - `unauthenticated`
 - `logged-in` (with one factor)
 - `needs-registration`
@@ -342,10 +346,10 @@ The RPC-style endpoints that can be used to move the state of the IVAs and send 
 ### Wireframes
 
 TODO:
+
 - Login flow
-- IVA verification
-	- IVA management on the profile page
-	- IVA browser
+- IVA management on the profile page
+- IVA browser
 - access request detail form
 
 ## Human Resource/Time Estimation:
