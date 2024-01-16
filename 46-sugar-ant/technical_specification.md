@@ -32,7 +32,7 @@ Some changes have been specified as optional in the sections below.
 
 - support for multiple TOTP tokens
 - support for other kinds of 2FA factors
-- integration tests (extending the Archive test bed)
+- integration tests (extending the Archive Test Bed)
 
 ## Implementation Details
 
@@ -46,6 +46,8 @@ This means the Auth Adapter should track user sessions using unique session IDs 
 
 The store will be implemented in memory in the first implementation. Another type of cache could be used later that would allow retaining sessions when restarting the auth adapter and support multiple instances of the auth adapter. Therefore the storage mechanism for the session cache should be made easily changeable.
 
+The Auth Adapter creates an auth session and tracks users as soon as they have logged in via LS Login, but not earlier.
+
 Instead of converting the OIDC access token to our internal auth token, the Auth Adapter should now convert the content of the user session into the internal auth token. The internal auth token will change a bit, as outlined in a section below.
 
 The Auth Adapter must also be extended with a mechanism that prevents "session riding" attacks, using the "Cookie-to-header token" method. Thereby, the first request that creates the session responds not only with the session cookie, but also with a "CSRF cookie" which must be a unique and unpredictable string, either as a random string or derived from the session token via HMAC and an application secret. Contrary to the session cookie, the CSRF cookie must not be a Http-only token, because it must be read by JavaScript running in the frontend and copied to a CSRF-Token for each request to the backend. The Auth Adapter needs to compare the CSRF Token with the unique string set in the CSRF cookie.
@@ -54,9 +56,7 @@ See also: [ADR: user session management](https://github.com/ghga-de/adrs/blob/ma
 
 ### TOTP Management
 
-The Auth Adapter must also be extended with a mechanism to create and validate TOTP tokens. This functionality should be packaged in a separate TOTP Management module. Instead of running as a separate service, the TOTP management will be accessed via endpoints that are intercepted by the Auth Adapter as part of the ExtAuth protocol. The reason for not implementing this as a separate service is that whenever a TOTP is validated, this fact must be registered in the auth session, which is only available to the Auth Adapter. And then it makes sense to let the Auth Adapter also handle the creation of the TOTP tokens, though technically this could be also done by a separate service.
-
-The Auth Adapter creates an auth session and tracks users as soon as they have logged in via LS Login, but not earlier.
+To implement two-factor authentication using TOTP, we need a mechanism to create and validate TOTP tokens. This functionality could be implemented as a separate service. However, the outcome of the validation of a TOTP should be stored in the auth session, so the most simple solution is to validate TOTPs inside the Auth Adapter, since it holds the auth session. And then it makes sense to let the Auth Adapter also handle the creation of the TOTP tokens, though technically this does not need to be part of the Auth Adapter and could be handled by a separate service. We decided to use this simple approach, implementing TOTP management in a module that is part of the Auth Adapter. The related endpoints would be intercepted by the Auth Adapter as part of the ExtAuth protocol, and handled by the TOTP management module.
 
 The Auth Adapter should intercept the following four endpoints:
 
