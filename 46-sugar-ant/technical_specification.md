@@ -113,6 +113,8 @@ The following three REST-style endpoints should be added to the User Management 
 - `GET /users/{user-id}/ivas`
   - *returns the list of IVAs belonging to the specified user*
   - auth header: internal token (of data steward or same user)
+  - response body:
+    - list of IVA objects
 - `POST /users/{user-id}/ivas`
   - *creates an IVA for the specified user*
   - auth header: internal token (of data steward or same user)
@@ -238,6 +240,8 @@ A new `IVA` (independent verification address) model must be added to the User M
  - `changed`: date (date of last change)
 
 The `IVA`s should be maintained in a separate collection by the User Management service.
+
+The `verification_code_hash` and `verification_attempts` fields should only be stored in the database and not be returned via the REST interface.
 
 The `verification_code_hash` should be created using a dedicated password hashing algorithm.
 It should only be stored while the IVA is in the states `code_created` and `code_transmitted`.
