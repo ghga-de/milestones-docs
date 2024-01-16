@@ -295,7 +295,7 @@ If the state is `needs-registration` or `needs-reregistration`, the user is requ
 
  We now assume the user is in the state `registered`, and the frontend therefore knows the internal user ID and the user info by looking it up in the session storage. But it does not know yet know whether the user already created a TOTP token as second factor.
 
-Therefore, the frontend checks whether the user already created a TOTP token using the `GET /totp-token` endpoint. In that case, the user is moved to the `has-totp-token` state, otherwise to the `needs-totp-token` state.
+Therefore, the frontend checks whether the user already created a TOTP token using the `OPTIONS /rpc/verify/totp-token` endpoint. If this returns "POST" as allowed method, the user is moved to the `has-totp-token` state, otherwise to the `needs-totp-token` state.
 
 Let's assume the user is in the `needs-totp-token` or `lost-totp-token` state. The frontend then uses the `POST /totp-token` endpoint to create a provisioning URI, whereby the `force` flag should be set if and only if the user is in the state `lost-totp-token`. The frontend then presents the returned URI in form of a QR code to the user and asks the user to scan the QR code using an authenticator app. It should also show a button or link to display the secret as text as fallback for manually entering the secret.
 
@@ -307,11 +307,11 @@ Now let's assume the user is in the `has-totp-token` state. In that case, a simi
 
 The user is also shown a link that allows re-creating the second factor. This link can be used in the case they lost the phone with the authenticator app and do not have a backup of the secrets. Following the link, after a warning that all independent verification addresses will be invalidated, the user state should be set to `lost-topt-token`.
 
-When the user submits the one-time-password, the frontend uses the `POST /verify-totp` endpoint to check its validity.
+When the user submits the one-time-password, the frontend uses the `POST /rpc/verify-totp` endpoint to check its validity.
 
 If the password is validated, the user is moved to the state `authenticated`, otherwise an authentication error is displayed and the state stays the same.
 
-The frontend must also change the "Logout" button so that it calls the `/logout` endpoint of the Auth Adapter.
+The frontend must also change the "Logout" button so that it calls the `/rpc/logout` endpoint of the Auth Adapter.
 
 ### Access Request Management
 
