@@ -32,7 +32,7 @@ Some changes have been specified as optional in the sections below.
 
 - support for multiple TOTP tokens
 - support for other kinds of 2FA factors
-- integration tests (extending the Archive tet bed)
+- integration tests (extending the Archive test bed)
 
 ## Implementation Details
 
