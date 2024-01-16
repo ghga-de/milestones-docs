@@ -269,20 +269,20 @@ The `AccessRequest` model must be extended to also include an optional `iva_id` 
 The frontend keeps the state of the current user in the session storage. The in the frontend can be one of the following stages:
 
 - `unauthenticated`
-- `logged-in` (with one factor)
+- `identified` (logged in via LS Login)
 - `needs-registration`
 - `needs-reregistration`
 - `registered`
 - `needs-totp-token`
 - `lost-totp-token`
 - `has-totp-token`
-- `authenticated` (with two factors)
+- `authenticated` (fully logged in with TOTP)
 
 The user starts in the state `unauthenticated`. Only when the last stage has been reached, the user is considered fully authenticated.
 
-To initiate the authentication process, the user must first log in via LS Login and the OIDC flow must have been completed, at the end of which the frontend receives an OIDC access token. After that, the state is moved to `logged-in`.
+To initiate the authentication process, the user must first log in via LS Login and the OIDC flow must have been completed, at the end of which the frontend receives an OIDC access token. After that, the state is moved to `identified`.
 
-Now let's assume the user is in the state `logged-in`.
+Now let's assume the user is in the state `identified`.
 
 The frontend then requests the user data from the user management service using the `GET /users/{ext_id}` endpoint, passing the LS Login ID and the access token. On the backend side, this will create an auth session as side effect.
 
