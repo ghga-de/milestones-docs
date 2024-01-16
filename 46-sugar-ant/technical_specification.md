@@ -108,7 +108,7 @@ The management of IVAs (independent verification addresses) should happen in the
 
 For the definition of an IVA, see the section on backend models below.
 
-The following for new endpoints should be added to the User Management service:
+The following four new endpoints should be added to the User Management service:
 
 - `GET /users/{user-id}/ivas`
 	- *returns the list of IVAs belonging to the specified user*
