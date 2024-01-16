@@ -241,15 +241,12 @@ A new `IVA` (independent verification address) model must be added to the User M
 
 The `IVA`s should be maintained in a separate collection by the User Management service.
 
-The `verification_code_hash` and `verification_attempts` fields should only be stored in the database and not be returned via the REST interface.
-
-The `verification_code_hash` should be created using a dedicated password hashing algorithm.
-It should only be stored while the IVA is in the states `code_created` and `code_transmitted`.
-The `verification_attempts` field tracks how often the user attempted to send the verification code
-in the `code_transmitted` state.
+The `verification_code_hash` and `verification_attempts` fields should only be stored in the database and not be returned via the REST interface. The verification code itself should be created randomly and only be shown to the data steward or transmitted
+directly to the user, it should not be stored in the database.
+The `verification_code_hash` should be created using a random salt and a dedicated password hashing algorithm from the verification code.
+The `verification_attempts` field tracks how often the user attempted to send the verification code in the `code_transmitted` state.
 After three failed attempts or when the `last_changed` field indicates
-that the verification process takes too long ago (the number of days should be configurable),
-the state should be set back to `unverified`.
+that the verification process takes too long ago (the number of days should be configurable), the state should be set back to `unverified`.
 The `state` transitions from `unverified` (after creation),
 over `code_requested` (user requested a verification),
 `code_created` (a verification code has been created)
