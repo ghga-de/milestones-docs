@@ -162,7 +162,7 @@ Until now, an internal auth token was created and passed by the auth service aft
 
 In the new implementation, we change the internal auth token as follows:
 
-The internal auth token will be only created and passed on by the Auth Adapter if the use is fully authenticated, i.e. logged in via LS Login and the second factor has been validated.
+The internal auth token will be only created and passed on by the Auth Adapter if the user is fully authenticated, i.e. logged in via LS Login and the second factor has been validated.
 
 The `status` field will be removed from the auth token. The existence of the token always implies that the user account is active and not invalid.
 
