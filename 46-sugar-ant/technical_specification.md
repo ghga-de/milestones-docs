@@ -78,23 +78,23 @@ As a side effect of this endpoint, all existing IVAs associated with this user m
 
 The QR code should be created in the frontend, e.g. using `react-qr-code` or the `qr-code` web component. If during implementation there are any issues with this approach, it can alternatively also be created in the backend, e.g. using the `segno` library.
 
-- `GET /totp-token` - *checks the existence of a TOTP token*
+- `OPTIONS /rpc/verify-token` - *checks the existence of a TOTP token*
 
-This endpoint first verifies that the user has a valid auth session, i.e. has been successfully logged in via LS Login and is a registered user. If this is not the case, it returns the HTTP status `401 Unauthorized`. It then checks whether the user has already created an active TOTP token. If this is not the case, the HTTP status code `404 Not Found` is returned. Otherwise, an empty response with the HTTPS status `204 No Content` is returned.
+This endpoint first verifies that the user has a valid auth session, i.e. has been successfully logged in via LS Login and is a registered user. If this is the case, it then checks whether the user has already created an active TOTP token. A response HTTP header `Allow: OPTIONS, POST` is returned in this case or `Allow: OPTIONS` in all other cases. In any case an empty response with the HTTP status `204 No Content` will be returned (not `200 Ok` because that can not be returned using ExtAuth).
 
-- `POST /verify-totp` - *verifies a one-time password*
+- `POST /rpc/verify-totp` - *verifies a one-time password*
 	- request body:
 		- `user_id`: string (the registered User ID)
 		- `totp`: string (the one-time-password)
 
 This endpoint first verifies that the user has a valid auth session, i.e. has been successfully logged in via LS Login. It then verifies that the session refers to an already registered user, and that the user has the same user ID as specified in the request body. Next, it verifies that this user has already created a TOTP token. Finally, it verifies the given one-time password in `totp` using the current time and a configurable time window. If all verification steps succeed, the token is activated, and the HTTP status `204 No Content` is send in an empty response. Otherwise, if the one-time password could be verified, it responds with the HTTP status `401 Unauthorized`.
 
-- `POST /logout` - *removes the user session*
+- `POST /rpc/logout` - *removes the user session*
 	- request body: empty
 
 This endpoint simply removes the auth session that is tracked in the Auth Adapter, thereby effectively logging the user out. Returns an empty response with the HTTPS status `204 No Content`.
 
-Note that none of these endpoints yields the HTTP status code `200 OK` so that the responses can be returned using the ExtAuth protocol.  This particular status code could not be used here because it would indicate a successful authentication, the response would be ignored and the request would be passed on using the API gateway.
+Note that none of these endpoints yields the HTTP status code `200 OK` so that the responses can be returned using the ExtAuth protocol. This particular status code could not be used here because it would indicate a successful authentication, i.e. the response would be ignored and the request would be passed on by the API gateway.
 
 The auth session should be created when the endpoint `GET /users/{ext_id}` is called with an external user ID in the path that corresponds to the access token from LS Login in the Authorization header. This endpoint is called by the frontend after the OIDC flow in order to check whether the user is already registered, and therefore indicates a user login. When an auth session already exists and any other request is made, the expiration date of the session should be automatically extended. The timeout for auth sessions and their maximum duration should be made configurable.
 
