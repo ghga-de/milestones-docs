@@ -108,32 +108,67 @@ The management of IVAs (independent verification addresses) should happen in the
 
 For the definition of an IVA, see the section on backend models below.
 
-The following four new endpoints should be added to the User Management service:
+The following three REST-style endpoints should be added to the User Management service:
 
 - `GET /users/{user-id}/ivas`
-	- *returns the list of IVAs belonging to the specified user*
-	- auth header: internal token (of data steward or same user)
+  - *returns the list of IVAs belonging to the specified user*
+  - auth header: internal token (of data steward or same user)
 - `POST /users/{user-id}/ivas`
-	- *creates an IVA for the specified user*
-	- auth header: internal token (of data steward or same user)
-- `PATCH /users/{user-id}/ivas`
-	- *changes the state of an IVA for the specified user*
-	- auth header: internal token (of data steward or same user)
-	- if not a data steward, the current state must be either `unverified` or `pending`
-	- request body:
-		- `verification_code`:  optional string (random number)
-			- must be set and match the currently stored value when the state is set to `verified`
-			- must be null otherwise
-		- `state`: enum (requested, verified)
-			- must be `requested` when the current state is `unverified`
-			- must be `verified` when the current state is `pending`
+  - *creates an IVA for the specified user*
+  - auth header: internal token (of data steward or same user)
+  - request body:
+      - `type`: enum (phone, fax, postal address, in-person)
+      - `value`: string (the actual phone number)
 	- response body:
-		- `state`: enum (unverified, requested, pending, verified)
+      - `id`: string (the ID of the newly created IVA)
 - `DELETE /users/{user-id}/ivas/{iva_id}`
 	- *deletes an existing IVA of the specified user*
 	- auth header: internal token (of data steward or same user)
 
-When the state of an IVA is changed from "unverified" to "requested", a random verification code should be created and stored in the IVA, and a data steward should be notified so that the code will be passed to the user via the chosen verification address.
+Additionally, the following three RPC-style will be added:
+
+- `POST /rpc/ivas/{iva_id}/unverify`
+  - *invalidate the specified IVA*
+  - auth header: internal token of a data steward
+  - response status:
+    - `204 No Content`: state changed to `unverified`
+    - `401 Unauthorized`: auth error (e.g. not a data steward)
+  - *should also send a notification to the user*
+- `POST /rpc/ivas/{iva_id}/request-code`
+  - *request the verification of the specified IVA*
+  - auth header: internal token
+  - response body: empty
+  - `200 No Content`: state has been changed to `code_requested`
+  - `400 Bad Request`: IVA did no the state `unverified`
+  - `401 Unauthorized`: auth error (e.g. IVA not of current user)
+  - *should also send a notification to the user and a data steward*
+- `POST /rpc/ivas/{iva_id}/create-code`
+  - *create verification for the specified IVA*
+  - auth header: internal token of a data steward
+  - response body:
+    - `verification_code`: string (to be transmitted to the user)
+  - response status:
+    - `200 OK`: state has been changed to `code_created`
+    - `401 Unauthorized`: auth error (e.g. not a data steward)
+- `POST /rpc/ivas/{iva_id}/code-transmitted`
+  - *confirm the transmission of the verification code for the specified IVA*
+  - auth header: internal token of a data steward
+  - response status:
+    - `204 No Content`: state has been changed to `code_created`
+    - `400 Bad Request`: IVA did no the state `code_created` or `code_transmitted`
+    - `401 Unauthorized`: auth error (e.g. not a data steward)
+  - *should also send a notification to the user*
+- `POST /rpc/ivas/{iva_id}/verify-code`
+  - *submit verification code for the specified IVA*
+  - auth header: internal token
+  - request body:
+    - `verification_code`: string (that had been transmitted to the user)
+  - response status:
+    - `204 No Code`: verification code correct, IVA is now in state `verified`
+    - `400 Bad Request`: IVA did no the state `code_transmitted`
+    - `401 Unauthorized`: auth error or verification code was wrong
+    - `429 Too Many Requests`: IVA has been reset to unverified
+  - *should also send a notification to the data steward*
 
 ### Claims Repository
 
@@ -188,14 +223,31 @@ The `ghga-service-commons` library must be changed to reflect the changes in the
 ### Backend Models
 
 A new `IVA` (independent verification address) model must be added to the User Management service:
-	- `id`: string (unique internal id)
-	- `user_id`: string (internal id of the user)
-	- `type`: enum (phone, fax, postal address, in-person)
-	- `value`: string (the actual phone number)
-	- `verification_code`:  string (random number)
-	- `state`: enum (unverified, requested, pending, verified)
+
+  - `id`: string (unique internal id)
+  - `user_id`: string (internal id of the user)
+  - `type`: enum (`phone`, `fax`, `postal_address`, `in_person`)
+  - `value`: string (the actual phone number)
+  - `verification_code_hash`: optional string (hash of actual verification code)
+  - `verification_attempts`: int (number of attempts to verify the code)
+  - `state`: enum (`unverified`, `code_requested`, `code_created`, `code_transmitted`, `verified`)
+ - `created`: date (of creation)
+ - `changed`: date (date of last change)
 
 The `IVA`s should be maintained in a separate collection by the User Management service.
+
+The `verification_code_hash` should be created using a dedicated password hashing algorithm.
+It should only be stored while the IVA is in the states `code_created` and `code_transmitted`.
+The `verification_attempts` field tracks how often the user attempted to send the verification code
+in the `code_transmitted` state.
+After three failed attempts or when the `last_changed` field indicates
+that the verification process takes too long ago (the number of days should be configurable),
+the state should be set back to `unverified`.
+The `state` transitions from `unverified` (after creation),
+over `code_requested` (user requested a verification),
+`code_created` (a verification code has been created)
+and `code_transmitted` (the verification code has been transmitted to the user)
+to `verified` (the user confirmed the receipt of the verification code by returning it properly).
 
 The `Claims` model must be extended so that claims in addition to referencing a user, it can optionally also reference an `IVA` via an additional property `iva_id`.
 
@@ -276,13 +328,16 @@ The IVA creation dialog should allow to select the type and enter the value of t
 
 For existing IVAs, their state and the number of bound datasets should be displayed. Each IVA should have a "delete" button. When an IVA is still bound to a dataset, a warning should be displayed before the deletion.
 
-Each existing IVA in the state "unverified" should have a button "request verification". Each IVA in the state "pending" should have a button "verify".
+Each existing IVA in the state `unverified` should have a button "request verification". Each IVA in the state `code-transmitted` should have a button `verify`.
 
-After clicking "request verification", the state of the IVA should be moved from "unverified" to "requested". After clicking "verify", the verification code should be requested from the user via an input field, and the state of the IVA should be moved from "pending" to "verify" using that code. If the state change does not succeed, a corresponding error message must be shown to the user.
+After clicking "request verification", the state of the IVA should be moved from `unverified` to `code_requested`, a confirmation email should be sent to the user and a notification email should be sent to a data steward.
 
-See the section on IVA management above for the corresponding endpoints in the backend.
+After clicking "verify", the verification code should be requested from the user via an input field, and the
+the state of the IVA should be moved from `code-transmitted` to `verified`. If this does not succeed, a corresponding error message must be shown to the user. After three failed attempts or when the verification code expired, users should be informed that they need to re-request the verification because the verification code expired.
 
-After the state has been changed to "requested" by the user, a data steward should receive a notification. The data steward should be able to access a "IVA browser" page that lists all users and their IVAs, similar to the "access request browser". The data steward should be able to change the state of the individual IVAs. IVAs in the state "requested" should be particularly highlighted. Changing their state to "pending", the data steward should be shown the corresponding verification code and reminded to send it to the user via the specified verification address.
+After the user requested verification, a data steward should have received a notification. The data steward should be able to access an "IVA browser" page that lists all users and their IVAs, similar to the "access request browser". The IVAs in the state `code_requested` or `code_created` should have a button "(Re)create code". After clicking the button, the IVA should be moved to the state `code_created` and a dialog should appear that shows the verification code and ask the data steward to send it to the user via the selected IVA. The dialog should have three buttons: "Cancel" would revert the creation of the code and reset the state to `code_requested`, "Send later" would do nothing, but remind the data steward to confirm the transmission of the code later, and "Confirm transmission" would move the IVA to the state `code-transmitted`. This will also notify the user via an email that the code has been transmitted. Of course the code itself should *not* be sent in the notification email since it is expected to be sent via the transmission channel specified in the IVA. The IVAs in the state `code_created` should also have a button "confirm transmission". All IVAs should also have a button "Invalidate" that would reset its state to `unverified`.
+
+The RPC-style endpoints that can be used to move the state of the IVAs and send corresponding notifications are explained in the section "IVA Management" above.
 
 ### Wireframes
 
