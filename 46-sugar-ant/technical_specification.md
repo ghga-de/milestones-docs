@@ -333,7 +333,8 @@ The IVA creation dialog should allow to select the type and enter the value of t
 
 For existing IVAs, their state and the number of bound datasets should be displayed. Each IVA should have a "delete" button. When an IVA is still bound to a dataset, a warning should be displayed before the deletion.
 
-Each existing IVA in the state `unverified` should have a button "request verification". Each IVA in the state `code-transmitted` should have a button `verify`.
+Each existing IVA in the state `unverified` should have a button "request verification". Each IVA in the state `code-transmitted` should have a button
+"enter verification code".
 
 After clicking "request verification", the state of the IVA should be moved from `unverified` to `code_requested`, a confirmation email should be sent to the user and a notification email should be sent to a data steward.
 
@@ -374,10 +375,15 @@ passed back to the client.
 
 ![IVA management on the profile page](./images/wireframes_profile.png)
 
-- IVA browser
-- access request detail form
+### IVA Browser
 
-## Human Resource/Time Estimation:
+![IVA Browser](./images/wireframes_iva_browser.png)
+
+### Access Request Details
+
+- TODO: wireframes for access request detail form
+
+## Human Resource/Time Estimation
 
 Number of sprints required: 5
 
