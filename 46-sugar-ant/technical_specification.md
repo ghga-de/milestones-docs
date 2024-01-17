@@ -366,13 +366,14 @@ passed back to the client.
 
 ## UI Wireframes
 
-### Login
+### User Login
 
-![Login flow wireframes](./images/wireframes_login.png)
+![Login flow](./images/wireframes_login.png)
 
-TODO:
+### User Profile
 
-- IVA management on the profile page
+![IVA management on the profile page](./images/wireframes_profile.png)
+
 - IVA browser
 - access request detail form
 
