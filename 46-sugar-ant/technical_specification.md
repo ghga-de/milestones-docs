@@ -317,9 +317,9 @@ The frontend must also change the "Logout" button so that it calls the `/rpc/log
 
 A few changes need to be made to the access request functionality implemented in the frontend.
 
-The Access Request Submission Form does not need to be changed, the IVA is not required at this time. TODO: Check with Leon's document. May also be later added.
+The Access Request Submission Form does not need to be changed, since the IVA is not required at this time. Users can formulate Data Access Requests without entering or verifying an IVA.
 
-The Access Request Browser itself does not need to be changed either. It may interesting to show the corresponding IVA for allowed accesses, but this does not need to be implemented as part of this epic.
+The Access Request Browser itself does not need to be changed, either. It may interesting to show the corresponding IVA for allowed accesses, but this does not need to be implemented as part of this epic.
 
 However, the Access Request Details Form that allows granting or denying access needs some changes.
 
