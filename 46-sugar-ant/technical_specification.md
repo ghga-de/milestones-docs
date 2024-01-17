@@ -367,9 +367,12 @@ passed back to the client.
 
 ## UI Wireframes
 
+### Login flow
+
+![Login flow wireframes](./images/wireframes_login.png)
+
 TODO:
 
-- Login flow
 - IVA management on the profile page
 - IVA browser
 - access request detail form
