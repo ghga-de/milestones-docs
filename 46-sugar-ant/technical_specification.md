@@ -344,7 +344,28 @@ After the user requested verification, a data steward should have received a not
 
 The RPC-style endpoints that can be used to move the state of the IVAs and send corresponding notifications are explained in the section "IVA Management" above.
 
-### Wireframes
+## Flow Diagrams
+
+### Login Flow in the Frontend
+
+The following flow diagram visualizes the login flow in the frontend.
+
+![Login flow in the frontend](./images/flow_frontend.png)
+
+### Auth Flow in the Backend
+
+The following flow diagrams visualize the backend flows for the various routes
+that are handled by the Auth Adapter.
+
+Note that per the ExtAuth protocol, a response with a status code of "200 OK"
+means that the route is considered valid by the API gateway
+and forwarded to the corresponding micro service.
+Any other status code in the response causes the response to be directly
+passed back to the client.
+
+![Auth flow in the backend](./images/flow_backend.png)
+
+## UI Wireframes
 
 TODO:
 
