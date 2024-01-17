@@ -119,13 +119,13 @@ The following three REST-style endpoints should be added to the User Management 
   - *creates an IVA for the specified user*
   - auth header: internal token (of data steward or same user)
   - request body:
-      - `type`: enum (phone, fax, postal address, in-person)
-      - `value`: string (the actual phone number)
-	- response body:
-      - `id`: string (the ID of the newly created IVA)
+    - `type`: enum (phone, fax, postal address, in-person)
+    - `value`: string (the actual phone number)
+  - response body:
+    - `id`: string (the ID of the newly created IVA)
 - `DELETE /users/{user-id}/ivas/{iva_id}`
-	- *deletes an existing IVA of the specified user*
-	- auth header: internal token (of data steward or same user)
+  - *deletes an existing IVA of the specified user*
+  - auth header: internal token (of data steward or same user)
 
 Additionally, the following three RPC-style will be added:
 
@@ -229,15 +229,15 @@ The `ghga-service-commons` library must be changed to reflect the changes in the
 
 A new `IVA` (independent verification address) model must be added to the User Management service:
 
-  - `id`: string (unique internal id)
-  - `user_id`: string (internal id of the user)
-  - `type`: enum (`phone`, `fax`, `postal_address`, `in_person`)
-  - `value`: string (the actual phone number)
-  - `verification_code_hash`: optional string (hash of actual verification code)
-  - `verification_attempts`: int (number of attempts to verify the code)
-  - `state`: enum (`unverified`, `code_requested`, `code_created`, `code_transmitted`, `verified`)
- - `created`: date (of creation)
- - `changed`: date (date of last change)
+- `id`: string (unique internal id)
+- `user_id`: string (internal id of the user)
+- `type`: enum (`phone`, `fax`, `postal_address`, `in_person`)
+- `value`: string (the actual phone number)
+- `verification_code_hash`: optional string (hash of actual verification code)
+- `verification_attempts`: int (number of attempts to verify the code)
+- `state`: enum (`unverified`, `code_requested`, `code_created`, `code_transmitted`, `verified`)
+- `created`: date (of creation)
+- `changed`: date (date of last change)
 
 The `IVA`s should be maintained in a separate collection by the User Management service.
 
@@ -346,13 +346,13 @@ The RPC-style endpoints that can be used to move the state of the IVAs and send 
 
 ## Flow Diagrams
 
-### Login Flow in the Frontend
+### Frontend
 
 The following flow diagram visualizes the login flow in the frontend.
 
 ![Login flow in the frontend](./images/flow_frontend.png)
 
-### Auth Flow in the Backend
+### Backend
 
 The following flow diagrams visualize the backend flows for the various routes
 that are handled by the Auth Adapter.
@@ -367,7 +367,7 @@ passed back to the client.
 
 ## UI Wireframes
 
-### Login flow
+### Login
 
 ![Login flow wireframes](./images/wireframes_login.png)
 
