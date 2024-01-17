@@ -383,11 +383,13 @@ UI wireframe for the profile pages and dialogs related to IVA management by the 
 
 UI wireframe for the IVA browser and dialog used for IVA management by the data stewards:
 
-![IVA Browser](./images/wireframe_iva_browser.png)
+![IVA Browser](./images/wireframe_ivas.png)
 
 ### Access Request Details
 
-- TODO: wireframes for access request detail form
+UI wireframe for the access request detail form used by the data stewards:
+
+![Access Request details form](./images/wireframe_access.png)
 
 ## Human Resource/Time Estimation
 
