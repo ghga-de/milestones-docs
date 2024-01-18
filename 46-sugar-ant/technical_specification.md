@@ -263,7 +263,7 @@ The `AccessRequest` model must be extended to also include an optional `iva_id` 
 
 ### Login Flow in the Frontend
 
-The frontend keeps the state of the current user in the session storage. The in the frontend can be one of the following stages:
+The frontend keeps the state of the current user in the session storage. The state in the frontend can be one of the following stages:
 
 - `unauthenticated`
 - `identified` (logged in via LS Login)
