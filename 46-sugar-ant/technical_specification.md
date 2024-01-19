@@ -168,7 +168,7 @@ Additionally, the following RPC-style endpoints will be added:
     - `verification_code`: string (that had been transmitted to the user)
   - response status:
     - `204 No Code`: verification code correct, IVA is now in state `verified`
-    - `400 Bad Request`: IVA did no the state `code_transmitted`
+    - `400 Bad Request`: IVA did not have the state `code_transmitted`
     - `401 Unauthorized`: auth error or verification code was wrong
     - `429 Too Many Requests`: IVA has been reset to unverified
   - *should also send a notification to the data steward*
