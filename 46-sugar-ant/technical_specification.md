@@ -75,7 +75,7 @@ This endpoint first verifies that the user has a valid auth session, i.e. has be
 
 The implementation only supports a single TOTP token per user. If an activated token (a TOTP token that has already been successfully validated at least once) already exists and the `force` flag is set to `true`, then the existing TOTP token will be replaced by the newly created one.
 
-As a side effect of this endpoint, all existing IVAs associated with this user must be deleted, as required in the white paper for 2FA and IVAs.
+As a side effect of this endpoint, all existing IVAs associated with this user must be set back to "unverified", as required in the white paper for 2FA and IVAs.
 
 The QR code should be created in the frontend, e.g. using `react-qr-code` or the `qr-code` web component. If during implementation there are any issues with this approach, it can alternatively also be created in the backend, e.g. using the `segno` library.
 
