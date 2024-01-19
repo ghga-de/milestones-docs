@@ -157,7 +157,7 @@ Additionally, the following RPC-style endpoints will be added:
   - *confirm the transmission of the verification code for the specified IVA*
   - auth header: internal token of a data steward
   - response status:
-    - `204 No Content`: state has been changed to `code_created`
+    - `204 No Content`: state has been changed to `code_transmitted`
     - `400 Bad Request`: IVA did no the state `code_created` or `code_transmitted`
     - `401 Unauthorized`: auth error (e.g. not a data steward)
   - *should also send a notification to the user*
