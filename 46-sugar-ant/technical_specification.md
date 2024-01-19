@@ -242,17 +242,11 @@ A new `IVA` (independent verification address) model must be added to the User M
 
 The `IVA`s should be maintained in a separate collection by the User Management service.
 
-The `verification_code_hash` and `verification_attempts` fields should only be stored in the database and not be returned via the REST interface. The verification code itself should be created randomly and only be shown to the data steward or transmitted
-directly to the user, it should not be stored in the database.
+The `verification_code_hash` and `verification_attempts` fields should only be stored in the database and not be returned via the REST interface. The verification code itself should be created randomly and only be shown to the data steward or transmitted directly to the user, it should not be stored in the database.
 The `verification_code_hash` should be created using a random salt and a dedicated password hashing algorithm from the verification code.
 The `verification_attempts` field tracks how often the user attempted to send the verification code in the `code_transmitted` state.
-After three failed attempts or when the `last_changed` field indicates
-that the verification process takes too long ago (the number of days should be configurable), the state should be set back to `unverified`.
-The `state` transitions from `unverified` (after creation),
-over `code_requested` (user requested a verification),
-`code_created` (a verification code has been created)
-and `code_transmitted` (the verification code has been transmitted to the user)
-to `verified` (the user confirmed the receipt of the verification code by returning it properly).
+After three failed attempts or when the `last_changed` field indicates that the verification process takes too long ago (the number of days should be configurable), the state should be set back to `unverified`.
+The `state` transitions from `unverified` (after creation), over `code_requested` (user requested a verification), `code_created` (a verification code has been created) and `code_transmitted` (the verification code has been transmitted to the user) to `verified` (the user confirmed the receipt of the verification code by returning it properly).
 
 The `Claims` model must be extended so that claims in addition to referencing a user, it can optionally also reference an `IVA` via an additional property `iva_id`.
 
@@ -300,7 +294,7 @@ Therefore, the frontend checks whether the user already created a TOTP token usi
 
 Let's assume the user is in the `needs-totp-token` or `lost-totp-token` state. The frontend then uses the `POST /totp-token` endpoint to create a provisioning URI, whereby the `force` flag should be set if and only if the user is in the state `lost-totp-token`. The frontend then presents the returned URI in form of a QR code to the user and asks the user to scan the QR code using an authenticator app. It should also show a button or link to display the secret as text as fallback for manually entering the secret.
 
-The frontend should recommend using Aegis as authenticator app. Google authenticator is not recommended, since it does not require unlocking the phone, and Authy is not recommend since it stores the secrets in the cloud, and does not provide a means for the user to retrieve them, which makes it impossible to migrate them to another app.
+The frontend should recommend using Aegis (for Android) or 2FAS (for Android and iOS) as authenticator apps. The authenticators provided by Microsoft and Google (both are available for Android and iOS) can also be mentioned, since some users may already have them installed. However, the Google authenticator should not be explicitly recommended, since it does not require unlocking the phone and therefore is less secure. The also popular Authy should not be recommend at all, since it stores the secrets in the cloud and does not provide a means for the user to retrieve them, which makes it impossible to migrate them to another app.
 
 On the same page, the frontend also asks the user to enter the one-time password (six-digit code) shown in the authenticator app to validate the creation of the second factor in a text input field.
 
@@ -355,14 +349,9 @@ The following flow diagram visualizes the login flow in the frontend.
 
 ### Backend
 
-The following flow diagrams visualize the backend flows for the various routes
-that are handled by the Auth Adapter.
+The following flow diagrams visualize the backend flows for the various routes that are handled by the Auth Adapter.
 
-Note that per the ExtAuth protocol, a response with a status code of "200 OK"
-means that the route is considered valid by the API gateway
-and forwarded to the corresponding micro service.
-Any other status code in the response causes the response to be directly
-passed back to the client.
+Note that per the ExtAuth protocol, a response with a status code of "200 OK" means that the route is considered valid by the API gateway and forwarded to the corresponding micro service. Any other status code in the response causes the response to be directly passed back to the client.
 
 ![Auth flow in the backend](./images/flow_backend.png)
 
