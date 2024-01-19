@@ -50,7 +50,8 @@ The Auth Adapter creates an auth session and tracks users as soon as they have l
 
 Instead of converting the OIDC access token to our internal auth token, the Auth Adapter should now convert the content of the user session into the internal auth token. The internal auth token will change a bit, as outlined in a section below.
 
-The Auth Adapter must also be extended with a mechanism that prevents "session riding" attacks, using the "Cookie-to-header token" method. Thereby, the first request that creates the session responds not only with the session cookie, but also with a "CSRF cookie" which must be a unique and unpredictable string, either as a random string or derived from the session token via HMAC and an application secret. Contrary to the session cookie, the CSRF cookie must not be a Http-only token, because it must be read by JavaScript running in the frontend and copied to a CSRF-Token for each request to the backend. The Auth Adapter needs to compare the CSRF Token with the unique string set in the CSRF cookie.
+The Auth Adapter must also be extended with a mechanism that prevents "session riding" attacks, using the "Cookie-to-header token" method. Thereby, the first request that creates the session responds not only with the session cookie, but also with a "CSRF cookie" which must be a unique and unpredictable string, either as a random string or derived from the session token via HMAC and an application secret. Contrary to the session cookie, the CSRF cookie must not set the "HttpOnly" flag, because it must be read by JavaScript running in the frontend so that it can be passed in the request
+header as a CSRF token for each request to the backend. The Auth Adapter needs to compare the CSRF token with the unique string set in the CSRF cookie.
 
 See also: [ADR: user session management](https://github.com/ghga-de/adrs/blob/main/docs/adrs/adr004_user_session_management.md)
 
