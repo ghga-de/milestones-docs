@@ -109,7 +109,7 @@ The management of IVAs (independent verification addresses) should happen in the
 
 For the definition of an IVA, see the section on backend models below.
 
-The following three REST-style endpoints should be added to the User Management service:
+The following REST-style endpoints should be added to the User Management service:
 
 - `GET /users/{user-id}/ivas`
   - *returns the list of IVAs belonging to the specified user*
@@ -128,7 +128,7 @@ The following three REST-style endpoints should be added to the User Management 
   - *deletes an existing IVA of the specified user*
   - auth header: internal token (of data steward or same user)
 
-Additionally, the following three RPC-style will be added:
+Additionally, the following RPC-style endpoints will be added:
 
 - `POST /rpc/ivas/{iva_id}/unverify`
   - *invalidate the specified IVA*
