@@ -42,8 +42,13 @@ def get_toc():
 
 def main():
     """Print table of contents in Markdown format."""
+    toc = get_toc()
+    is_continuous = toc[-1][0] - toc[0][0] == len(toc) - 1
     for num, link, desc in get_toc():
-        print(f"{num}. {link}: {desc}")
+        line = f"{num}. {link}: {desc}"
+        if not is_continuous:
+            line = f"- {line}"
+        print(line)
 
 
 if __name__ == "__main__":
