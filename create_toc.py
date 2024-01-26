@@ -30,7 +30,7 @@ def get_toc():
         try:
             desc, name = title.rsplit("(", 1)
             desc = desc.rstrip()
-            name = name[:-1].strip().capitalize()
+            name = name[:-1].strip().title()
         except ValueError:
             name = desc = None
         if not name or not desc:
