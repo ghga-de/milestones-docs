@@ -45,10 +45,10 @@ def main():
     toc = get_toc()
     is_continuous = toc[-1][0] - toc[0][0] == len(toc) - 1
     for num, link, desc in get_toc():
-        line = f"{num}. {link}: {desc}"
-        if not is_continuous:
-            line = f"- {line}"
-        print(line)
+        if is_continuous:
+            print(f"{num}. {link}: {desc}")
+        else:
+            print(f"- ({num}) {link}: {desc}")
 
 
 if __name__ == "__main__":
