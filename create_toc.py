@@ -20,8 +20,8 @@ def get_toc():
         if not os.path.exists(spec_path):
             raise RecursionError(f"No technical_specification.md found in {epic_dir}")
         for line in open(spec_path):
-            if line.startswith("#"):
-                title = line[1:].strip()
+            if line.startswith("# "):
+                title = line[2:].strip()
                 break
         else:
             title = None
