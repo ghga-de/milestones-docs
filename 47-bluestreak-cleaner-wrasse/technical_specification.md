@@ -18,7 +18,8 @@ To this end, two questions have to be solved for each bucket:
 #### Datasteward Kit:
 Functionality to actually call the PCS and request file deletion is not yet implemented.
 The DS-Kit should be the correct place for this and a new (sub)command exposing this functionality should be made available in `cli/file.py`.
-A delete call needs to be made to the `files/{file_id}` endpoint, which is documented here: https://github.com/ghga-de/purge-controller-service/blob/ac58b0dd2d7d8725ce2c387e331d19f27e6c2c5d/openapi.yaml
+A delete call needs to be made to the `files/{file_id}` endpoint, which is documented here: https://github.com/ghga-de/purge-controller-service/blob/ac58b0dd2d7d8725ce2c387e331d19f27e6c2c5d/openapi.yaml.
+Authorization should use the token mechanism already implemented in the DS-Kit, but a separate and distinct token.
 
 #### Upload Controller:
 Currently, incoming data accumulates in the inbox bucket. Instead, data should be removed asap, once it's no longer needed during upload. This should be handled when receiving the validation success/failure event (https://github.com/ghga-de/ghga-event-schemas/blob/fc23f0a2fda44473ad5993ad592e2c9e7d642fed/src/ghga_event_schemas/pydantic_.py#L182-L269) from the interrogation room.
