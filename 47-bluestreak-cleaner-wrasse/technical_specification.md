@@ -25,10 +25,10 @@ Currently, incoming data accumulates in the inbox bucket. Instead, data should b
 
 Additionally, a periodic job should check if files remain in the inbox that are no longer needed and (for now) log affected objects. As objects should be purged asap, objects remaining in the bucket for an accepted/rejected/cancelled upload mean there is probably a logic bug somewhere.
 
-As the upload controller holds some file data and metadata, the event subscriber needs to be extended to consume file deletion request events from the purge controller.
+As the upload controller holds some file data and metadata, the event subscriber needs to be extended to consume file deletion request events from the purge controller (https://github.com/ghga-de/ghga-event-schemas/blob/fc23f0a2fda44473ad5993ad592e2c9e7d642fed/src/ghga_event_schemas/pydantic_.py#L374-L383).
 
 #### Interrogation Room:
-Currently, incoming data accumulates in the staging bucket. Instead, data should be removed asap, once it's no longer needed during upload. This should be handled once the file is successfully registered and moved by the internal file registry. This means the IRS needs to listen to the file internally registered event (https://github.com/ghga-de/ghga-event-schemas/blob/fc23f0a2fda44473ad5993ad592e2c9e7d642fed/src/ghga_event_schemas/pydantic_.py#L272-L275).
+Currently, incoming data accumulates in the staging bucket. Instead, data should be removed asap, once it's no longer needed during upload. This should be handled once the file is successfully registered and moved by the internal file registry. This means the IRS needs to listen for the file internally registered event (https://github.com/ghga-de/ghga-event-schemas/blob/fc23f0a2fda44473ad5993ad592e2c9e7d642fed/src/ghga_event_schemas/pydantic_.py#L272-L275).
 
 Additionally, a periodic job should check if files remain in staging, that are no longer needed and (for now) log affected objects. As objects should be purged asap, objects remaining in the bucket mean there is a probably a logic bug somewhere.
 
