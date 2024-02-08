@@ -23,13 +23,16 @@ The name of the new service is the **Notification Orchestration Service (NOS)**.
 - Replace ARS notification events
 
 
-## Tasks:
+## Notification Summary:
 
 ### List of Notification Sources
 
 The following list contains notifications and the intended recipients.
+An asterisk by the Purpose field signifies that it's not clear whether the notification
+is needed.
 
 _**Authentication**_
+
 > It needs to be determined whether the Data Steward here is Central or Local
 
 | Recipient    | Purpose                                  | Source Exists | Data Req'd |
@@ -43,16 +46,20 @@ _**Authentication**_
 
 
 _**Data Submission**_
+
+> For the "Research data upload completion" notification, the RDC email must be
+> retrievable from the File ID.
+
 | Recipient     | Purpose                           | Source Exists | Data Req'd |
 |---------------|-----------------------------------|---------------|------------|
 | Central DS    | *Metadata is ready for review     | No            | File ID    |
 | RD Controller | Research data upload completion   | Yes           | File ID    |
 | RD Submitter  | *Approval/rejection of submission | No            | User ID    |
-> For the "Research data upload completion" notification, the RDC email must be
-> retrievable from the File ID.
+
 
 
 _**Data Request and Download**_
+
 > If there is a stored entity linking the request to both the dataset and user IDs, then
 > the request would be the only piece of information needed from the event.
 
@@ -73,10 +80,9 @@ _**Data Deletion**_
 |--------------|-----------------------------|---------------|------------|
 | Data Steward | Deletion request received   | Yes           | File ID    |
 | Data Steward | *Deletion request fulfilled | Yes           | File ID    |
->(*): TBD if desired or not
 
 
-## Additional Implementation Details:
+## Tasks/Additional Implementation Details:
 
 The Notification Orchestration Service will use an event subscriber to consume events
 from other services. Some of these events already exist, while others still
