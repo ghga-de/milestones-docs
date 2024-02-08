@@ -9,7 +9,7 @@ Epic planning and implementation follow the
 
 ## Scope
 ### Outline:
-The goal of this epic is to create a base implementation for a new service which
+The goal of this epic is to create a base implementation for a new service that
 publishes Notification events upon consuming events corresponding to specific points
 in user journeys.
 A description of the concept can be found in
@@ -19,10 +19,11 @@ The name of the new service is the **Notification Orchestration Service (NOS)**.
 ### Included/Required:
 - Initial implementation of NOS
 - Notification Service Idempotence
+- Addition of new event schemas to ghga-event-schemas
+- Replace ARS notification events
 
-### Not Included/Required:
 
-## API Definitions:
+## Tasks:
 
 ### List of Notification Sources
 
@@ -44,9 +45,11 @@ _**Authentication**_
 _**Data Submission**_
 | Recipient     | Purpose                           | Source Exists | Data Req'd |
 |---------------|-----------------------------------|---------------|------------|
-| Central DS    | *Metadata is ready for review     | No            | None?      |
+| Central DS    | *Metadata is ready for review     | No            | File ID    |
 | RD Controller | Research data upload completion   | Yes           | File ID    |
 | RD Submitter  | *Approval/rejection of submission | No            | User ID    |
+> For the "Research data upload completion" notification, the RDC email must be
+> retrievable from the File ID.
 
 
 _**Data Request and Download**_
@@ -56,11 +59,11 @@ _**Data Request and Download**_
 | Recipient    | Purpose                          | Source Exists | Data Req'd |
 |--------------|----------------------------------|---------------|------------|
 | DRR          | Request Created (Confirmation)   | No            | Dataset ID, User ID|
-| DACR         | Request Created                  | No            | Dataset ID, User ID|
+| User (DACR)  | Request Created                  | No            | Dataset ID, User ID|
 | DRR          | Request Allowed                  | No            | Dataset ID, User ID|
-| DACR         | Request Allowed                  | No            | Dataset ID, User ID|
+| User (DACR)  | Request Allowed                  | No            | Dataset ID, User ID|
 | DRR          | Request Denied                   | No            | Dataset ID, User ID|
-| DACR         | Request Denied                   | No            | Dataset ID, User ID|
+| User (DACR)  | Request Denied                   | No            | Dataset ID, User ID|
 | DRR          | *Dataset ready for download      | Yes           | Dataset ID, User ID|
 | DRR          | *Data access expiration reminder | No            | Dataset ID, User ID|
 | DRR          | *Data access expired             | No            | Dataset ID, User ID|
@@ -98,8 +101,6 @@ The NOS will comprise four primary components:
 3. An outbound adapter for obtaining required information stored in the database
 4. Another outbound adapter, an event publisher, to issue Notification events
 
-**Static Content**
-
 The body text used for notifications will be stored in code rather than configuration,
 allowing for tighter control over public-facing content. While configuration is more
 readily changed, it is crucial that changes to user notifications are reviewed and the
@@ -110,6 +111,12 @@ provided externally by the Well Known Values Service (WKVS). A decision on this 
 implementation detail is not urgent. For the initial implementation the Central Data
 Steward email will be stored in configuration.
 
+**Initial Notifications**
+
+Rather than implementing all notifications immediately, a subset will be implemented
+with this epic to allow for modifications. Once a satisfactory solution is agreed upon,
+the remaining notifications may be implemented.
+The ghga-event-schema changes could be completed first to widen the available selection.
 
 ### Notification Service Idempotence:
 
@@ -118,6 +125,34 @@ yet ensure that notifications are issued once and only once. This requirement is
 met in its current state, where reprocessing a notification event would result in
 multiple identical emails. One way to achieve this would be to generate a deterministic
 key for each event and store in a database whether or not it was sent.
+
+### Addition of new event schemas to ghga-event-schemas
+
+New event schemas must be added to ghga-event-schemas for notification sources which do
+not already publish such an event (see tables above).
+
+There are at least two fields that must be included in the outstanding events:
+- `user_id`: string representing the unique user ID stored in the database
+- `dataset_id`: string representing the accession number of a dataset
+
+The following should contain `user_id` and `dataset_id`:
+- RequestCreated
+- RequestAllowed
+- RequestDenied
+
+The following should only contain `user_id`:
+- LSLoginMismatch
+- IVAInvalidated
+- IVAVerificationRequested
+- IVAVerificationTransmitted
+- IVAVerificationSubmitted
+
+### Replace ARS notification events
+
+The Access Request Service currently publishes notification events to communicate the
+status of access requests. The notification events should be removed, and the service
+should instead publish the RequestCreated, RequestAllowed, and RequestDenied events.
+The content of the notifications module can be moved to NOS.
 
 ## Human Resource/Time Estimation:
 
