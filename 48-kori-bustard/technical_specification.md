@@ -8,7 +8,7 @@ Epic planning and implementation follow the
 ## Scope
 ### Outline:
 The goal of this epic is to create a base implementation for a new service that
-publishes Notification events upon consuming events corresponding to specific points
+publishes notification events upon consuming events corresponding to specific points
 in user journeys.
 A description of the concept can be found in
 [this ADR](https://github.com/ghga-de/adrs/blob/main/docs/adrs/adr007_sourcing_notifications.md).
@@ -37,20 +37,24 @@ _**Authentication**_
 > address, such as a mailing address or phone number, and is used to issue a code for
 > authentication.
 
-| Recipient    | Purpose                                  | Source Exists | Data Req'd |
+| Recipient    | Purpose                               | Source Exists | Data Required |
 |--------------|------------------------------------------|---------------|------------|
 | Data Steward | LS Login doesn’t match what's registered | No            | User ID    |
 | User         | IVA invalidated                          | No            | User ID    |
-| User         | IVA verification code requested (Confirmation) | No            | User ID    |
-| Data Steward | IVA verification code requested          | No            | User ID    |
+| User         | IVA verification code requested (Confirmation) | No      | User ID    |
+| Data Steward | IVA verification code requested by user  | No            | User ID    |
 | User         | IVA verification code transmitted        | No            | User ID    |
 | Data Steward | IVA verification code submitted by user  | No            | User ID    |
 
 
 _**Data Submission**_
 
-> For the "Research data upload completion" notification, the RDC email must be
-> retrievable from the File ID.
+> Abbreviations:
+> - DS: Data Steward
+> - RD: Research Data
+>
+> For the "Research data upload completion" notification, the Research Data Controller's
+> email must be retrievable from the File ID.
 
 | Recipient     | Purpose                           | Source Exists | Data Req'd |
 |---------------|-----------------------------------|---------------|------------|
@@ -62,11 +66,15 @@ _**Data Submission**_
 
 _**Data Request and Download**_
 
+> Abbreviations:
+> - DRR: Data Requester Representative
+> - DACR: Data Access Committee Representative
+>
 > If there is a stored entity linking the request to both the dataset and user IDs, then
 > the request would be the only piece of information needed from the event.
 
-| Recipient    | Purpose                          | Source Exists | Data Req'd |
-|--------------|----------------------------------|---------------|------------|
+| Recipient    | Purpose                          | Source Exists | Data Required      |
+|--------------|----------------------------------|---------------|--------------------|
 | DRR          | Request Created (Confirmation)   | No            | Dataset ID, User ID|
 | User (DACR)  | Request Created                  | No            | Dataset ID, User ID|
 | DRR          | Request Allowed                  | No            | Dataset ID, User ID|
@@ -78,9 +86,9 @@ _**Data Request and Download**_
 | DRR          | *Data access expired             | No            | Dataset ID, User ID|
 
 _**Data Deletion**_
-| Recipient    | Purpose                     | Source Exists | Data Req'd |
-|--------------|-----------------------------|---------------|------------|
-| Data Steward | Deletion request received   | Yes           | File ID    |
+| Recipient    | Purpose                     | Source Exists | Data Required |
+|--------------|-----------------------------|---------------|---------------|
+| Data Steward | Deletion request received   | Yes           | File ID       |
 
 
 ## Tasks/Additional Implementation Details:
@@ -90,7 +98,7 @@ from other services. Some of these events already exist, while others still
 need to be defined and implemented. This approach ensures that microservices remain
 agnostic to the notification framework. Instead, when a point in a user journey is
 reached which merits a notification, the given microservice publishes an event. That
-event is picked up by the NOS and used to construct a Notification event.
+event is picked up by the NOS and used to construct a notification event.
 
 ### Initial Implementation
 
