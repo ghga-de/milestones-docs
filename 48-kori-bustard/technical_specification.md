@@ -107,7 +107,7 @@ The NOS will comprise four primary components:
 1. An inbound adapter, an event subscriber, to consume notification source events
 2. A core containing notification content and relevant logic
 3. An outbound adapter for obtaining required information stored in the database
-4. Another outbound adapter, an event publisher, to issue Notification events
+4. Another outbound adapter, an event publisher, to issue notification events
 
 The body text used for notifications will be stored in code rather than configuration,
 allowing for tighter control over public-facing content. While configuration is more
