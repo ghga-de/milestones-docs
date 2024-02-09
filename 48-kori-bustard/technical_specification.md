@@ -73,7 +73,7 @@ _**Data Request and Download**_
 | User (DACR)  | Request Allowed                  | No            | Dataset ID, User ID|
 | DRR          | Request Denied                   | No            | Dataset ID, User ID|
 | User (DACR)  | Request Denied                   | No            | Dataset ID, User ID|
-| DRR          | *Dataset ready for download      | Yes           | Dataset ID, User ID|
+| DRR          | Dataset ready for download       | Yes           | Dataset ID, User ID|
 | DRR          | *Data access expiration reminder | No            | Dataset ID, User ID|
 | DRR          | *Data access expired             | No            | Dataset ID, User ID|
 
@@ -81,7 +81,6 @@ _**Data Deletion**_
 | Recipient    | Purpose                     | Source Exists | Data Req'd |
 |--------------|-----------------------------|---------------|------------|
 | Data Steward | Deletion request received   | Yes           | File ID    |
-| Data Steward | *Deletion request fulfilled | Yes           | File ID    |
 
 
 ## Tasks/Additional Implementation Details:
