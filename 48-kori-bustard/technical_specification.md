@@ -41,7 +41,7 @@ _**Authentication**_
 |--------------|------------------------------------------|---------------|------------|
 | Data Steward | LS Login doesn’t match what's registered | No            | User ID    |
 | User         | IVA invalidated                          | No            | User ID    |
-| User         | IVA verification code requested          | No            | User ID    |
+| User         | IVA verification code requested (Confirmation) | No            | User ID    |
 | Data Steward | IVA verification code requested          | No            | User ID    |
 | User         | IVA verification code transmitted        | No            | User ID    |
 | Data Steward | IVA verification code submitted by user  | No            | User ID    |
