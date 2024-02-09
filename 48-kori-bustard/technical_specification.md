@@ -35,6 +35,10 @@ _**Authentication**_
 
 > It needs to be determined whether the Data Steward here is Central or Local
 
+> **IVA**, or **Independent Verification Address**, refers to some physical or digital
+> address, such as a mailing address or phone number, and is used to issue a code for
+> authentication.
+
 | Recipient    | Purpose                                  | Source Exists | Data Req'd |
 |--------------|------------------------------------------|---------------|------------|
 | Data Steward | LS Login doesn’t match what's registered | No            | User ID    |
