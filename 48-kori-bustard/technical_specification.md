@@ -31,8 +31,6 @@ is needed.
 
 _**Authentication**_
 
-> It needs to be determined whether the Data Steward here is Central or Local
-
 > **IVA**, or **Independent Verification Address**, refers to some physical or digital
 > address, such as a mailing address or phone number, and is used to issue a code for
 > authentication.
@@ -42,9 +40,9 @@ _**Authentication**_
 | Data Steward | LS Login doesn’t match what's registered | No            | User ID    |
 | User         | IVA invalidated                          | No            | User ID    |
 | User         | IVA verification code requested (Confirmation) | No      | User ID    |
-| Data Steward | IVA verification code requested by user  | No            | User ID    |
+| Central Data Steward | IVA verification code requested by user  | No    | User ID    |
 | User         | IVA verification code transmitted        | No            | User ID    |
-| Data Steward | IVA verification code submitted by user  | No            | User ID    |
+| Central Data Steward | IVA verification code submitted by user  | No    | User ID    |
 
 
 _**Data Submission**_
