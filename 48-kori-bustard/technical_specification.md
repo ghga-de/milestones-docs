@@ -137,7 +137,7 @@ The Notification Service needs to maintain idempotence with regard to event proc
 yet ensure that notifications are issued once and only once. This requirement is not
 met in its current state, where reprocessing a notification event would result in
 multiple identical emails. One way to achieve this would be to generate a deterministic
-key for each event and store in a database whether or not it was sent.
+hash key for each event and store in a database whether or not it was sent.
 
 ### Addition of new event schemas to ghga-event-schemas
 
