@@ -158,7 +158,6 @@ The following should contain `user_id` and `dataset_id`:
 - RequestDenied
 
 The following should only contain `user_id`:
-- LSLoginMismatch
 - IVAInvalidated
 - IVAVerificationRequested
 - IVAVerificationTransmitted
