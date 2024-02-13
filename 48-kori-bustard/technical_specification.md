@@ -12,7 +12,12 @@ publishes notification events upon consuming events corresponding to specific po
 in user journeys.
 A description of the concept can be found in
 [this ADR](https://github.com/ghga-de/adrs/blob/main/docs/adrs/adr007_sourcing_notifications.md).
-The name of the new service is the **Notification Orchestration Service (NOS)**.
+The name of the new service is the **Notification Orchestration Service (NOS)**. It does
+not replace or in any way supersede the similarly-named Notification Service. These are
+two distinct services. The latter produces notifications, such as emails, from
+consumed notification events, while the new NOS will be responsible for producing the
+notification events. The relationship is effectively that the NOS sends commands to the
+notification service in the form of notification events.
 
 ### Included/Required:
 - Initial implementation of NOS
@@ -37,7 +42,6 @@ _**Authentication**_
 
 | Recipient    | Purpose                               | Source Exists | Data Required |
 |--------------|------------------------------------------|---------------|------------|
-| Data Steward | LS Login doesn’t match what's registered | No            | User ID    |
 | User         | IVA invalidated                          | No            | User ID    |
 | User         | IVA verification code requested (Confirmation) | No      | User ID    |
 | Central Data Steward | IVA verification code requested by user  | No    | User ID    |
@@ -102,9 +106,9 @@ event is picked up by the NOS and used to construct a notification event.
 
 The initial implementation assumes that it has access to a database containing
 documents storing required relationships:
-- User ID to user email
-- Dataset to Local Data Steward email
-- Dataset to Research Data Controller email
+- User ID to user email, full name, and title
+- Dataset to Local Data Steward email, full name, and title
+- Dataset to Research Data Controller email, full name, and title
 
 **Structure**
 
