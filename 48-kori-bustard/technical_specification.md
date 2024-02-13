@@ -114,7 +114,7 @@ The NOS will comprise four primary components:
 3. An outbound adapter for obtaining required information stored in the database
 4. Another outbound adapter, an event publisher, to issue notification events
 
-The body text used for notifications will be stored in code rather than configuration,
+The body text used for notifications will be stored in templates that are part of the code in the git repository rather than configuration,
 allowing for tighter control over public-facing content. While configuration is more
 readily changed, it is crucial that changes to user notifications are reviewed and the
 changes documented via version control.
