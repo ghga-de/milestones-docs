@@ -284,6 +284,7 @@ The Auth Adapter should store user sessiosn using a `Session` that should have t
 - `user_name`: string (full name of the user)
 - `user_email`: string (email address of the user)
 - `user_title`: optional string (academic title of the user)
+- `role`: optional string (role of the user)
 - `state`: enum (see section on Session states)
 - `csrf_token`: string (the CSRF token for the session)
 - `totp_token`: TOTPToken (the TOTP token object of the user, if created)
@@ -297,7 +298,7 @@ The backed user session can be requested by the frontend using the `/rpc/login` 
 - `name` = `Session.user_name`
 - `email` = `Session.user_email`
 - `state` = `Session.state`
-- `title` = `Session.title` (if set)
+- `role` = `Session.role` (if set)
 - `csrf` = `Session.csrf_token`
 - `timeout` = number of seconds until the session times out if not used
 - `extends` = number of seconds that the session can still be extended
