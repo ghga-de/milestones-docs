@@ -303,7 +303,7 @@ The backed user session can be requested by the frontend using the `/rpc/login` 
 - `timeout` = number of seconds until the session times out if not used
 - `extends` = number of seconds that the session can still be extended
 
-Note that the Session ID and the TOTP token are not part of this structure. The Session ID is passed only in the auth cookie and should not be visible to the client so that it can not leak outside. The TOPT token is returned only in the provisioning URI by the `/totp-token` endpoint. It should only be used to setup the authenticator app, but it should not be used or stored on the client side otherwise.
+Note that the Session ID and the TOTP token are not part of this structure. The Session ID is passed only in the auth cookie and should not be visible to the client so that it can not leak outside. The TOTP token is returned only in the provisioning URI by the `/totp-token` endpoint. It should only be used to setup the authenticator app, but it should not be used or stored on the client side otherwise.
 
 A new `IVA` (independent verification address) model must be added to the User Management service:
 
@@ -361,7 +361,7 @@ On the same page, the frontend also asks the user to enter the one-time password
 
 If the session has the `has-totp-token` state, a similar text input field should be presented to the user, asking them to enter the one-time-password (six-digit code) shown in the authenticator app for authentication.
 
-The user is also shown a link that allows re-creating the second factor. This link can be used in the case they lost the phone with the authenticator app and do not have a backup of the secrets. Following the link, after a warning that all independent verification addresses will be invalidated, the user state should be set to `lost-topt-token`. In that case, the `POST /totp-token` endpoint should be called with the `force` flag to overwrite an existing TOTP token.
+The user is also shown a link that allows re-creating the second factor. This link can be used in the case they lost the phone with the authenticator app and do not have a backup of the secrets. Following the link, after a warning that all independent verification addresses will be invalidated, the user state should be set to `lost-totp-token`. In that case, the `POST /totp-token` endpoint should be called with the `force` flag to overwrite an existing TOTP token.
 
 When the user submits the one-time-password, the frontend uses the `POST /rpc/verify-totp` endpoint to check its validity.
 
