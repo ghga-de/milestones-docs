@@ -39,8 +39,17 @@ The aim is to rewrite all existing metldata transformations to use schemapack.
 ### Embedding Profile to Configure Denormalization:
 TBD.
 
+### Immutability of Datapack and Schemapack Objects:
+Currently, the pydantic models for interacting with DataPack and SchemaPack
+definitions are not fully frozen, yet, however in the future they will be.
+Thus, while re-implementing the transformations, modifications to a
+DataPack or SchemaPack object should never be done in place but
+using methods that would also work on frozen pydantic models (e.g.
+the `model_copy(update={...})` method). This is also true for the already
+migrated transformation.
+
 ## Human Resource/Time Estimation:
 
-Number of sprints required: 2
+Number of sprints required: 1
 
-Number of developers required: 1
+Number of developers required: multipe
