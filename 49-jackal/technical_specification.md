@@ -14,10 +14,10 @@ Thereafter, the metadata team should be enabled to drive the metadata model furt
 
 
 ### Included/Required:
-I. Re-implement the entire LinkML-based model in schemapack
-II. Autogeneration of mermaid-based ER diagrams from a schemapack specs
-III. Autogenerate documentation from schemapack specs
-IV. Transpile schemapack-based models to a spreadsheet representation
+I. Re-implement the entire LinkML-based model in schemapack  
+II. Autogeneration of mermaid-based ER diagrams from a schemapack specs  
+III. Autogenerate documentation from schemapack specs  
+IV. Transpile schemapack-based models to a spreadsheet representation  
 
 ## Implementation Details:
 ### I. Schemapack-based re-implementation of the Metadata Model:
