@@ -14,10 +14,10 @@ Thereafter, the metadata team should be enabled to drive the metadata model furt
 
 
 ### Included/Required:
-I. re-implement the entire LinkML-based model in schemapack
-II. autogeneration of mermaid-based ER diagrams from a schemapack specs
-III. autogenerate documentation from schemapack specs
-IV. transpile schemapack-based models to a spreadsheet representation
+I. Re-implement the entire LinkML-based model in schemapack
+II. Autogeneration of mermaid-based ER diagrams from a schemapack specs
+III. Autogenerate documentation from schemapack specs
+IV. Transpile schemapack-based models to a spreadsheet representation
 
 ## Implementation Details:
 ### I. Schemapack-based re-implementation of the Metadata Model:
@@ -51,7 +51,7 @@ IV. transpile schemapack-based models to a spreadsheet representation
   the submission datapacks need to adapt)
   11. Refactor the directory structure to adapt to the new implementation
 
-### II. autogeneration of mermaid-based ER diagrams from a schemapack specs:
+### II. Autogeneration of mermaid-based ER diagrams from a schemapack specs:
 - To be implemented into the schemapack library with a dedicated CLI command
 - The mermaid language is used as output (visualization must be performed
   elsewhere)
@@ -146,7 +146,7 @@ IV. transpile schemapack-based models to a spreadsheet representation
       File {}
   ```
 
-### III. autogenerate documentation from schemapack specs
+### III. Autogenerate documentation from schemapack specs
 - To be implemented to the schemapack library with a dedicated CLI command
 - to keep the scope small, the command should
   deliberatively have no config option and should be
@@ -192,7 +192,7 @@ IV. transpile schemapack-based models to a spreadsheet representation
   [here](./examples/schemapack/simple_relations.schemapack.yaml))
   is provided [here](./examples/docs/overview.md)
 
-### IV. transpile schemapack-based models to a spreadsheet representation
+### IV. Transpile schemapack-based models to a spreadsheet representation
 - To be implemented in the ghga-metadata-transpile
 - Configuration might need to be adapted
 
