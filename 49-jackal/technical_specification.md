@@ -174,7 +174,10 @@ IV. Transpile schemapack-based models to a spreadsheet representation
     and the relations should be reflected in the documentation
   - A first paragraph shows the top level description of the class
     (obtained from the content schema)
-  - A second paragraph describes the structure of the content schema.
+  - A second paragraph describes the identifier of this class
+    (mentionin the property name and the description as per
+    the schemapack definition)
+  - A third paragraph describes the structure of the content schema.
     The [jsonschema2md](https://pypi.org/project/jsonschema2md/) library
     (or an alternative) is used to automatically translate the content
     schema with all its structural information and plain text descriptions
@@ -182,7 +185,7 @@ IV. Transpile schemapack-based models to a spreadsheet representation
     microservice repository template might act as reference
     (see https://github.com/ghga-de/microservice-repository-template/blob/main/scripts/update_readme.py#L153
     and https://github.com/ghga-de/microservice-repository-template/tree/main?tab=readme-ov-file#configuration).
-  - A third paragraph lists all relations this class defines to other classes:
+  - A fourth paragraph lists all relations this class defines to other classes:
     - For each relation, the following is specified:
       - the name of the relation
       - the description of the relation (if there is any)
