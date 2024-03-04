@@ -197,7 +197,7 @@ IV. Transpile schemapack-based models to a spreadsheet representation
 - optioned might be explored how this output is best integrated into mkdocs projects
 
 ### IV. Transpile schemapack-based models to a spreadsheet representation
-- To be implemented in the ghga-metadata-transpile
+- To be implemented in the ghga-metadata-transpiler
 - Configuration might need to be adapted
 
 
