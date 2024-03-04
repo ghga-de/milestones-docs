@@ -194,6 +194,7 @@ IV. Transpile schemapack-based models to a spreadsheet representation
   described
   [here](./examples/schemapack/simple_relations.schemapack.yaml))
   is provided [here](./examples/docs/overview.md)
+- optioned might be explored how this output is best integrated into mkdocs projects
 
 ### IV. Transpile schemapack-based models to a spreadsheet representation
 - To be implemented in the ghga-metadata-transpile
