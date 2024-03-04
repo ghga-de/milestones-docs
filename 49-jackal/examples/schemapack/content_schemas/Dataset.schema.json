@@ -1,0 +1,13 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "description": "A dataset that is a collection of files.",
+  "properties": {
+    "dac_contact": {
+      "description": "The email address to contact the DAC for this dataset.",
+      "format": "email",
+      "type": "string"
+    }
+  },
+  "type": "object"
+}

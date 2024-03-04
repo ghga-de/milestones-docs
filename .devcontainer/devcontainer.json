@@ -44,7 +44,8 @@
 				"ms-azuretools.vscode-docker",
 				"streetsidesoftware.code-spell-checker",
 				"github.vscode-pull-request-github",
-				"yzhang.markdown-all-in-one"
+				"yzhang.markdown-all-in-one",
+				"bierner.markdown-mermaid"
 			]
 		}
 	},

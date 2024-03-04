@@ -40,8 +40,16 @@ IV. transpile schemapack-based models to a spreadsheet representation
      - the LinkML model
      - the migration scripts and configs
      - all intermediary artifacts
-  9. Automatically generate ER diagrams and markdown descriptions to document the model.
-  10. Refactor the directory structure to adapt to the new implementation
+  9. Automatically generate ER diagrams and markdown descriptions to document the model
+     (checked by CI).
+  10. Automatically transpile the schemapack definition to an excel speadsheet
+      (checked by CI).
+  10. Add one or multiple example submission (datapacks) that conform to the schemapack;
+  in addition to serving as documentation, they should be used in automatic
+  tests to validate the behavior of the metadata model (and act as a change
+  detector to alert everybody that the model behavior has changed so that
+  the submission datapacks need to adapt)
+  11. Refactor the directory structure to adapt to the new implementation
 
 ### II. autogeneration of mermaid-based ER diagrams from a schemapack specs:
 - To be implemented into the schemapack library with a dedicated CLI command
@@ -84,7 +92,7 @@ IV. transpile schemapack-based models to a spreadsheet representation
           int size
       }
   ```
-- visualized as:
+- visualized as (e.g. view this on GitHub for the diagram to be automatically rendered):
   ```mermaid
   erDiagram
       File }|--|{ Dataset: "Dataset.files"
@@ -98,8 +106,95 @@ IV. transpile schemapack-based models to a spreadsheet representation
           int size
       }
   ```
+- In agreement with the schemapack concept, there
+  is a clear separation between content properties and
+  relations:
+  - content properties are shown as attributes of the
+    entities
+  - relations are shown as arrows connecting entities
+- the name of the arrows are composed of the name of
+  the class defining the relation and the name of the
+  relation property; this makes the directionality of
+  the relation clear
+- crow foot notation is used to adequatly model both
+  the modality (`mandatory` specs in schemapack) and
+  the cardinality (`multiple` specs in schemapack),
+  please see https://vertabelo.com/blog/crow-s-foot-notation/
+  for further details
+- Since schemapack makes no assumption about content
+  schemas of individual classes (except that they
+  discribe JSON object), not every content schema can
+  be fully visualized. Thus only the properties of
+  the top-level object of the content schema should be
+  visualized. Thereby, non-primitive types (including
+  properties that define nested structures such as
+  further objects or arrays) are annotated with the type
+  "Custom".
+- There should also be an option to skip content
+  information from the diagram, like that:
+  ```
+  erDiagram
+      File }|--|{ Dataset: "Dataset.files"
+      Dataset {}
+      File {}
+  ```
+- Which is visualizd as:
+  ```mermaid
+  erDiagram
+      File }|--|{ Dataset: "Dataset.files"
+      Dataset {}
+      File {}
+  ```
 
+### III. autogenerate documentation from schemapack specs
+- To be implemented to the schemapack library with a dedicated CLI command
+- to keep the scope small, the command should
+  deliberatively have no config option and should be
+  tailored towards our immediate requirements while not
+  being specific to the submission model
+- Markdown documents should be generated as output to
+  describe every class, their contents, and their
+  relations to each other
+- An overview document contains:
+  - a title as inferred from the schemapack definition (if
+    not present, the file name without the file extension
+    is used instead)
+  - an optional description of the overall schemapack
+    as inferred from the schemapack definition
+  - a ER diagram showing all classes and their relations (exclude
+    content information for simplicity)
+  - a link to a separate document with a more verbose ER diagram
+    (including content information) is provided
+  - a table listing for each class the name of the class in the first
+    column, the description of the class (obtained from the content
+    schema) in the second column, and link to a document with details for
+    the class in the third column
+- Per class, a document with details is provided.
+  - The separation of concern between describing the content
+    and the relations should be reflected in the documentation
+  - A first paragraph shows the top level description of the class
+    (obtained from the content schema)
+  - A second paragraph describes the structure of the content schema.
+    The [jsonschema2md](https://pypi.org/project/jsonschema2md/) library
+    (or an alternative) is used to automatically translate the content
+    schema with all its structural information and plain text descriptions
+    into markdown. The readme generation for the config schema in the
+    microservice repository template might act as reference
+    (see https://github.com/ghga-de/microservice-repository-template/blob/main/scripts/update_readme.py#L153
+    and https://github.com/ghga-de/microservice-repository-template/tree/main?tab=readme-ov-file#configuration).
+  - A third paragraph lists all relations this class defines to other classes:
+    - For each relation, the following is specified:
+      - the name of the relation
+      - the description of the relation (if there is any)
+      - A description of the modality and cardinality in text.
+- an example documentation for a simple model (as
+  described
+  [here](./examples/schemapack/simple_relations.schemapack.yaml))
+  is provided [here](./examples/docs/overview.md)
 
+### IV. transpile schemapack-based models to a spreadsheet representation
+- To be implemented in the ghga-metadata-transpile
+- Configuration might need to be adapted
 
 
 ## Human Resource/Time Estimation:
