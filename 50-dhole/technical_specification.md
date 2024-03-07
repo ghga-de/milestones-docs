@@ -48,6 +48,9 @@ using methods that would also work on frozen pydantic models (e.g.
 the `model_copy(update={...})` method). This is also true for the already
 migrated transformation.
 
+### Refactor aggregate transformation:
+TBD.
+
 ## Human Resource/Time Estimation:
 
 Number of sprints required: 1
