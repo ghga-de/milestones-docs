@@ -138,7 +138,7 @@ IV. Transpile schemapack-based models to a spreadsheet representation
       Dataset {}
       File {}
   ```
-- Which is visualizd as:
+- Which is visualized as:
   ```mermaid
   erDiagram
       File }|--|{ Dataset: "Dataset.files"
