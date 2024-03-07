@@ -23,7 +23,6 @@ The aim is to rewrite all existing metldata transformations to use schemapack.
   - merge_slots
 - re-evaluate and potentially refactor the following transformations:
   - aggregate
-  - normalize_model
 
 
 ### Not included:
@@ -33,6 +32,7 @@ The aim is to rewrite all existing metldata transformations to use schemapack.
   moved handled by the submission store and not be implemented as transformation.
 - A full reimplementation of the GHGA transformation workflow (this depends on other changes to
   be in place first and would make this epic dependent on other lines of work).
+- The normalize_model transformation is not needed anymore
 
 ## Additional Details:
 
