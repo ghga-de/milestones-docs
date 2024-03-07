@@ -19,6 +19,7 @@ II. Autogeneration of mermaid-based ER diagrams from a schemapack definition
 III. Transpile schemapack-based models to a spreadsheet representation
 
 ## Implementation Details:
+
 ### I. Schemapack-based re-implementation of the Metadata Model:
 - The schemapack version 0.2.0 should be used.
 - following algorithm might streamline the migration:
@@ -144,10 +145,11 @@ III. Transpile schemapack-based models to a spreadsheet representation
       Dataset {}
       File {}
   ```
-### III. Transpile schemapack-based models to a spreadsheet representation
-- To be implemented in the ghga-metadata-transpiler
-- Might need to adapt configuration in Excel
-- let transpiler accept datapack
+### III. Refactor ghga-transpiler
+
+- Make transpiler produce datapack instead of original JSON format
+- Migrate ghga-transpiler to a more general configuration strategy that ideally lives longer than individual metadata models
+  - TBD: Source of transpiler information, new XLS format
 
 ## Human Resource/Time Estimation:
 
