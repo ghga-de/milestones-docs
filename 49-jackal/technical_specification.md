@@ -149,7 +149,7 @@ IV. Transpile schemapack-based models to a spreadsheet representation
 ### III. Autogenerate documentation from schemapack specs
 - To be implemented to the schemapack library with a dedicated CLI command
 - to keep the scope small, the command should
-  deliberatively have no config option and should be
+  deliberately have no config option and should be
   tailored towards our immediate requirements while not
   being specific to the submission model
 - Markdown documents should be generated as output to
