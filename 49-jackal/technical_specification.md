@@ -42,7 +42,7 @@ IV. Transpile schemapack-based models to a spreadsheet representation
      - all intermediary artifacts
   9. Automatically generate ER diagrams and markdown descriptions to document the model
      (checked by CI).
-  10. Automatically transpile the schemapack definition to an excel speadsheet
+  10. Automatically transpile the schemapack definition to an excel speadsheet template
       (checked by CI).
   10. Add one or multiple example submission (datapacks) that conform to the schemapack;
   in addition to serving as documentation, they should be used in automatic
@@ -198,8 +198,8 @@ IV. Transpile schemapack-based models to a spreadsheet representation
 
 ### IV. Transpile schemapack-based models to a spreadsheet representation
 - To be implemented in the ghga-metadata-transpiler
-- Configuration might need to be adapted
-
+- Might need to adapt configuration in Excel
+- let transpiler accept datapack
 
 ## Human Resource/Time Estimation:
 
