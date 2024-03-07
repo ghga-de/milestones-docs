@@ -16,7 +16,7 @@ Thereafter, the metadata team should be enabled to drive the metadata model furt
 ### Included/Required:
 I. Re-implement the entire LinkML-based model in schemapack  
 II. Autogeneration of mermaid-based ER diagrams from a schemapack definition  
-III. Transpile schemapack-based models to a spreadsheet representation  
+III. Transpile schemapack-based models to a spreadsheet representation
 
 ## Implementation Details:
 ### I. Schemapack-based re-implementation of the Metadata Model:
@@ -151,6 +151,6 @@ III. Transpile schemapack-based models to a spreadsheet representation
 
 ## Human Resource/Time Estimation:
 
-Number of sprints required: 2
+Number of sprints required: 1
 
-Number of developers required: multiple
+Number of developers required: 3
