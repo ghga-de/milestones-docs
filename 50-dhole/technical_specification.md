@@ -163,6 +163,99 @@ using methods that would also work on frozen pydantic models (e.g.
 the `model_copy(update={...})` method). This is also true for the already
 migrated transformation.
 
+### Refactor merge_slots transformation:
+The original merge_slots transformation should be replaced by two new transformations:
+
+A. For merging content properties:
+- nested properties (of nested JSON objects) must be supported
+- if the source properties are not of the same type, a union type is created (AnyOf)
+- the pydantic Config might look like this:
+  ```python
+  from typing_extensions import TypeAlias
+
+  ContentPropertyPath: TypeAlias = str
+  content_prop_path_description = (
+    "In the simplest case, content property path contains the name of a property"
+    + " of interest inside of the content (schema) of a resource (or class)."
+    + " However, it might also be used to identify properties of nested objects within"
+    + " the content. To do so, the name of the property in the parent class can be"
+    + " separated using a dot ('.') from the name of the property in the child class."
+    + " If a property name itself contains a dot it can be escaped by '\.' to not be"
+    + " interpreted as a nested path."
+  )
+
+  class ContentPropertyMergeConfig(BaseSettings):
+      """Specify content properties that shall be merged into one new property."""
+
+      model_config = SettingsConfigDict(extra="forbid")
+
+      class_name: str = Field(
+        ...,
+        description = (
+          "The name of the class to which the source (and the merged) properties (will)"
+          + " belong."
+        )
+      )
+      source_properties: list[ContentPropertyPath] = Field(
+          ...,
+          description=(
+            "A list of paths to content properties of this class that shall be merged."
+            + " {content_prop_path_description}"
+          )
+          min_length=2,
+      )
+      merged_property: ContentPropertyPath = Field(
+          ..., description=(
+            "The path of the new property that will contain a list of values that"
+            + " were present in the source properties. Please note, this property will"
+            + " will always be a list even if the source properties contained single"
+            + " values."
+            + " {content_prop_path_description}"
+          )
+      )
+      merged_description: Optional[str] = Field(
+          None,
+          description="A description of the new content property.",
+      )
+
+      # potentially add validators
+  ```
+
+B. For merging relation properties:
+- the source properties must have the same targetClass
+- the pydantic Config might look like this:
+  ```python
+  class RelationPropertyMergeConfig(BaseSettings):
+      """Specify relation properties that shall be merged into one new property."""
+
+      model_config = SettingsConfigDict(extra="forbid")
+
+      class_name: str = Field(
+        ...,
+        description = (
+          "The name of the class to which the source (and the merged) properties (will)"
+          + " belong."
+        )
+      )
+      source_properties: list[str] = Field(
+          ...,
+          description="A list of relation properties that shall be merged."
+          min_length=2,
+      )
+      merged_property: ContentPropertyPath = Field(
+          ..., description=(
+            "The name of the new property that will containing the merged list (union"
+            + " set) of relation."
+          )
+      )
+      merged_description: Optional[str] = Field(
+          None,
+          description="A description of the new relation property.",
+      )
+
+      # potentially add validators
+  ```
+
 ### Refactor aggregate transformation:
 TBD.
 
