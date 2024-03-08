@@ -151,7 +151,7 @@ III. Transpile schemapack-based models to a spreadsheet representation
 
 - Make transpiler produce datapack instead of original JSON format
 - Migrate ghga-transpiler to a more general configuration strategy that ideally lives longer than individual metadata models
-  - TBD: Source of transpiler information, new XLS format
+  - Refactor transpiler to read relevant information from hidden sheet in XLS rather than config maintained in transpiler code base
 
 ## Human Resource/Time Estimation:
 
