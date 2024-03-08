@@ -118,7 +118,7 @@ III. Transpile schemapack-based models to a spreadsheet representation
   the class defining the relation and the name of the
   relation property; this makes the directionality of
   the relation clear
-- crow foot notation is used to adequatly model both
+- crow foot notation is used to adequately model both
   the modality (`mandatory` specs in schemapack) and
   the cardinality (`multiple` specs in schemapack),
   please see https://vertabelo.com/blog/crow-s-foot-notation/
