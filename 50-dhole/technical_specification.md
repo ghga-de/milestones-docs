@@ -168,92 +168,75 @@ The original merge_slots transformation should be replaced by two new transforma
 
 A. For merging content properties:
 - nested properties (of nested JSON objects) must be supported
-- if the source properties are not of the same type, a union type is created (AnyOf)
-- the pydantic Config might look like this:
-  ```python
-  from typing_extensions import TypeAlias
-
-  ContentPropertyPath: TypeAlias = str
-  content_prop_path_description = (
-    "In the simplest case, content property path contains the name of a property"
-    + " of interest inside of the content (schema) of a resource (or class)."
-    + " However, it might also be used to identify properties of nested objects within"
-    + " the content. To do so, the name of the property in the parent class can be"
-    + " separated using a dot ('.') from the name of the property in the child class."
-    + " If a property name itself contains a dot it can be escaped by '\.' to not be"
-    + " interpreted as a nested path."
-  )
-
-  class ContentPropertyMergeConfig(BaseSettings):
-      """Specify content properties that shall be merged into one new property."""
-
-      model_config = SettingsConfigDict(extra="forbid")
-
-      class_name: str = Field(
-        ...,
-        description = (
-          "The name of the class to which the source (and the merged) properties (will)"
-          + " belong."
-        )
-      )
-      source_properties: list[ContentPropertyPath] = Field(
-          ...,
-          description=(
-            "A list of paths to content properties of this class that shall be merged."
-            + " {content_prop_path_description}"
-          )
-          min_length=2,
-      )
-      merged_property: ContentPropertyPath = Field(
-          ..., description=(
-            "The path of the new property that will contain a list of values that"
-            + " were present in the source properties. Please note, this property will"
-            + " will always be a list even if the source properties contained single"
-            + " values."
-            + " {content_prop_path_description}"
-          )
-      )
-      merged_description: Optional[str] = Field(
-          None,
-          description="A description of the new content property.",
-      )
-
-      # potentially add validators
+- If the source properties are not of the same type and the `assume_same_type` argument
+  (see config example below) is set to `false`, a union type is created (AnyOf).
+- The new property is always a list even if the source properties were not multivalued.
+- a config example might look like this:
+  ```yaml
+  merge_content_properties:
+    ClassA:
+      # merged properties that shall be created in ClassA:
+      new_property_x:
+        source_properties:
+          - old_property_a
+          - old_property_b
+        deduplicate: true # the default, all values are kept even if they occur
+                          # multiple times accross the source properties
+        assume_same_type: true # the default, raises an exception if the source
+                               # properties do not have the same type
+      old_property_c.new_property_y:
+        # support for nesting:
+        # A new property shall be created in the object contained in the
+        # `old_property_c`. The properties `nested_property_d" and `nested_property_e`
+        # inside of the object contained in `old_property_c` serve as sources.
+        # Dots ('.') are used to denote nesting. If a property name contains a dot, it
+        # can be escaped using '\.'. We assume that nobody would have `\.` in their
+        # property names, so that cannot be escaped.
+        source_properties:
+          - old_property_c.nested_property_d
+          - old_property_c.nested_property_e
+        deduplicate: true
+        assume_same_type: false # Will create a union type if the source properties
+                                # differ in type.
+    ClassB:
+      # merged properties for ClassB:
+      new_property_z:
+        source_properties:
+          - old_property_a
+          - old_property_b
+        # not specifying `deduplicate` and `assume_same_type` is equivalent to
+        # their defaults
   ```
 
 B. For merging relation properties:
 - the source properties must have the same targetClass
-- the pydantic Config might look like this:
-  ```python
-  class RelationPropertyMergeConfig(BaseSettings):
-      """Specify relation properties that shall be merged into one new property."""
-
-      model_config = SettingsConfigDict(extra="forbid")
-
-      class_name: str = Field(
-        ...,
-        description = (
-          "The name of the class to which the source (and the merged) properties (will)"
-          + " belong."
-        )
-      )
-      source_properties: list[str] = Field(
-          ...,
-          description="A list of relation properties that shall be merged."
-          min_length=2,
-      )
-      merged_property: ContentPropertyPath = Field(
-          ..., description=(
-            "The name of the new property that will containing the merged list (union"
-            + " set) of relation."
-          )
-      )
-      merged_description: Optional[str] = Field(
-          None,
-          description="A description of the new relation property.",
-      )
-
-      # potentially add validators
+- a config example might look like this:
+```yaml
+  merge_relation_properties:
+    ClassA:
+      # merged relation properties that shall be created in ClassA:
+      new_property_x:
+        source_properties:
+          - old_property_a
+          - old_property_b
+        # There are no option `deduplicate` because relation properties may never
+        # contain duplicate values.
+        # Moreover, there is no option `assume_same_type` since currently schemapack
+        # does not support unions of multiple target classes for a relation. Thus
+        # the source relations must all point to the same target class.
+        # Nesting is also not supported in relations, so not special treatment of
+        # dots is required.
+      new_property_y:
+        # another merged property
+        source_properties:
+          - old_property_a
+          - old_property_b
+    ClassB:
+      # merged properties for ClassB:
+      new_property_z:
+        source_properties:
+          - old_property_a
+          - old_property_b
   ```
 
 ### Refactor aggregate transformation:
