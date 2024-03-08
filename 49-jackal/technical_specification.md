@@ -42,14 +42,16 @@ III. Transpile schemapack-based models to a spreadsheet representation
      - all intermediary artifacts
   9. Automatically generate ER diagrams and markdown descriptions to document the model
      (checked by CI).
-  10. Automatically transpile the schemapack definition to an excel speadsheet template
+  11. Automatically transpile the schemapack definition to an excel speadsheet template
       (checked by CI).
-  10. Add one or multiple example submission (datapacks) that conform to the schemapack;
-  in addition to serving as documentation, they should be used in automatic
-  tests to validate the behavior of the metadata model (and act as a change
-  detector to alert everybody that the model behavior has changed so that
-  the submission datapacks need to adapt)
-  11. Refactor the directory structure to adapt to the new implementation
+  12. Add one or multiple example submission (datapacks) that conform to the schemapack;
+      in addition to serving as documentation, they should be used in automatic
+      tests to validate the behavior of the metadata model (and act as a change
+      detector to alert everybody that the model behavior has changed so that
+      the submission datapacks need to adapt). The examples from the
+      [example-data](https://github.com/ghga-de/example-data) repository
+      might be used but have to be transformed to datapack.
+  13. Refactor the directory structure to adapt to the new implementation
 
 ### II. Autogeneration of mermaid-based ER diagrams from a schemapack definition:
 - To be implemented into the schemapack library with a dedicated CLI command
