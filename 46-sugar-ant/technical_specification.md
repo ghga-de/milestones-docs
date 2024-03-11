@@ -183,8 +183,8 @@ Additionally, the following RPC-style endpoints will be added:
   - response body: empty
   - response status:
     - `204 No Content`: state changed to `unverified`
-    - `401 Unauthorized`: auth error (e.g. not a data steward)
-  - *should also send a notification to the user*
+    - `401 Unauthorized`: auth error (not a data steward)
+    - `404 Not Found`: the IVA has not been found
 - `POST /rpc/ivas/{iva_id}/request-code`
   - *request the verification of the specified IVA*
   - auth header: internal token
@@ -192,7 +192,8 @@ Additionally, the following RPC-style endpoints will be added:
   - response status:
     - `204 No Content`: state has been changed to `code_requested`
     - `400 Bad Request`: IVA did not have the state `unverified`
-    - `401 Unauthorized`: auth error (e.g. IVA not of current user)
+    - `401 Unauthorized`: auth error (not authenticated)
+    - `404 Not Found`: the IVA has not been found or does not belong to the user
   - *should also send a notification to the user and a data steward*
 - `POST /rpc/ivas/{iva_id}/create-code`
   - *create verification for the specified IVA*
@@ -201,7 +202,8 @@ Additionally, the following RPC-style endpoints will be added:
     - `verification_code`: string (to be transmitted to the user)
   - response status:
     - `200 OK`: state has been changed to `code_created`
-    - `401 Unauthorized`: auth error (e.g. not a data steward)
+    - `401 Unauthorized`: auth error (not a data steward)
+    - `404 Not Found`: the IVA has not been found
 - `POST /rpc/ivas/{iva_id}/code-transmitted`
   - *confirm the transmission of the verification code for the specified IVA*
   - auth header: internal token of a data steward
@@ -209,7 +211,8 @@ Additionally, the following RPC-style endpoints will be added:
   - response status:
     - `204 No Content`: state has been changed to `code_transmitted`
     - `400 Bad Request`: IVA did not have the state `code_created` or `code_transmitted`
-    - `401 Unauthorized`: auth error (e.g. not a data steward)
+    - `401 Unauthorized`: auth error (not a data steward)
+    - `404 Not Found`: the IVA has not been found
   - *should also send a notification to the user*
 - `POST /rpc/ivas/{iva_id}/verify-code`
   - *submit verification code for the specified IVA*
@@ -220,8 +223,11 @@ Additionally, the following RPC-style endpoints will be added:
   - response status:
     - `204 No Content`: verification code correct, IVA is now in state `verified`
     - `400 Bad Request`: IVA did not have the state `code_transmitted`
-    - `401 Unauthorized`: auth error or verification code was wrong
-    - `429 Too Many Requests`: IVA has been reset to unverified
+    - `401 Unauthorized`: auth error (not authenticated)
+    - `403 Forbidden`: verification code was wrong
+    - `404 Not Found`: the IVA has not been found or does not belong to the user
+    - `422 Unprocessable content`: the request body is invalid
+    - `429 Too Many Requests`: too many attempts, IVA has been reset to unverified
   - *should also send a notification to the data steward*
 
 ### Claims Repository
