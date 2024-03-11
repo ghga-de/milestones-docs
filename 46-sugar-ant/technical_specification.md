@@ -214,7 +214,7 @@ Additionally, the following RPC-style endpoints will be added:
     - `401 Unauthorized`: auth error (not a data steward)
     - `404 Not Found`: the IVA has not been found
   - *should also send a notification to the user*
-- `POST /rpc/ivas/{iva_id}/verify-code`
+- `POST /rpc/ivas/{iva_id}/validate-code`
   - *submit verification code for the specified IVA*
   - auth header: internal token
   - request body:
