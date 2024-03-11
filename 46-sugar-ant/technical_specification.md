@@ -180,6 +180,7 @@ Additionally, the following RPC-style endpoints will be added:
 - `POST /rpc/ivas/{iva_id}/unverify`
   - *invalidate the specified IVA*
   - auth header: internal token of a data steward
+  - response body: empty
   - response status:
     - `204 No Content`: state changed to `unverified`
     - `401 Unauthorized`: auth error (e.g. not a data steward)
@@ -188,9 +189,10 @@ Additionally, the following RPC-style endpoints will be added:
   - *request the verification of the specified IVA*
   - auth header: internal token
   - response body: empty
-  - `200 No Content`: state has been changed to `code_requested`
-  - `400 Bad Request`: IVA did not have the state `unverified`
-  - `401 Unauthorized`: auth error (e.g. IVA not of current user)
+  - response status:
+    - `204 No Content`: state has been changed to `code_requested`
+    - `400 Bad Request`: IVA did not have the state `unverified`
+    - `401 Unauthorized`: auth error (e.g. IVA not of current user)
   - *should also send a notification to the user and a data steward*
 - `POST /rpc/ivas/{iva_id}/create-code`
   - *create verification for the specified IVA*
@@ -203,6 +205,7 @@ Additionally, the following RPC-style endpoints will be added:
 - `POST /rpc/ivas/{iva_id}/code-transmitted`
   - *confirm the transmission of the verification code for the specified IVA*
   - auth header: internal token of a data steward
+  - response body: empty
   - response status:
     - `204 No Content`: state has been changed to `code_transmitted`
     - `400 Bad Request`: IVA did not have the state `code_created` or `code_transmitted`
@@ -213,8 +216,9 @@ Additionally, the following RPC-style endpoints will be added:
   - auth header: internal token
   - request body:
     - `verification_code`: string (that had been transmitted to the user)
+  - response body: empty
   - response status:
-    - `204 No Code`: verification code correct, IVA is now in state `verified`
+    - `204 No Content`: verification code correct, IVA is now in state `verified`
     - `400 Bad Request`: IVA did not have the state `code_transmitted`
     - `401 Unauthorized`: auth error or verification code was wrong
     - `429 Too Many Requests`: IVA has been reset to unverified
