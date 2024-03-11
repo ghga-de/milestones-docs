@@ -201,7 +201,7 @@ Additionally, the following RPC-style endpoints will be added:
   - response body:
     - `verification_code`: string (to be transmitted to the user)
   - response status:
-    - `200 OK`: state has been changed to `code_created`
+    - `201 Created`: state changed to `code_created`, code returned in response
     - `401 Unauthorized`: auth error (not a data steward)
     - `404 Not Found`: the IVA has not been found
 - `POST /rpc/ivas/{iva_id}/code-transmitted`
