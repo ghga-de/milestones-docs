@@ -423,7 +423,11 @@ The following flow diagram visualizes the login flow in the frontend.
 
 The following flow diagrams visualize the backend flows for the various routes that are handled by the Auth Adapter.
 
-Note that per the ExtAuth protocol, a response with a status code of "200 OK" means that the route is considered valid by the API gateway and forwarded to the corresponding micro service. Any other status code in the response causes the response to be directly passed back to the client.
+Note that per the [ExtAuth](https://www.getambassador.io/docs/edge-stack/latest/topics/running/services/ext-authz) protocol used by Envoy-based proxies like Emissary-ingress, a response with a status code of `200 OK` means that the route is considered valid by the API gateway and forwarded to the corresponding micro service. Any other status code in the response causes the response to be directly passed back to the client. We utilise this behavior to let the Auth Adapter carry out a dual role, by communicating directly with the client in order to establish user sessions and enroll TOTP, and also regulating access to the backend while exchanging authorizating headers.
+
+The `http_auth_request_module` used by Nginx-based proxies like Ingress-Nginx for external authentication works in a slightly different way by interpreting all `2xx` response status codes as a signal to allow access to the backend. Responses with these status codes are not communicated back to the client. Therefore, the solution outlined here cannot be used with Nginx-based proxies.
+
+Also note that Emissary-ingress needs to be properly configured to pass all necessary headers to the Auth Adapter and allow it to modify some headers.
 
 ![Auth flow in the backend](./images/flow_backend.png)
 
