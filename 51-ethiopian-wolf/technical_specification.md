@@ -86,7 +86,7 @@ Moving the existing file services into a monorepo might serve as a good proof of
 concept as these services are fully evolved and understood.
 
 Coming up with a strategy for life cycle management (versioning, releasing, branching)
-has highest priority and should servce a long-lasting solution. The other aspects are
+has highest priority and should service a long-lasting solution. The other aspects are
 less critical and might change in the future with preliminary solution being
 acceptable. 
 
