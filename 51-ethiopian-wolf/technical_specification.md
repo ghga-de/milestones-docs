@@ -17,7 +17,7 @@ Specifically, the following questions shall be answered:
 - How to manage the life cycle of individual services? Specifically regarding versioning
   and releases.
     - We can start by evaluating whether a simple setup in which all services are
-      versioned and releases together is sufficient.
+      versioned and released together is sufficient.
 - How to manage dependencies for individual services?
     - One pyproject.toml and lock file per service?
     - One global lock file for keeping dependencies shared between services in sync?
