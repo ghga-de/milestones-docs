@@ -85,7 +85,7 @@ Materials to be studied (e.g. articles, book chapters, youtube videos, etc.) and
 Moving the existing file services into a monorepo might serve as a good proof of
 concept as these services are fully evolved and understood.
 
-Comming up with a strategy for life cycle management (versioning, releasing, branching)
+Coming up with a strategy for life cycle management (versioning, releasing, branching)
 has highest priority and should servce a long-lasting solution. The other aspects are
 less critical and might change in the future with preliminary solution being
 acceptable. 
