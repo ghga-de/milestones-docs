@@ -43,7 +43,7 @@ Specifically, the following questions shall be answered:
 - How to ensure that microservice boundaries are respected?
     - import analysis?
     - flag PRs that add changes to multiple repositories
-    - relying on disciplin?
+    - relying on discipline?
 - How to deal with shared functionality?
     - e.g. in addition to services allow libraries in the monorepo
 - Branching and release strategy?
