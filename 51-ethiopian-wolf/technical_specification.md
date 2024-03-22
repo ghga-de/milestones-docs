@@ -55,6 +55,8 @@ Specifically, the following questions shall be answered:
 
 Materials to be studied (e.g. articles, book chapters, youtube videos, etc.) and any (external) persons/experts to talk to:
 
+- There is an existing [confluence page](https://wiki.verbis.dkfz.de/x/bwDYCg) listing
+  the pro and const of monoliths but also a list of resources.
 - The [polylith architecture](https://polylith.gitbook.io/polylith) and associated
   [python tooling](https://davidvujic.github.io/python-polylith-docs/)
 - Talk python episode about [monorepos in python](https://talkpython.fm/episodes/show/399/monorepos-in-python)
