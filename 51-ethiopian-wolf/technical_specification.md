@@ -42,7 +42,7 @@ Specifically, the following questions shall be answered:
         - black and/or white box
 - How to ensure that microservice boundaries are respected?
     - import analysis?
-    - flag PRs that add changes to multiple repositories
+    - flag PRs that add changes to multiple services within the monorepo
     - relying on discipline?
 - How to deal with shared functionality?
     - e.g. in addition to services allow libraries in the monorepo
