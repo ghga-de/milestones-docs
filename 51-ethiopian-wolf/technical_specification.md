@@ -40,7 +40,7 @@ Specifically, the following questions shall be answered:
         - Behavioral
         - contract-testing
         - black and/or white box
-- How to ensure that microservice boundraries are respected?
+- How to ensure that microservice boundaries are respected?
     - import analysis?
     - flag PRs that add changes to multiple repositories
     - relying on disciplin?
