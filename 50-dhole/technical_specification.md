@@ -262,7 +262,7 @@ value. The configuration may look as follows:
 
 # Examples from current config
 - class: Dataset
-  target_path: [datasets]
+  target_path: [samples_summary]
   schema:
     type: object
     additionalProperties: false
