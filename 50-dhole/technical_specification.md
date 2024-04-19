@@ -245,43 +245,35 @@ The former `aggregate` transformation shall be replaced by a mixture of existing
 and to be written transformations. The following new transformations shall be
 implemented:
 
-#### Transformation 1: Add Subschema
+#### Transformation 1: Add Content Property
 
 A transformation that enables the insertion of a subschema into a new property
 of any object within the current content schema of a class, including an initial
-value. The configuration may look as follows:
+value. The schema will be modified by inserting the subschema at the specified path. The data will be modified by inserting the default value at the specified path. The user may control whether or not the newly added property is added to the parent property's `required` list.
+
+##### Configuration
 
 ```yaml
-# Generic Example
-- class: MyClass
-  target_path: [path, of, properties]
-  schema:
+# Generic Example, defaults shown for optional parameters
+- class_name: MyClass
+  target_content:
+    object_path: "" # Optional, default empty string refers to content root object
+    property_name: new_property
+    required: true # Optional
+  schema: # Optional
     type: "object"
     additionalProperties: false
-  value: {}
+  value: {} # Optional
 
 # Examples from current config
-- class: Dataset
-  target_path: [samples_summary]
-  schema:
-    type: object
-    additionalProperties: false
-    properties:
-      stats:
-        type: object
-        additionalProperties: false
-- class: Dataset
-  target_path: [studies_summary]
-  schema:
-    type: object
-    additionalProperties: false
-    properties:
-      stats:
-        type: object
-        additionalProperties: false
-```
+- class_name: Dataset
+  target_content:
+    property_name: datasets
 
-* The transformation shall check whether the specified `target_path` is valid, i.e. all but the last elements are objects and the property does not yet exist.
+- class_name: Dataset
+  target_content:
+    property_name: "studies_summary"
+```
 
 #### Transformation 2: Count References
 
@@ -291,17 +283,19 @@ value. The configuration may look as follows:
 Example config:
 
 ```yaml
-- class: Dataset
-  target_path: [samples_summary, count]
-  source_path: [samples]
+- class_name: Dataset
+  target_content:
+    object_path: samples_summary
+    property_name: count
+  source_relation_path: "Dataset(samples)>Sample"
 ```
 
 ####  Transformation 3: Count content values
 
 * The transformation shall count the values encountered at a specified property in the content of an object.
 * The transformation shall validate that at least one of the traversed references is multi-valued by its cardinality or one of the traversed content elements is an array.
-* The path to the content property is specified as the list of references to traverse (`source_path.reference`) and the list of content objects to traverse (`source_path.content`).
-* The terminal element of the `source_path.content` configuration is the name of the property to be created to hold the resulting value. It is added to the schema by the transformation and has the following schema:
+* The path to the source content property is specified in two stages: (1) a relation path string specifies the path to the class that holds the content; (2) a content path specifies the path to the property source property within the content.
+* A new content property with the name `target_content.property_name` will be added to the schema by the transformation and will have the following schema
   ```yaml
   type: object
   additionalProperties: true
@@ -309,37 +303,40 @@ Example config:
   where each observed value will be mapped to an integer value representing the
   number of times it was observed
 
-Draft Config:
+##### Configuration
 
 ```yaml
-- class: Dataset
-  target_path: [samples_summary, stats, sex]
-  source_path:
-    reference: [individuals]
-    content: [sex]
-- class: Dataset
-  target_path: [samples_summary, stats, tissues]
-  source_path:
-    reference: [biospecimens]
-    content: [tissue]
+- class_name: Dataset
+  target_content:
+    object_path: samples_summary.stats
+    property_name: sex
+  source:
+    relation_path: Dataset(individuals)>Individual
+    content_path: sex
+- class_name: Dataset
+  target_content:
+    object_path: samples_summary.stats
+    property_name: tissues
+  source:
+    relation_path: Dataset(biospecimens)>Biospecimen
+    content_path: tissue
 ```
 
-#### Transformation 4: Arithmetic Operation
+#### Transformation 4: Sum Operation
 
-* Similarly to the previous transformation, this transformation does not count the element occurrences but enables arithmetic operations on the yielded elements.
+* Similarly to the previous transformation, this transformation does not count the element occurrences but sums up the values of the yielded elements.
 * The transformation shall validate that the type of the configured source element allows arithmetic operations (number, integer, boolean).
-* The type of the resulting subschema shall be that of the source subschema.
-* The transformation shall offer a SUM operator. For future purposes other operators such as MEAN may be useful.
 
 Draft Config:
 
 ```yaml
-- class: Dataset
-  target_path: [files_summary, stats, size]
-  source_path:
-    reference: [files]
-    content: [size]
-  operator: SUM
+- class_name: Dataset
+  target_content:
+    object_path: files_summary.stats
+    property_name: size
+  source:
+    relation_path: Dataset(files)>File
+    content_path: size
 ```
 
 #### Transformation 5: Copy
@@ -347,24 +344,34 @@ Draft Config:
 * The transformation shall enable copying the values from one content location (of potentially a referenced class) to another content location.
 * The type of the resulting subschema shall be that of the source subschema.
 
-Draft Config:
+##### Configuration
 
 ```yaml
-- class: Dataset
-  target_path: [dac_email]
-  source_path:
-    references: [data_access_policy, data_access_committee]
-    content: [email]
+- class_name: Dataset
+  target_content:
+    property_name: dac_email
+  source:
+    relation_path: Dataset(data_access_policy)>DataAccessPolicy(data_access_committee)>DataAccessCommittee
+    content_path: email
 ```
 
 #### Transformation 6: Delete Reference
 
-As the name suggests.
+##### Configuration
+
+```yaml
+- class_name: ClassName
+  reference_name: reference_name
+```
 
 #### Transformation 7: Delete Content Subschema
 
-As the name suggests, following the conventions used in the aforementioned transformations.
+As the name suggests, following the conventions used in the aforementioned transformations. The transformation changes the schema and data by removing the specified property from the content schema and data.
 
+```yaml
+- class_name: ClassName
+  content_path: property.nested_property
+```
 
 ## Human Resource/Time Estimation:
 
