@@ -260,7 +260,7 @@ value. The schema will be modified by inserting the subschema at the specified p
     object_path: "" # Optional, default empty string refers to content root object
     property_name: new_property
     required: true # Optional
-  schema: # Optional
+  schema: # Optional, defaults to the following value
     type: "object"
     additionalProperties: false
   value: {} # Optional
