@@ -240,10 +240,141 @@ B. For merging relation properties:
   ```
 
 ### Refactor aggregate transformation:
-TBD.
+
+The former `aggregate` transformation shall be replaced by a mixture of existing
+and to be written transformations. The following new transformations shall be
+implemented:
+
+#### Transformation 1: Add Content Property
+
+A transformation that enables the insertion of a subschema into a new property
+of any object within the current content schema of a class, including an initial
+value. The schema will be modified by inserting the subschema at the specified path. The data will be modified by inserting the default value at the specified path. The user may control whether or not the newly added property is added to the parent property's `required` list.
+
+##### Configuration
+
+```yaml
+# Generic Example, defaults shown for optional parameters
+- class_name: MyClass
+  target_content:
+    object_path: "" # Optional, default empty string refers to content root object
+    property_name: new_property
+    required: true # Optional
+  schema: # Optional, defaults to the following value
+    type: "object"
+    additionalProperties: false
+  value: {} # Optional
+
+# Examples from current config
+- class_name: Dataset
+  target_content:
+    property_name: datasets
+
+- class_name: Dataset
+  target_content:
+    property_name: "studies_summary"
+```
+
+#### Transformation 2: Count References
+
+* The transformation shall count how many target objects are referenced from each source object given the relation name.
+* The transformation shall validate whether the target is defined with multiplicity and fail otherwise
+
+Example config:
+
+```yaml
+- class_name: Dataset
+  target_content:
+    object_path: samples_summary
+    property_name: count
+  source_relation_path: "Dataset(samples)>Sample"
+```
+
+####  Transformation 3: Count content values
+
+* The transformation shall count the values encountered at a specified property in the content of an object.
+* The transformation shall validate that at least one of the traversed references is multi-valued by its cardinality or one of the traversed content elements is an array.
+* The path to the source content property is specified in two stages: (1) a relation path string specifies the path to the class that holds the content; (2) a content path specifies the path to the property source property within the content.
+* A new content property with the name `target_content.property_name` will be added to the schema by the transformation and will have the following schema
+  ```yaml
+  type: object
+  additionalProperties: true
+  ```
+  where each observed value will be mapped to an integer value representing the
+  number of times it was observed
+
+##### Configuration
+
+```yaml
+- class_name: Dataset
+  target_content:
+    object_path: samples_summary.stats
+    property_name: sex
+  source:
+    relation_path: Dataset(individuals)>Individual
+    content_path: sex
+- class_name: Dataset
+  target_content:
+    object_path: samples_summary.stats
+    property_name: tissues
+  source:
+    relation_path: Dataset(biospecimens)>Biospecimen
+    content_path: tissue
+```
+
+#### Transformation 4: Sum Operation
+
+* Similarly to the previous transformation, this transformation does not count the element occurrences but sums up the values of the yielded elements.
+* The transformation shall validate that the type of the configured source element allows arithmetic operations (number, integer, boolean).
+
+Draft Config:
+
+```yaml
+- class_name: Dataset
+  target_content:
+    object_path: files_summary.stats
+    property_name: size
+  source:
+    relation_path: Dataset(files)>File
+    content_path: size
+```
+
+#### Transformation 5: Copy
+
+* The transformation shall enable copying the values from one content location (of potentially a referenced class) to another content location.
+* The type of the resulting subschema shall be that of the source subschema.
+
+##### Configuration
+
+```yaml
+- class_name: Dataset
+  target_content:
+    property_name: dac_email
+  source:
+    relation_path: Dataset(data_access_policy)>DataAccessPolicy(data_access_committee)>DataAccessCommittee
+    content_path: email
+```
+
+#### Transformation 6: Delete Reference
+
+##### Configuration
+
+```yaml
+- class_name: ClassName
+  reference_name: reference_name
+```
+
+#### Transformation 7: Delete Content Subschema
+
+As the name suggests, following the conventions used in the aforementioned transformations. The transformation changes the schema and data by removing the specified property from the content schema and data.
+
+```yaml
+- class_name: ClassName
+  content_path: property.nested_property
+```
 
 ## Human Resource/Time Estimation:
 
 Number of sprints required: 1
 
-Number of developers required: multipe
+Number of developers required: multiple
