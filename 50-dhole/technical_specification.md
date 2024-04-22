@@ -277,7 +277,7 @@ value. The schema will be modified by inserting the subschema at the specified p
 
 #### Transformation 2: Count References
 
-* The transformation shall count how many target objects are referenced from each source object given the reference name.
+* The transformation shall count how many target objects are referenced from each source object given the relation name.
 * The transformation shall validate whether the target is defined with multiplicity and fail otherwise
 
 Example config:
