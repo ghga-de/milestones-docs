@@ -111,7 +111,7 @@ The session should have a state attribute that can have the following values:
   The user indicated that the TOTP token was lost and needs to be re-generated.
 - **authenticated**
   The user is fully authenticated with two factors.
-  Set via `POST /rpv/verify-totp`.
+  Set via `POST /rpc/verify-totp`.
 
 ### TOTP Management
 
