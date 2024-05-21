@@ -152,9 +152,9 @@ There are at least two fields that must be included in the outstanding events:
 - `user_id`: string representing the unique user ID stored in the database
 - `dataset_id`: string representing the accession number of a dataset
 
-One model can be defined in ghga-event-schemas to encapsulate the User ID alone, since
+One model should be defined in ghga-event-schemas to encapsulate the User ID alone, since
 that field is used across multiple events. The dataset ID is needed for the access
-request details, so an AccessRequestDetails model can be defined as well.
+request details, so an AccessRequestDetails model should be defined as well.
 
 The IVA notifications may require other information as details emerge, so required
 information may be separately encapsulated for them.
