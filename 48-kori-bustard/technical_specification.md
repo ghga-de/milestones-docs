@@ -80,7 +80,9 @@ _**Data Request and Download**_
 | Data Steward | Request Allowed                 | Dataset ID, User ID|
 | DRR          | Request Denied                  | Dataset ID, User ID|
 | Data Steward | Request Denied                  | Dataset ID, User ID|
-
+| DRR          | Dataset ready for download      | Dataset ID, User ID|
+| DRR          | *Data access expiration reminder| Dataset ID, User ID|
+| DRR          | *Data access expired            | Dataset ID, User ID|
 
 ## Tasks/Additional Implementation Details:
 
