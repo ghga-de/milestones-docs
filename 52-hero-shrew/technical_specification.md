@@ -57,6 +57,6 @@ The following services need the outbox *subscriber* implemented for the listed e
 
 ## Human Resource/Time Estimation:
 
-Number of sprints required: 1
+Number of sprints required: 2
 
-Number of developers required: 2
+Number of developers required: 1
