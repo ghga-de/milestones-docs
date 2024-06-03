@@ -17,7 +17,7 @@ republishing and reprocessing of these events should then result in the re-creat
 all transitive events, as far as idempotence allows.
 
 The outbox pattern may be implemented to make information about domain objects available
-to service beyond the primary owning service, but that is outside the scope of *this*
+to services beyond the primary owning service, but that is outside the scope of *this*
 epic, which is concerned only with the implementation of the outbox subscriber as a
 backup mechanism for Kafka events.
 
@@ -26,7 +26,9 @@ backup mechanism for Kafka events.
   - Download Controller Service
   - Upload Controller Service
   - Purge Controller Service
-- Any modifications to other services for the purpose of achieving idempotence
+  - Internal File Registry Service
+  - Interrogation Room Service
+- Any modifications to other services required for the purpose of achieving idempotence
 - Testing
 
 
