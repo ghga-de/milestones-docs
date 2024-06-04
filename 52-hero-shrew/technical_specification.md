@@ -28,6 +28,7 @@ backup mechanism for Kafka events.
   - Purge Controller Service
   - Internal File Registry Service
   - Interrogation Room Service
+  - File Ingest Service
 - Any modifications to other services required for the purpose of achieving idempotence
 - Testing
 
@@ -41,6 +42,8 @@ The following services need the outbox *publisher* implemented for the listed ev
 | Upload Controller   | FileUploadReceived (consumed by the IRS)                   |
 | Download Controller | NonStagedFileRequested (consumed by the IFRS)              |
 | Purge Controller    | FileDeletionRequested (consumed by the IFRS, UCS, and DCS) |
+| File Ingest         | FileUploadValidationSuccess (consumed by the IFRS)         |
+| Interrogation Room  | FileUploadValidationSuccess (consumed by the IFRS)         |
 
 
 The following services need the outbox *subscriber* implemented for the listed events:
@@ -50,6 +53,7 @@ The following services need the outbox *subscriber* implemented for the listed e
 | Interrogation Room     | FileUploadReceived     |
 | Internal File Registry | NonStagedFileRequested |
 |                        | FileDeletionRequested  |
+|                        | FileUploadValidationSuccess  |
 | Download Controller    | FileDeletionRequested  |
 | Upload Controller      | FileDeletionRequested  |
 
