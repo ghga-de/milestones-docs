@@ -1,4 +1,4 @@
-# File Information Service ()
+# File Information Service (Peacock Spider)
 **Epic Type:** Implementation Epic
 
 ## Scope
