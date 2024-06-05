@@ -7,8 +7,6 @@
 This epic aims to change the current quasi hardcoded solution for propagating the correct storage location of files uploaded via the Datasteward Kit to a user facing decision.
 Instead of setting a storage alias in the config of the File Ingest Service, the alias information should be part of the information the DS Kit sends to the File Ingest Service.
 
-In addition, the File Ingest Service now needs to communicate with the Well Known Value Service to validate the storage aliases sent by the DS Kit.
-
 ### Included/Required:
 
 There are two possibilities to add storage alias information in the DS Kit:
@@ -22,6 +20,8 @@ As file metadata is read in from a directory, different metadata could be groupe
 An explicit command line argument would be the preferred in this setting, as to not upload with the wrong storage location set by accident.
 
 The second option could be realized by a mapping file, but has more potential for manual error and issues with missing entries.
+
+In addition, the File Ingest Service now needs to communicate with the Well Known Value Service to validate the storage aliases sent by the DS Kit.
 
 ## API Definitions:
 
