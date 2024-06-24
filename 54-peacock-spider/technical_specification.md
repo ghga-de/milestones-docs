@@ -29,7 +29,7 @@ Return of internal only file metadata, i.e. encrypted part sizes as MD5 and SHA2
 
 Here the `file_id` is the public accession for the given file.
 
-This should return a payload including the unencrypted file size and SHA256 checksum for the given file ID,
+This should return a payload including the unencrypted file size in bytes and SHA256 checksum for the given file ID,
 hiding unnecessary details for the requester.
 ```
 {
@@ -37,8 +37,6 @@ hiding unnecessary details for the requester.
     'sha256_hash': ...,
 }
 ```
-
-The size returned is the number of bytes in the unencrypted file content.
 
 ### Payload Schemas for Events:
 
