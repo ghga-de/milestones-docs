@@ -25,14 +25,16 @@ Return of internal only file metadata, i.e. encrypted part sizes as MD5 and SHA2
 
 ### RESTful/Synchronous:
 
-- GET `/file_metadata/{file_id}`: Get file size and sha256 for the unencrypted file content
+- GET `/file_information/{file_id}`: Get file size and sha256 for the unencrypted file content
+
+Here the `file_id` is the public accession for the given file.
 
 This should return a payload including the unencrypted file size and SHA256 checksum for the given file ID,
 hiding unnecessary details for the requester.
 ```
 {
-    'file_size': ...,
-    'checksum': ...,
+    'size': ...,
+    'sha256_hash': ...,
 }
 ```
 
