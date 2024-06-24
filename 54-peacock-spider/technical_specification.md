@@ -38,6 +38,8 @@ hiding unnecessary details for the requester.
 }
 ```
 
+The size returned is the number of bytes in the unencrypted file content.
+
 ### Payload Schemas for Events:
 
 Incoming population event: [FileInternallyRegistered](https://github.com/ghga-de/ghga-event-schemas/blob/faf00f361facc4195f2b9e9a0a69ec9645464bc3/src/ghga_event_schemas/pydantic_.py#L270-L273)
