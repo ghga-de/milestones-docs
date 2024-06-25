@@ -11,13 +11,15 @@ Instead of setting a storage alias in the config of the File Ingest Service, the
 
 Storage alias information in the DS Kit should be provided during the file upload step.
 Therefore, the current metadata needs to be updated to include the storage alias for the specific file.
-To simplify interaction with the DS Kit, the alias should be provided as CLI argument for each (batch) upload.
+To simplify interaction with the DS Kit, the alias should be provided as config option in addition to the storage config.
+For compatibility with older, already created metadata, the storage alias from config should be added during ingest in the DS Kit, if none is provided in the metadata.
+The corresponding documentation should highlight this feature.
 
 The local storage configuration needs to match what is configured for the services in the backend.
 To this end, the Well Known Value Service should provide a map of all configured storage aliases and their respective URLs.
 Credentials for the different storage nodes still need to be set locally.
 
-In addition, the File Ingest Service also needs to communicate with the Well Known Value Service to validate the storage aliases sent by the DS Kit.
+In addition, the File Ingest Service also needs to have all valid storge aliases configured to validate the data sent by the DS Kit.
 
 ## API Definitions:
 
