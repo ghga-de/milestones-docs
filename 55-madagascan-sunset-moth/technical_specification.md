@@ -9,19 +9,15 @@ Instead of setting a storage alias in the config of the File Ingest Service, the
 
 ### Included/Required:
 
-There are two possibilities to add storage alias information in the DS Kit:
+Storage alias information in the DS Kit should be provided during the file upload step.
+Therefore, the current metadata needs to be updated to include the storage alias for the specific file.
+To simplify interaction with the DS Kit, the alias should be provided as CLI argument for each (batch) upload.
 
-1) Add a global config option or command line argument that is applied to the current batch upload
-2) Manually provide a storage alias for each of the files uploaded
+The local storage configuration needs to match what is configured for the services in the backend.
+To this end, the Well Known Value Service should provide a map of all configured storage aliases and their respective URLs.
+Credentials for the different storage nodes still need to be set locally.
 
-As this only affects the metadata ingest phase, the first solution might be easier to handle. 
-File metadata is ingested in batches and each batch would be assigned one storage alias/location.
-As file metadata is read in from a directory, different metadata could be grouped in  different directories according to storage location.
-An explicit command line argument would be the preferred in this setting, as to not upload with the wrong storage location set by accident.
-
-The second option could be realized by a mapping file, but has more potential for manual error and issues with missing entries.
-
-In addition, the File Ingest Service now needs to communicate with the Well Known Value Service to validate the storage aliases sent by the DS Kit.
+In addition, the File Ingest Service also needs to communicate with the Well Known Value Service to validate the storage aliases sent by the DS Kit.
 
 ## API Definitions:
 
@@ -39,7 +35,7 @@ In addition, the Well Known Value Service needs to provide a new value at the ex
 - GET /values/{value_name}
 
 endpoint. 
-The proposed value name is `storage_aliases` and this endpoint should return a list of all configured storage aliases.
+The proposed value name is `storage_aliases` and this endpoint should return a map of all configured storage aliases and their respective URLs.
 
 ## Additional Implementation Details:
 
