@@ -1,4 +1,4 @@
-# Kakfa Event Retry Handling (Sphynx Cat)
+# Kakfa Dead Letter Queues (Sphynx Cat)
 **Epic Type:** Implementation Epic
 
 Epic planning and implementation follow the
@@ -8,19 +8,35 @@ Epic planning and implementation follow the
 ## Scope
 ### Outline:
 The goal of this epic is to both define and implement a mechanism to deal with Kafka
-events that result in service-crashing errors when consumed. Such errors can be caused
+events that result in unhandled exceptions when consumed. Such errors can be caused
 by an array of things, and may or may not be a problem with the event payload itself.
 Events that fail cannot always be outright discarded, so there is a need for a way to
 set the events aside (disengage them from the request flow) and allow for investigation.
 After looking into why the event failed and performing any required intervention, the
-events can be either discarded or reintroduced to the request flow as the situation
-warrants. One of the most common mechanisms for achieving this capability is called a
-Dead Letter Queue (DLQ).
+events can be either discarded or reintroduced into the request flow as the situation
+warrants. 
+
+Currently, we have no elegant way to handle this kind of situation aside from immediately
+diagnosing and patching the application code. As an example, there was a situation in the
+Archive Test Bed where the `nos` consumed an event that required it to look up a non-
+existent record in the database and crashed. Ideally, this would not prevent the service
+from functioning. Instead, the error would be logged and the problematic event would be
+dealt with in a way that allows us to examine the problem and later retry the event.
+
+One of the most common mechanisms for achieving this capability is called a
+Dead Letter Queue (DLQ). In a DLQ, failed events are sent to a separate location. In the
+context of Kafka, this is usually another topic, but it could also be a database
+collection or any other location that effectively preserves the event while preventing
+further processing. Kafka does not come with DLQ support out-of-the-box unless used with
+Kafka Connect. We are not using Kafka Connect and use AIOKafka's python producers and
+consumers with our own library instead, meaning we can't take advantage of Kafka Connect
+without considerable work.
+
 
 ### Included/Required:
 - Investigation of DLQs in Kafka
 - ADR Proposal
-- Implementation of a DLQ PoC in `hexkit`
+- Implementation of DLQ Providers in `hexkit`
 - Implementation of DLQ logic in services
 
 
@@ -42,19 +58,19 @@ The above illustrates the high-level concept for a Kafka DLQ.
 
 The flow diagram above demonstrates the proposed use of a DLQ in a given service:
 
-1. Failed events are retried a configurable number of times.  
+1. Failed events are retried a configurable number of times.
 2. Upon final failure, they are published to the service-specific DLQ topic
-(the original topic name is preserved), where they await review.  
+(the original topic name is preserved), where they await review.
 3. Events in the DLQ are manually reviewed. To ignore or reprocess the next event in the
-DLQ, the corresponding command is sent to a dedicated DLQ consumer.  
+DLQ, the corresponding command is sent to a dedicated DLQ consumer.
 4. If the DLQ consumer is instructed to retry the event, it will publish it to a DLQ Retry
-topic, to which the main consumer actively listens.  
+topic, to which the main consumer actively listens.
 5. Upon consuming an event from the retry queue, the main consumer restores the original
 topic name and proceeds with the normal request flow.
 
-### Implementation of a DLQ Proof of Concept in `hexkit`
+### Implementation of DLQ Providers in `hexkit`
 
-The PoC will involve the creation of a class that combines the Kafka Subscriber and the
+The work will involve the creation of a class that combines the Kafka Subscriber and the
 Kafka Publisher, which will be used in two ways.
 
 
@@ -63,6 +79,7 @@ A specialized event consumer that, upon catching an unhandled error during event
 consumption, does the following:
 1. Retries the event until the configured number of retries is exhausted (using
 exponential backoff).
+   - This can reduce the likelihood of transient errors populating the DLQ.
 1. Checks auto-ignore rules to determine if the event should be dropped or published
    - This can be implemented later when it is more clear how best to do this.
 2. Publishes the event to a service-specific DLQ topic.
