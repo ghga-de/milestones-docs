@@ -34,7 +34,6 @@ without considerable work.
 
 
 ### Included/Required:
-- Investigation of DLQs in Kafka
 - ADR Proposal
 - Implementation of DLQ Providers in `hexkit`
 - Implementation of DLQ logic in services
