@@ -31,6 +31,7 @@ The following existing File Ingest Service endpoints need to be changed:
 - POST /federated/ingest_metadata
 
 The expected payload for both endpoints now includes the storage alias.
+Additionally, for the non-legacy endpoint, the metadata payload no longer needs to be encrypted as the plain text secret is not present in the payload.
 
 In addition, the Well Known Value Service needs to provide a new value at the existing
 
