@@ -111,7 +111,7 @@ an in-house dedicated DLQ service, then this type of consumer will be helpful.
 ### Potential Problems:
 
 > [!NOTE]
-> Note: The following list is by no means exhaustive: 
+> The following list is by no means exhaustive: 
 
 **#1.** *Kafka data is lost after publishing to the DLQ (the DLQ data is lost).*
 
