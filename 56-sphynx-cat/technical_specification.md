@@ -79,7 +79,8 @@ Kafka Publisher, which will be used in two ways.
 
 
 **`KafkaRetrySubscriber`** *(name subject to change)*  
-A specialized event consumer that, upon catching an unhandled error during event
+The primary expansion to hexkit to get the fundamental DLQ logic going. It is
+a specialized event consumer that, upon catching an unhandled error during event
 consumption, does the following:
 1. Retries the event until the configured number of retries is exhausted (using
 exponential backoff).
@@ -100,6 +101,10 @@ configured DLQ topic and either:
 1. Ignore the event (do nothing), or
 2. Publish the event to the configured retry topic. The original topic name should still
 be contained in the payload unmodified.
+
+This class is potentially not required if requeueing is done through a 3rd party tool
+like Kafka UI. However, if requeueing is done through either the different services or
+an in-house dedicated DLQ service, then this type of consumer will be helpful.
 
 ## Other: 
 
