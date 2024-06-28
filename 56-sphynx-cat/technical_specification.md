@@ -82,15 +82,15 @@ Kafka Publisher, which will be used in two ways.
 The primary expansion to hexkit to get the fundamental DLQ logic going. It is
 a specialized event consumer that, upon catching an unhandled error during event
 consumption, does the following:
-1. Retries the event until the configured number of retries is exhausted (using
+1. Retries handling the event until the configured number of retries is exhausted (using
 exponential backoff).
    - This can reduce the likelihood of transient errors populating the DLQ.
-1. Checks auto-ignore rules to determine if the event should be dropped or published
+2. Checks auto-ignore rules to determine if the event should be dropped or published
    - This can be implemented later when it is more clear how best to do this.
-2. Publishes the event to a service-specific DLQ topic.
-   1. The original topic should be added as a field appended to the payload.
-3. Commits the topic offsets to avoid infinitely reprocessing the failed event.
-4. Upon consuming an event from the service-specific retry topic, extracts/removes the
+3. Publishes the event to a service-specific DLQ topic.
+   - The original topic should be added as a field appended to the payload.
+4. Commits the topic offsets to avoid infinitely reprocessing the failed event.
+5. Upon consuming an event from the service-specific retry topic, extracts/removes the
 original topic from the payload and proceeds with processing as if it were any other
 event (reentry).
 
