@@ -32,6 +32,10 @@ Kafka Connect. We are not using Kafka Connect and use AIOKafka's python producer
 consumers with our own library instead, meaning we can't take advantage of Kafka Connect
 without considerable work.
 
+> It's important to note that using a dead letter queue *does not* remove the need for
+manual intervention. It merely provides the means to perform diagnostics and corrective
+action while allowing the service to continue processing events in the background.
+
 
 ### Included/Required:
 - ADR Proposal
@@ -62,9 +66,9 @@ The flow diagram above demonstrates the proposed use of a DLQ in a given service
 (the original topic name is preserved), where they await review.
 3. Events in the DLQ are manually reviewed. To ignore or reprocess the next event in the
 DLQ, the corresponding command is sent to a dedicated DLQ consumer.
-4. If the DLQ consumer is instructed to retry the event, it will publish it to a DLQ Retry
-topic, to which the main consumer actively listens.
-5. Upon consuming an event from the retry queue, the main consumer restores the original
+4. If the DLQ consumer is instructed to retry the event, it will publish it to a DLQ
+Retry topic, to which the main consumer actively listens.
+1. Upon consuming an event from the retry queue, the main consumer restores the original
 topic name and proceeds with the normal request flow.
 
 ### Implementation of DLQ Providers in `hexkit`
