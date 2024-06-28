@@ -32,6 +32,7 @@ Kafka Connect. We are not using Kafka Connect and use AIOKafka's python producer
 consumers with our own library instead, meaning we can't take advantage of Kafka Connect
 without considerable work.
 
+> [!Note]
 > It's important to note that using a dead letter queue *does not* remove the need for
 manual intervention. It merely provides the means to perform diagnostics and corrective
 action while allowing the service to continue processing events in the background.
@@ -41,11 +42,11 @@ action while allowing the service to continue processing events in the backgroun
 - ADR Proposal
 - Implementation of DLQ Providers in `hexkit`
 - Implementation of DLQ logic in services
+- Internal Documentation: Async Interservice Communication Architecture Concept
 
 
 ### Not included:
-- Development of a dedicated DLQ monitor or dashboard service
-  - This may be called for at a later time, but is beyond the current requirements.
+- Setup of a dedicated DLQ monitor or dashboard service (more on this below)
 
 
 ## Additional Implementation Details:
@@ -104,6 +105,7 @@ be contained in the payload unmodified.
 
 ### Potential Problems:
 
+> [!NOTE]
 > Note: The following list is by no means exhaustive: 
 
 **#1.** *Kafka data is lost after publishing to the DLQ (the DLQ data is lost).*
@@ -142,6 +144,17 @@ is to implement a way to signal an automatic retry after a time.
 idempotent. However, to protect against the possibility that idempotence is implemented
 incorrectly, a service-specific "retry" topic is used when it's time to try consuming a
 failed event again.
+
+### Dedicated Dashboard
+
+The work included with this epic will provide programmatic DLQ functionality,
+but it does not include a convenience layer such as a dashboard or central DLQ
+resolution service. On the surface, Kafka UI seems suited for this task. However,
+sending a message in a DLQ topic to the corresponding retry topic in Kafka UI requires
+some copy/paste action, which doesn't scale. If Kafka UI is used in conjunction with
+service-level resolution (i.e. discarding/requeueing), then we need to do some work to
+keep Kafka UI in sync with the service level consumers. This requires more digging and
+discussion; maybe there is a simple solution.
 
 
 ## Human Resource/Time Estimation:
