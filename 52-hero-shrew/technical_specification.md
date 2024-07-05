@@ -64,6 +64,7 @@ The outbox pattern implementation results in changes to service configuration pa
 
 #### Download Controller:
 Added `unstaged_download_collection` without default value  
+Removed `unstaged_download_event_type`
 Removed `files_to_delete_type`
 
 #### File Ingest:
