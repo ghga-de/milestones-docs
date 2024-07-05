@@ -60,7 +60,7 @@ The following services need the outbox *subscriber* implemented for the listed e
 
 ### Config Changes
 
-The outbox pattern implementation results in changes to service configuration parameters as follows
+The outbox pattern implementation results in changes to service configuration parameters as follows:
 
 #### Download Controller:
 Added `unstaged_download_collection` without default value  
