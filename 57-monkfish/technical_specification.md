@@ -41,7 +41,7 @@ The following REST endpoints will be created:
 - `PUT /{db-name}/{collection-name}/{id}`
   - *Upserts the resource with the given ID using the payload provided in the request body.*
   - Request body:
-    - Resource to upsert
+    - Single document to upsert, or array of documents for batch upsertion
   - Auth header: internal token
   - Response body:
     - `id`: string (the ID of the upserted resource)
