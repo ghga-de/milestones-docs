@@ -33,7 +33,7 @@ The following REST endpoints will be created:
   - *Returns all or some documents from the collection.*
   - Query string (optional):
     - Filter parameters to refine results, e.g. `user_id=123&role=supervisor` 
-  - Auth header: internal token
+  - Authorization header: API Key (set in configuration)
   - Response body: list of resources in the collection matching the specified criteria
   - Response status: 
     - `200 OK`: Request successfully processed
@@ -42,20 +42,19 @@ The following REST endpoints will be created:
   - *Upserts the document(s) provided in the request body in the specified collection.*
   - Request body:
     - Single document to upsert, or array of documents for batch upsertion
-  - Auth header: internal token
-  - Response body:
-    - `id`: string (the ID of the upserted resource)
+  - Authorization header: API Key (set in configuration)
+  - Response body: Empty
   - Response status:
-    - `201 Created`: resource successfully upserted
+    - `204 No Content`: Document successfully upserted
     - `401 Unauthorized`: auth error (not authenticated)
 - `DELETE /{db-name}/{collection-name}`
   - *Deletes all or some documents in the collection.*
   - Query string (optional):
-    - Filter parameters to refine deletion, e.g. `user_id=123`
-  - Auth header: internal token
-  - Response body: list of deleted IDs
+    - Filter parameters to refine deletion, e.g. `user_id=123&name=keith`
+  - Authorization header: API Key (set in configuration)
+  - Response body: Empty
   - Response status: 
-    - `200 OK`: Request successfully processed
+    - `204 No Content`: Document(s) successfully deleted
     - `401 Unauthorized`: auth error (not authenticated)
 
 
