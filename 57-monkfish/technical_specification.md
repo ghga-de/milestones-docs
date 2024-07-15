@@ -49,7 +49,7 @@ The following REST endpoints will be created:
     - `201 Created`: resource successfully upserted
     - `401 Unauthorized`: auth error (not authenticated)
 - `DELETE /{db-name}/{collection-name}`
-  - *Deletes the specified collection.*
+  - *Deletes all or some documents in the collection.*
   - Query string (optional):
     - Filter parameters to refine deletion, e.g. `user_id=123`
   - Auth header: internal token
