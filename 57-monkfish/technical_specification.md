@@ -47,7 +47,7 @@ The following REST endpoints will be created:
   - Authorization header: API Key (set in configuration)
   - Response body: list of resources in the collection matching the specified criteria
   - Response status: 
-    - `200 OK`: Request successfully processed
+    - `200 OK`: Request successfully processed, results in response body
     - `401 Unauthorized`: auth error (not authenticated)
 - `PUT /{db-name}/{collection-name}`
   - *Upserts the document(s) provided in the request body in the specified collection.*
