@@ -32,7 +32,7 @@ The following REST endpoints will be created:
 - `GET /{db-name}/{collection-name}`
   - *Returns all or some documents from the collection.*
   - Query string (optional):
-    - Filter parameters to refine results, e.g. `user_id=123`
+    - Filter parameters to refine results, e.g. `user_id=123&role=supervisor` 
   - Auth header: internal token
   - Response body: list of resources in the collection matching the specified criteria
   - Response status: 
