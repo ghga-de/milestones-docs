@@ -9,13 +9,22 @@ Epic planning and implementation follow the
 The [Archive Test Bed](https://github.com/ghga-de/archive-test-bed) needs a way to
 consistently perform arbitrary CRUD operations
 in MongoDB that are outside the scope of the component services, but also unwieldy
-to manage in piecemeal code adaptations. A dedicated service can offer a simple
-solution to this problem and allow test bed services and processes to programmatically
-seed, reset, modify and examine databases through a single API.
+to manage in piecemeal code adaptations. Namely, the needs are:
+- setting a predefined state before running the tests (empty or prepopulate databases)
+- examining the state after or in between tests (whitebox testing)
+
+A dedicated service can offer a simple solution to this problem and allow test bed 
+processes to programmatically seed, reset, modify and examine databases through a single API.
+
+This service should **never** be deployed to production. It is *only* intended for use
+in the Testing and Staging environments, where there is no access to real data.  
+Despite this, there should be a way to restrict which databases and collections can be
+accessed with this service through configuration, and a simple API key (set in config)
+can be used to authenticate requests.
 
 ### Included/Required:
 The implementation of the SMS should include a token-secured RESTful API that interacts
-with MongoDB.
+with MongoDB. There should be configuration 
 
 
 ### Not included:
