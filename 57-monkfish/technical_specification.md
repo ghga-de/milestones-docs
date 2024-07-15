@@ -11,7 +11,7 @@ consistently perform arbitrary CRUD operations
 in MongoDB that are outside the scope of the component services, but also unwieldy
 to manage in piecemeal code adaptations. A dedicated service can offer a simple
 solution to this problem and allow test bed services and processes to programmatically
-seed, reset, and modify databases through a single API.
+seed, reset, modify and examine databases through a single API.
 
 ### Included/Required:
 The implementation of the SMS should include a token-secured RESTful API that interacts
