@@ -30,7 +30,7 @@ incur a cost outweighing the benefits provided by the service.
 The following REST endpoints will be created:
 
 - `GET /{db-name}/{collection-name}`
-  - *Returns all resources in the collection.*
+  - *Returns all or some documents from the collection.*
   - Query string (optional):
     - Filter parameters to refine results, e.g. `user_id=123`
   - Auth header: internal token
