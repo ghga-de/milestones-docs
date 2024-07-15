@@ -56,7 +56,7 @@ The following REST endpoints will be created:
   - Authorization header: API Key (set in configuration)
   - Response body: Empty
   - Response status:
-    - `204 No Content`: Document successfully upserted
+    - `204 No Content`: Document(s) successfully upserted
     - `401 Unauthorized`: auth error (not authenticated)
 - `DELETE /{db-name}/{collection-name}`
   - *Deletes all or some documents in the collection.*
