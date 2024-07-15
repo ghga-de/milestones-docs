@@ -39,7 +39,7 @@ The following REST endpoints will be created:
     - `200 OK`: Request successfully processed
     - `401 Unauthorized`: auth error (not authenticated)
 - `PUT /{db-name}/{collection-name}/{id}`
-  - *Upserts the resource with the given ID using the payload provided in the request body.*
+  - *Upserts the document(s) provided in the request body in the specified collection.*
   - Request body:
     - Single document to upsert, or array of documents for batch upsertion
   - Auth header: internal token
