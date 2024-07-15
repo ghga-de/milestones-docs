@@ -65,7 +65,7 @@ The following REST endpoints will be created:
   - Authorization header: API Key (set in configuration)
   - Response body: Empty
   - Response status: 
-    - `204 No Content`: Document(s) successfully deleted
+    - `204 No Content`: Document(s) did not exist or were successfully deleted
     - `401 Unauthorized`: auth error (not authenticated)
 
 
