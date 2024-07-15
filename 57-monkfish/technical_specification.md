@@ -28,6 +28,14 @@ The implementation of the SMS should include a token-secured RESTful API that in
 with MongoDB. There should be configuration to control access to databases and collections,
 as well as an API Key for authentication.
 
+Access control for database/collection resources should occur on a whitelist basis, with
+further specification for the individual permissions granted at the collection level
+for create, read, update, delete. `None` should be used as a wildcard, equivalent to
+'allow all'. For example, specifying a collection but not the permissions enables all
+permissions. Specifying a database but no collections within it will enable all
+operations on all collections within that database. However, not specifying any databases
+at all will *disable* all operations.
+
 
 ### Not included:
 Object schema validation would be complex to add because the models can come from a
