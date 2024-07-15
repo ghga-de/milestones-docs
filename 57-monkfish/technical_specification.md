@@ -30,11 +30,20 @@ as well as an API Key for authentication.
 
 Access control for database/collection resources should occur on a whitelist basis, with
 further specification for the individual permissions granted at the collection level
-for create, read, update, delete. `None` should be used as a wildcard, equivalent to
-'allow all'. For example, specifying a collection but not the permissions enables all
-permissions. Specifying a database but no collections within it will enable all
-operations on all collections within that database. However, not specifying any databases
-at all will *disable* all operations.
+for create, read, update, and delete.
+
+Since database names in the testing environment feature a prefix for isolation, the
+config should have a `db_prefix` value. This will be prefixed to all supplied database
+names, meaning the full name doesn't have to be supplied by the user in configuration,
+making the configuration more readable.
+
+`None` or `*` should be used as a wildcard equivalent to 'allow all'.  
+For example, using the wildcard to specify permissions for a collection will allow all
+CRUD operations on the collection. Using the wildcard to specify tables in a database
+will enable all CRUD operations on all collections in that database.
+
+If neither `db_prefix` nor any database/collections are listed, then no operations will
+be allowed.
 
 
 ### Not included:
@@ -57,6 +66,8 @@ The following REST endpoints will be created:
   - Response status: 
     - `200 OK`: Request successfully processed, results in response body
     - `401 Unauthorized`: auth error (not authenticated)
+    - `403 Forbidden`: Authenticated, but config prevents operation
+    on the specified collection.
 - `PUT /{db-name}/{collection-name}`
   - *Upserts the document(s) provided in the request body in the specified collection.*
   - Request body:
@@ -66,6 +77,8 @@ The following REST endpoints will be created:
   - Response status:
     - `204 No Content`: Document(s) successfully upserted
     - `401 Unauthorized`: auth error (not authenticated)
+    - `403 Forbidden`: Authenticated, but config prevents operation
+    on the specified collection.
 - `DELETE /{db-name}/{collection-name}`
   - *Deletes all or some documents in the collection.*
   - Query string (optional):
@@ -74,7 +87,9 @@ The following REST endpoints will be created:
   - Response body: Empty
   - Response status: 
     - `204 No Content`: Document(s) did not exist or were successfully deleted
-    - `401 Unauthorized`: auth error (not authenticated)
+    - `401 Unauthorized`: Auth error (not authenticated)
+    - `403 Forbidden`: Authenticated, but config prevents operation
+    on the specified collection.
 
 
 ## Human Resource/Time Estimation:
