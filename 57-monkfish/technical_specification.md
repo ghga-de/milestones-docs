@@ -11,14 +11,15 @@ manage the state of various infrastructure technologies such as MongoDB, Apache 
 S3, and the secrets vault. Namely, the needs are twofold:
 - To set a predefined state before running the tests, for example:
   - Empty or prepopulate databases
-  - Publish to or clear out from Apache Kafka topics
+  - Publish or delete events
   - Add a secret to the vault
-  - Populate an object or objects to an S3 bucket
+  - Populate object(s) to an S3 bucket
   - Etc.
-- To examine the state after or in between tests (whitebox testing)
+- To examine the state of the aforementioned technologies after or in between tests
+ (whitebox testing)
 
-Right now, there's not a clean way to achieve those needs.
-A dedicated service can offer a simple solution to these problems and allow test bed 
+Right now, there's not a clean way to achieve these needs.
+A dedicated service can offer a simple solution and allow test bed 
 processes to programmatically seed, reset, modify and examine databases through a
 single RESTful API.
 
@@ -80,6 +81,8 @@ The branch isolation provided by the `db_prefix` config property for MongoDB sho
 mirrored for Apache Kafka with the use of a `topic_prefix` config property.  
 The `topic_prefix` will be prepended to all topic names referenced in the SMS.  
 This kind of branch isolation is not currently used for S3 or the Vault.
+
+All requests will be authenticated with the configured API Key
 
 ### Not included:
 Object schema validation for MongoDB would be complex to add because the models can come from a
