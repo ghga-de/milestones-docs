@@ -36,7 +36,8 @@ Since database names in the testing environment feature a prefix for isolation, 
 config should have a `db_prefix` value. This will be prefixed to all supplied database
 names, meaning the full name doesn't have to be supplied by the user in configuration,
 making the configuration more readable. It will also be added to all database names
-supplied as path parameters.
+supplied as path parameters, so the prefix only needs to be used once and all database
+name specifications will be branch-agnostic.
 
 `*` should be used as a wildcard equivalent to 'allow all'.  
 For example, using the wildcard to specify permissions for a collection will allow all
