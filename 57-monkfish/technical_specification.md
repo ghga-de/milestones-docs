@@ -35,15 +35,18 @@ for create, read, update, and delete.
 Since database names in the testing environment feature a prefix for isolation, the
 config should have a `db_prefix` value. This will be prefixed to all supplied database
 names, meaning the full name doesn't have to be supplied by the user in configuration,
-making the configuration more readable.
+making the configuration more readable. It will also be added to all database names
+supplied as path parameters.
 
-`None` or `*` should be used as a wildcard equivalent to 'allow all'.  
+`*` should be used as a wildcard equivalent to 'allow all'.  
 For example, using the wildcard to specify permissions for a collection will allow all
-CRUD operations on the collection. Using the wildcard to specify tables in a database
-will enable all CRUD operations on all collections in that database.
+CRUD operations on the collection. Permissions could be set for an entire database by
+using the wildcard as the collection name with the desired permissions. Setting both
+the collection and permission values to the wildcard would enable all operations for
+the entire database.
 
-If neither `db_prefix` nor any database/collections are listed, then no operations will
-be allowed.
+If no database/collections are listed, then no operations will be allowed, even if
+`db_prefix` is specified.
 
 
 ### Not included:
