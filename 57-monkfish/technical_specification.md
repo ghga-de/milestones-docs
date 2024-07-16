@@ -66,7 +66,9 @@ If no database/collections are listed, then no operations will be allowed, even 
 Similar to the fixture state reset logic featured in `hexkit`, the utilities available
 for Apache Kafka should enable deleting and publishing records (events) in a topic.  
 The advantage over using Kafka UI is that the SMS centralized state management for other
-technologies and can be used programmatically.
+technologies and can be used programmatically. Additionally, the presence of the API
+Key means the test bed application itself doesn't have to know the credentials for
+Kafka UI or S3.
 
 For each technology, REST API endpoints will be exposed, prefixed as follows:
 
@@ -82,13 +84,16 @@ mirrored for Apache Kafka with the use of a `topic_prefix` config property.
 The `topic_prefix` will be prepended to all topic names referenced in the SMS.  
 This kind of branch isolation is not currently used for S3 or the Vault.
 
-All requests will be authenticated with the configured API Key
+All requests will be authenticated with the configured API Key.
 
 ### Not included:
 Object schema validation for MongoDB would be complex to add because the models can come from a
 variety of sources (`ghga-event-schemas`, service-specific models, etc.), and keeping
 this service in sync with those definitions, either through config or code, would
 incur a cost outweighing the benefits provided by the service.
+
+Similarly, access control lists like the one described for MongoDB will not be
+included for the other technologies.
 
 
 ## API Definitions:
