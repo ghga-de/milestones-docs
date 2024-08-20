@@ -53,14 +53,10 @@ action while allowing the service to continue processing events in the backgroun
 
 ### Dead Letter Queues in Kafka
 
-![DLQ Concept](./images/dlq.png)
-
-The above illustrates the high-level concept for a Kafka DLQ. 
-
-
 ![Example DLQ flow](./images/dlq_flow.png)
 
-The flow diagram above demonstrates the proposed use of a DLQ in a given service:
+The flow diagram above demonstrates the use of a DLQ in a given service, where bold
+lines represent new functionality.
 
 1. Failed events are retried a configurable number of times.
 2. Upon final failure, they are published to the service-specific DLQ topic
@@ -69,38 +65,34 @@ The flow diagram above demonstrates the proposed use of a DLQ in a given service
 DLQ, the corresponding command is sent to a dedicated DLQ consumer.
 4. If the DLQ consumer is instructed to retry the event, it will publish it to a DLQ
 Retry topic, to which the main consumer actively listens.
-1. Upon consuming an event from the retry queue, the main consumer restores the original
+5. Upon consuming an event from the retry queue, the main consumer restores the original
 topic name and proceeds with the normal request flow.
+6. The event is consumed again, this time successfully, and the offset is committed.
 
-### Implementation of DLQ Providers in `hexkit`
+### Implementation of DLQ in `hexkit`
 
-The work will involve the creation of a class that combines the Kafka Subscriber and the
-Kafka Publisher, which will be used in two ways.
-
-
-**`KafkaRetrySubscriber`** *(name subject to change)*  
-The primary expansion to hexkit to get the fundamental DLQ logic going. It is
-a specialized event consumer that, upon catching an unhandled error during event
-consumption, does the following:
+**`KafkaEventSubscriber`**  
+This is the main Kafka subscriber provider in `hexkit`. 
+Upon catching an unhandled error during event consumption, it does the following:
 1. Retries handling the event until the configured number of retries is exhausted (using
 exponential backoff).
-   - This can reduce the likelihood of transient errors populating the DLQ.
-2. Checks auto-ignore rules to determine if the event should be dropped or published
-   - This can be implemented later when it is more clear how best to do this.
-3. Publishes the event to a service-specific DLQ topic.
-   - The original topic should be added as a field appended to the payload.
+   - This reduces the likelihood of transient errors populating the DLQ.
+2. Publishes the event to a service-specific DLQ topic, if DLQ functionality is configured.
+   - The original topic is preserved in the headers of the Kafka event, and extracted
+   when the event is consumed from the configured retry topic.
 4. Commits the topic offsets to avoid infinitely reprocessing the failed event.
 5. Upon consuming an event from the service-specific retry topic, extracts/removes the
 original topic from the payload and proceeds with processing as if it were any other
 event (reentry).
 
 
-**`KafkaDLQSubscriber`** *(name subject to change)*  
-A specialized event consumer that will, upon instruction, consume one event from the
+**`KafkaDLQSubscriber`**  
+This is a specialized provider that will, upon instruction, consume one event from the
 configured DLQ topic and either:
 1. Ignore the event (do nothing), or
-2. Publish the event to the configured retry topic. The original topic name should still
-be contained in the payload unmodified.
+2. Process the event, which might involve modifications to the event, and either
+ignore the event or publish it to the configured retry topic. The original topic name
+should still be preserved in the payload.
 
 This class is potentially not required if requeueing is done through a 3rd party tool
 like Kafka UI. However, if requeueing is done through either the different services or
