@@ -77,26 +77,37 @@ Upon catching an unhandled error during event consumption, it does the following
 1. Retries handling the event until the configured number of retries is exhausted (using
 exponential backoff).
    - This reduces the likelihood of transient errors populating the DLQ.
-2. Publishes the event to a service-specific DLQ topic, if DLQ functionality is configured.
+2. Publishes the event to the configured DLQ topic, if DLQ functionality is configured.
    - The original topic is preserved in the headers of the Kafka event, and extracted
    when the event is consumed from the configured retry topic.
 4. Commits the topic offsets to avoid infinitely reprocessing the failed event.
-5. Upon consuming an event from the service-specific retry topic, extracts/removes the
-original topic from the payload and proceeds with processing as if it were any other
-event (reentry).
+5. Upon consuming an event from the configured retry topic, extracts/removes the
+original topic from the headers and proceeds with processing as if it were any other
+event.
 
 
 **`KafkaDLQSubscriber`**  
 This is a specialized provider that will, upon instruction, consume one event from the
-configured DLQ topic and either:
-1. Ignore the event (do nothing), or
-2. Process the event, which might involve modifications to the event, and either
-ignore the event or publish it to the configured retry topic. The original topic name
-should still be preserved in the payload.
+configured DLQ topic and either ignore the event (do nothing) or process and publish to
+the configured retry topic.
+A callback, `process_dlq_event`, is supplied at the time of creation, which is used
+to inspect and/or manipulate events before ultimately requeueing or discarding them.
 
 This class is potentially not required if requeueing is done through a 3rd party tool
 like Kafka UI. However, if requeueing is done through either the different services or
 an in-house dedicated DLQ service, then this type of consumer will be helpful.
+
+
+**`KafkaConfig`**  
+The configuration will have several new values that can be omitted if the DLQ
+functionality is not desired:
+- `kafka_dlq_topic`: Name of the topic for events when they initially fail
+(default=`""`).
+- `kafka_retry_topic`: Name of the topic for failed events that are to be requeued
+(default=`""`).
+- `kafka_max_retries`: The number of times to retry a failed event before sending it to the DLQ topic, if enabled (default=`0`).
+- `kafka_enable_dlq`: Whether or not to use the DLQ (default=`False`).
+- `kafka_retry_backoff`: The number of seconds to wait between "immediate" retries. This value is doubled with each subsequent retry (default=`0`).
 
 ## Other: 
 
@@ -131,11 +142,10 @@ Kafka topic).
 
 **Solution:** Ideally, this would be minimized by improving error handling in application
 code. However, a supplementary tool could be the addition of a configuration-driven
-mechanism that enables us to discard or ignore certain events as a rule. Another idea
-is to implement a way to signal an automatic retry after a time.
+mechanism that enables us to discard or ignore certain events as a rule.
 
-**#4:** *A failed event is reviewed and then republished to the original topic, causing*
-*all other consumers of that event to process a duplicate.*
+**#4:** *A failed event is reviewed and then republished to the **original** topic,*
+*causing all other consumers of that event to process a duplicate.*
 
 **Solution:** This should not be a problem because services should be designed to be
 idempotent. However, to protect against the possibility that idempotence is implemented
