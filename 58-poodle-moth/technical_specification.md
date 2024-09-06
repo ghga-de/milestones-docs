@@ -31,7 +31,7 @@ Results to be produced:
 
 All aspects that shall be ignored during the exploration:
 
-- Actual implementation of any changes deemed necessary
+- Final implementation of the changes deemed necessary
 
 ## Material and Resources:
 
