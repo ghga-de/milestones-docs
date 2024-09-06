@@ -23,7 +23,7 @@ and migrating to BSON-supported formats.
 
 Results to be produced:
 - ADR
-- Implementation Epic & tasks, only if BSON format is elected
+- Implementation Epic & tasks (including migration tasks), only if BSON format is elected
 
 - \<Provide a list here.\>
 
