@@ -19,7 +19,10 @@ of data, like datetimes and UUIDs. Instead of storing the string representations
 such types, we could be storing them in, and querying with, their native format.
 
 This epic will explore the tradeoffs between storing data as we do now (string format)
-and migrating to BSON-supported formats. 
+and migrating to BSON-supported formats. If we decide against storing data as BSON, we
+need to decide whether we want to make the API a bit more consistent. Currently, the
+filter mapping values are passed without being stringified, contrary to the values of
+inserted or updated resources.
 
 Results to be produced:
 - ADR
