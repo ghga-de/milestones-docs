@@ -81,7 +81,9 @@ The following questions need to be investigated and answered in this context:
 For every major decision, an ADR should be created as part of this exploration.
 Some questions can also be answered with a small proof-of-concept implementation.
 
-If some questions are difficult to answer, we should still make a decision that is good enough to start with. Decisions can be revised during the implementation phase if they turn out not to be feasible or better solutions can be found, but these revisions should be made as early as possible.
+Since reverting some decisions can be very costly, we should identify these and focus on them during this epic. We can spend less time on decisions that can be easily changed later.
+
+For easily reversible decisions, we can choose any option that is good enough to get started. If it proves unfeasible during implementation or if better solutions arise, we can easily make changes.
 
 ## Not part of this Exploration:
 
