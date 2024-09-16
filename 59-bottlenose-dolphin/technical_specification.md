@@ -18,11 +18,16 @@ The following questions need to be investigated and answered in this context:
   - Should we use [standalone components](https://v17.angular.io/guide/standalone-components)? Should we still use NgModules?
   - If we do not use sub-applications, then we should still lazy-load modules that can only be used by authenticated users or data stewards. How can we do that?
 
-- Code style:
+- Code style and documentation:
   - Which code style do we want to use? Do we want to strictly follow the [Angular coding style guide](https://angular.dev/style-guide)?
   - How can we enforce the code style and other best practices regarding code quality (linting, using pre-commit)?
   - Are there linter rules for the Angular coding style guide?
   - How should the directory structure of the repository look like?
+  - How and to what extend do we document the new codebase?
+  - Are there any standards or tools that we should use for the documentation (JSDoc, Storybook)?
+  - How do we enforce that e.g. all classes and methods are annotated with some minimal documentation?
+  - Can we use some kind of automated documentation?
+  - Shall we provide some high-level documentation that can be used to onboard new developers?
 
 - Authentication:
   - How can OIDC, 2FA, and user state management be integrated?
@@ -35,6 +40,7 @@ The following questions need to be investigated and answered in this context:
   - Settle on a component library. See our earlier evaluation [here](https://github.com/ghga-de/adrs/pull/9). Did we miss anything, is there anything new?
   - How important are responsive design and accessibility to us? How well is this supported by the chosen system/library?
   - Do we want to use plain CSS or SASS or SCSS syntax?
+  - Do we want to design pages upfront, creating mockups or wireframes? If yes, which tools for the UI/UX design do we want to use?
 
 - State management and other tooling:
   - Shall we use a dedicated state management solution (like NgRx, Akita, Elf or NgxZustand)? Or start with a NGRX signal store or simple custom services to manage state?
