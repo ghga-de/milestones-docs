@@ -54,13 +54,15 @@ The following questions need to be investigated and answered in this context:
   - Define a suitable HTML structure using semantic HTML.
   - Shall we support other semantic web technologies like schema.org with JSON-LD?
   - Can we make use of [deferrable views](https://angular.dev/guide/defer)?
-  - Is it worthwhile for us to support server-side rendering?
+  - Is it worthwhile for us to support server-side rendering (e.g. for SEO or faster loading)?
   - What is the current state of server-side-rendering in Angular? How much effort is it to make use of it?
+  - How important is site performance (the "core web vitals") for us generally? Should we use tools like Lighthouse CI for measuring and testing it?
 
 - Testing:
   - How can we (manually) test against the real backend? What would be a replacement for `setupProxy.js`?
   - How can we (manually) test against a mock backend? Shall we continue to use [MSW](https://mswjs.io/) with simple, ideally static responses?
-  - Do we want to implement both unit tests and end-2-end-tests and in which proportions? Which degree of coverage do we want to achieve?
+  - What should be tested, and with which type of test? Would it be sufficient to have one kind of test?
+  - Do we want to implement both unit/component tests and end-2-end-tests and in which proportions? Which degree of coverage do we want to achieve?
   - Which unit testing tool and test runner should we use?
   - Which end-to-end-testing tool (e.g. Cypress, Nightwatch, WebdriverIO, Puppeteer, Playwright)?
   - Do these tools work well with MSW? Can we run them as GitHub actions?
