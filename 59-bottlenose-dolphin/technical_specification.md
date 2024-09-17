@@ -52,7 +52,7 @@ The following questions need to be investigated and answered in this context:
   - How can we pass a runtime configuration similarly as we do with our microservices?
   - How can we inject the configuration into the application without rebuilding the complete application, as we currently do for the React app?
   - How can we rewrite the build and run steps from Python to JavaScript so that we do not need to install Python in the Docker container anymore?
-  - What is the best way to serve the SPA in production? We currently use the "serve" package from npm. Is that still up to date and recommended?
+  - What is the best way to serve the SPA in production? We currently use the [serve](https://www.npmjs.com/package/serve) package from npm in the React app. Is that still up to date and recommended?
   - How can we build a very slim Docker image for production that does not contain any build or development tools and other unnecessary components?
   - Which JavaScript runtime shall we use (Node with yarn or npm, Deno, Bun)?
 
