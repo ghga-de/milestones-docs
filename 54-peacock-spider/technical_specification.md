@@ -48,7 +48,7 @@ hiding unnecessary details for the requester.
 
 Here the `dataset_id` is the public accession for the given dataset.
 
-This should return a list of objects with each element containing the `file_id`, unencrypted file size in bytes and SHA256 checksum (preferably sorted by accession).
+This should return a list of objects with each element containing the `file_id/accession`, unencrypted file size in bytes and SHA256 checksum (preferably sorted by accession).
 ```
 {
     'file_information':
