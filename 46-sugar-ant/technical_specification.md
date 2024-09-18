@@ -258,7 +258,7 @@ Currently, the data stewards are defined via the configuration of the claims rep
 
 This means that at least for one data steward, the verification of the corresponding IVA needs to be set manually in the database. This data steward can then also verify the IVAs of other data stewards via the API. The inter-service integration tests need to set the state of the first data steward via the "state management service" since this cannot be done with pure black-box testing via the API.
 
-Note that currently, this seeding also removes all existing data steward claims. If we decide to keep the data steward claims, we should still not set the IVA to `verified` state on creation, since data stewards who re-created their 2FA token and thereby unverified their IVA could simply remove their IVA and would be re-verified on the next start of the claims repository.
+ Note that the seeding process mentioned above first removes all existing data steward claims before adding the configured claims, but it keeps the existing data stewards and the IVAs including the state of these IVAs.
 
 ### Access Request Service
 
