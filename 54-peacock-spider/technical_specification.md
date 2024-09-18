@@ -105,8 +105,10 @@ File information can exist in one of three states:
 
 If the reason why data is not available is of no interest and if the all dataset registered states are treated the same, the following responses will be returned:
 
-1) The file information endpoint either returns a payload or 404
-2) The dataset information returns either a payload or 404. Within the payload, the fields of each file information object either are populated with the actual data or a None/null placeholder value. The API consumer can then check just one of the non accession fields to evaluate if a file information object is populated. 
+1) The file information endpoint either returns a payload or 404.
+2) The dataset information endpoint returns either a payload or 404. 
+Within the payload, the fields of each file information object either are populated with the actual data or a None/null placeholder value.
+The API consumer can then check just one of the non accession fields to evaluate if a file information object is populated. 
 
 ## Human Resource/Time Estimation:
 
