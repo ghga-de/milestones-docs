@@ -102,7 +102,7 @@ Angular:
 
 Micro frontends and monorepos:
 - [Intro to Nx](https://nx.dev/getting-started/intro)
-- [Restructuring to a Vertical Slice Architecture][(Restructuring to a Vertical Slice Architecture](https://www.youtube.com/watch?v=cVVMbuKmNes))
+- [Restructuring to a Vertical Slice Architecture](https://www.youtube.com/watch?v=cVVMbuKmNes) (webinar, 2021)
 - [Micro-Frontends with Module Federation: Beyond the Basics](https://www.youtube.com/watch?v=8peHqzO7oqE) (talk, 2021)
 - [Micro Frontends and Moduliths with Angular](https://www.angulararchitects.io/en/ebooks/micro-frontends-and-moduliths-with-angular/) (ebook, 6th edition)
 - [Modern Angular Architectures with Nx and Lightweight Stores](https://www.youtube.com/watch?v=Plsoiz1f6us) (talk, 2024)
