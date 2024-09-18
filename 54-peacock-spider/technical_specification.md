@@ -10,10 +10,10 @@ File information includes (for now) file size and checksums.
 ### Included/Required:
     
 The Dataset Information Service needs to listen to events produced in the file service backend reporting successful file uploads and dataset registration information.
-Corresponding deletion events should also need to be handled
+Corresponding deletion events also need to be handled
 
 The proposed event schema that should be used to extract and store file information by this service is `FileInternallyRegistered`.
-This event contains all relevant information and it is guaranteed that the file in question is actually stored in permanent storage at that point in time.
+The event paylod contains all relevant information and it is guaranteed that the file in question is actually stored in permanent storage at that point in time.
 Additionally, the service needs to subscribe to file deletion events and remove all data as requested.
 
 Analogous functionality also needs to be implemented for upsertion and deletion events that deal with datasets. This means that the events captured by this service need to include those that are currently handled by the work package service, i.e. those conforming to the `MetadataDatasetOverview` and `MetadataDatasetID` schemas. 
@@ -89,7 +89,7 @@ Incoming deletion event schema: [MetadataDatasetID](https://github.com/ghga-de/g
 
 ## Additional Implementation Details:
 
-Dataset information can exist in one of file states:
+Dataset information can exist in one of five states:
 
 1) Dataset is not yet registered
 2) Dataset is registered, but no file information is available
@@ -106,7 +106,7 @@ File information can exist in one of three states:
 If the reason why data is not available is of no interest and if the all dataset registered states are treated the same, the following responses will be returned:
 
 1) The file information endpoint either returns a payload or 404
-2) The dataset information returns either a payload or 404. Within the payload, the fields of each file information object either are populated with the actual data or a None/null value. The API consumer can then check just one of the non accession fields to evaluate, if a file information object is populated. 
+2) The dataset information returns either a payload or 404. Within the payload, the fields of each file information object either are populated with the actual data or a None/null placeholder value. The API consumer can then check just one of the non accession fields to evaluate if a file information object is populated. 
 
 ## Human Resource/Time Estimation:
 
