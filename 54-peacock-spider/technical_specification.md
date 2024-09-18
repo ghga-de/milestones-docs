@@ -91,17 +91,17 @@ Incoming deletion event schema: [MetadataDatasetID](https://github.com/ghga-de/g
 
 Dataset information can exist in one of five states:
 
-1) Dataset is not yet registered
-2) Dataset is registered, but no file information is available
-3) Dataset is registered and some file information is available
-4) Dataset is registered and all file information is available
-5) Dataset is deleted
+1) The requested dataset is not yet registered
+2) The requested dataset is registered, but no file information is available
+3) The requested dataset is registered and some file information is available
+4) The requested dataset is registered and all file information is available
+5) The requested dataset is deleted
 
 File information can exist in one of three states:
 
-1) File is not yet registered
-2) File is registered
-3) File is deleted
+1) The requested file is not yet registered
+2) The requested file is registered
+3) The requested file is deleted
 
 If the reason why data is not available is of no interest and if the all dataset registered states are treated the same, the following responses will be returned:
 
