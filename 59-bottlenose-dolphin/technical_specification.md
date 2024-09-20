@@ -45,6 +45,7 @@ The following questions need to be investigated and answered in this context:
 - State management and other tooling:
   - Shall we use a dedicated state management solution (like NgRx, Akita, Elf or NgxZustand)? Or start with a [NGRX signal store](https://ngrx.io/guide/signals/signal-store) or simple custom services to manage state?
   - Should we primarily use [RxJS](https://rxjs.dev/) or [Signals](https://angular.dev/guide/signals)?
+  - Should we build the app with our without [ZoneJs](https://angular.dev/guide/experimental/zoneless)?
   - Shall we make use of a caching library for HTTP requests like [NgHttpCaching](https://github.com/nigrosimone/ng-http-caching) or [cashew](https://github.com/ngneat/cashew)?
   - Are there any client libraries or development tools that we should make use of?
 
@@ -99,6 +100,7 @@ Here are some of the resources that should be consulted:
 Angular:
 - [Angular documentation](https://angular.dev)
 - [Angular Signals: Complete Guide](https://blog.angular-university.io/angular-signals/)
+- [Angular without ZoneJS (Zoneless)](https://angular.dev/guide/experimental/zoneless)
 
 Micro frontends and monorepos:
 - [Intro to Nx](https://nx.dev/getting-started/intro)
