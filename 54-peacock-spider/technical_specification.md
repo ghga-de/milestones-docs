@@ -38,6 +38,7 @@ This should return a payload including the unencrypted file size in bytes and SH
 hiding unnecessary details for the requester.
 ```
 {
+    'accession': ...,
     'size': ...,
     'sha256_hash': ...,
 }
@@ -51,6 +52,7 @@ Here the `dataset_id` is the public accession for the given dataset.
 This should return a list of objects with each element containing the `file_id/accession`, unencrypted file size in bytes and SHA256 checksum (preferably sorted by accession).
 ```
 {
+    'accession': ...,
     'file_information':
     [
         {
@@ -68,6 +70,8 @@ This should return a list of objects with each element containing the `file_id/a
 
 }
 ```
+
+For files with no data available in the DB a smaller object containing only the accession is returned instead.
 
 ### Payload Schemas for Events:
 
@@ -105,10 +109,9 @@ File information can exist in one of three states:
 
 If the reason why data is not available is of no interest and if the all dataset registered states are treated the same, the following responses will be returned:
 
-1) The file information endpoint either returns a payload or 404.
-2) The dataset information endpoint returns either a payload or 404. 
-Within the payload, the fields of each file information object either are populated with the actual data or a None/null placeholder value.
-The API consumer can then check just one of the non accession fields to evaluate if a file information object is populated. 
+1) The file information endpoint either returns a payload or 404
+2) The dataset information returns either a payload or 404.
+Within the payload, the fields of each file information object either are populated with the actual data or only contain the accession to signal that the data for the corresponding file is not yet available or has been deleted. 
 
 ## Human Resource/Time Estimation:
 
