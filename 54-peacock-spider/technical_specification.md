@@ -107,7 +107,7 @@ File information can exist in one of three states:
 2) The requested file is registered
 3) The requested file is deleted
 
-If the reason why data is not available is of no interest and if the all dataset registered states are treated the same, the following responses will be returned:
+If the reason why data is not available is of no interest and if all dataset registered states are treated the same, the following responses will be returned:
 
 1) The file information endpoint either returns a payload or 404
 2) The dataset information returns either a payload or 404.
