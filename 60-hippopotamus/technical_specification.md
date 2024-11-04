@@ -18,7 +18,7 @@ The scaffold application should already implement the proper overally visual lay
 ### Included/Required:
 
 - Create a new GitHub repository "data-portal" from scratch that will eventually supersede the existing "data-portal-ui" repository.
-- The experimental repository "angular-portal" will be only used as reference and then archived.
+- The experimental repository "angular-portal" will only be used as a reference and then archived.
 - Use a suitable Node.js based docker image for the devcontainer.
 - Create the base Angular project files and directory structure using `ng new` with Angular v19.
 - Configure the application to run zoneless and without SSR according to [ADR017](https://github.com/ghga-de/adrs/blob/main/docs/adrs/adr017_server-side_rendering_in_angular.md).
