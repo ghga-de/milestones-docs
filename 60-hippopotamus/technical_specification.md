@@ -39,7 +39,7 @@ The scaffold application should already implement the proper overally visual lay
 - Add and configure `MSW` (Mock Service Worker) for mocking the backend as a dependency.
 - Add authentication (login via LS Login, registration, 2FA) using `oidc-client-ts` (will be moved to the backend later). The profile page can be incomplete.
 - Components that require authentication should be guarded and lazy-loaded.
-- Make sure it is easy to switch between testing the application manually on localhost against MSW and against the staging or testing backend deployment.
+- Provide and document a way to easily switch between testing the application manually on localhost against MSW and against the staging or testing backend deployment.
 - Remove Karma and Jasmine and add Jest as well as `jest-preset-angular` and `jest-marbles` as dependencies for unit testing. 
 - Add some example unit tests using Jest.
 - Add and configure Playwright for e2e-testing. These tests only need to work with MSW. Later we may also add e2e-tests against the testing deployment in this repo, but they could be also added to the Archive Test Bed instead.
