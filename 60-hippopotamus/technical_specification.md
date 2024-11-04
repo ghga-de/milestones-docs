@@ -1,4 +1,4 @@
-# Create scaffold for Angular implementation (Hippopotamus)
+# Create baseline for Angular implementation (Hippopotamus)
 
 **Epic Type:** Implementation Epic
 
@@ -9,11 +9,11 @@ Epic planning and implementation follow the
 
 ### Outline:
 
-The goal of this epic is to create a repository that can be used as a scaffold (baseline) for the re-implementation of the GHGA Data Portal in Angular.
+The goal of this epic is to create a repository that can be used as a baseline for the re-implementation of the GHGA Data Portal in Angular.
 
-The scaffold should follow the decisions that we made in the [Bottlenose Dolphin](../59-bottlenose-dolphin/technical_specification.md) epic.
+The baseline application should follow the decisions that we made in the [Bottlenose Dolphin](../59-bottlenose-dolphin/technical_specification.md) epic.
 
-The scaffold application should already implement the proper overally visual layout and design (styling and theming). It should be runnable against the mock backend and the real backend and should exemplify using at least one REST endpoint (e.g. the global stats shown on the homepage). It should cover all tooling to provide a good developer experience, linting and running unit and e2e testes.
+It should already implement the proper overall visual layout and design (styling and theming). It should be runnable against the mock backend and the real backend and should exemplify using at least one REST endpoint (e.g. the global stats shown on the homepage). It should cover all tooling to provide a good developer experience, linting and running unit and e2e testes.
 
 ### Included/Required:
 
