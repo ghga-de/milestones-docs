@@ -29,7 +29,7 @@ The scaffold application should already implement the proper overally visual lay
 - Add `eslint-plugin-boundaries` configuration as specified in [ADR018](https://github.com/ghga-de/adrs/blob/main/docs/adrs/adr018_frontend_architecture.md).
 - Add and configure ESLint plugin to enforce documentation via JSDoc as specified in [ADR014](https://github.com/ghga-de/adrs/blob/main/docs/adrs/adr014_angular_project_documentation.md).
 - Add support for Compodoc as specified in [ADR014](https://github.com/ghga-de/adrs/blob/main/docs/adrs/).
-- Add the latest Angular Material version as dependency as specified in [ADR019](https://github.com/ghga-de/adrs/blob/main/docs/adrs/adr019_responsive_design_systems.md) and [ADR020](https://github.com/ghga-de/adrs/blob/main/docs/adrs/adr020_angular_component_library.md).
+- Add the latest Angular Material version as a dependency as specified in [ADR019](https://github.com/ghga-de/adrs/blob/main/docs/adrs/adr019_responsive_design_systems.md) and [ADR020](https://github.com/ghga-de/adrs/blob/main/docs/adrs/adr020_angular_component_library.md).
 - Add Tailwind CSS as a dependency as specified in [ADR022](adr022_db_migrations.md).
 - Add a Node.js run script that injects the runtime configuration and a configuration service that can be used by components and other services to fetch the configuration.
 - Create the base components (app component, header, footer, landing page) and style them according to our existing corporate design, make everything look similar to the legacy application.
