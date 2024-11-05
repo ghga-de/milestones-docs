@@ -82,8 +82,8 @@ headers to communicate exception information like the message and class name. Th
 require a small modification to `hexkit`.
 
 **Previewed Events**:  
-Events returned by the preview endpoint will match the "raw" format defined by the
-[`ConsumerEvent`](https://github.com/ghga-de/hexkit/blob/7de3f25a99904f34a8baaab88675c3283d18bf64/src/hexkit/providers/akafka/provider/eventsub.py#L49) protocol.
+Events returned by the preview endpoint will match the format defined by the
+[`ExtractedEventInfo`](https://github.com/ghga-de/hexkit/blob/e3cad2d57212d1ba897e620501d5d2b120c70338/src/hexkit/providers/akafka/provider/eventsub.py#L63) dataclass.
 
 **Other**:  
 If we decide to include the event ID header, then that will be featured in both inbound
