@@ -49,10 +49,11 @@ actual topic names. E.g. to refer to the Work Package Service's DLQ topic, presu
     - `200 OK`: The event dry-run was successful
     - `401 Unauthorized`: auth error (not authenticated)
 - `POST /{service}`
-  - *Processes the next event in the topic*
+  - *Processes the next event in the topic, optionally publishing the supplied event*
   - Auth Header: internal token
   - Request Body: empty
-  - Response Body: empty
+  - Response Body: empty or JSON representation of corrected event
+    - Need to consider whether checks should be added for fields like correlation ID.
   - Response Status:
     - `204 No Content`: The event has been processed
     - `401 Unauthorized`: auth error (not authenticated)
