@@ -108,7 +108,9 @@ and outbound events.
 ### Event Ordering:
 Dead letter queues inherently present a potential threat to system-wide event ordering.
 However, ordering events by keys, the idempotent design of our services, and having
-separate DLQ topics for each service should prevent most problems.
+separate DLQ topics for each service should prevent most problems. Additionally, only
+one partition should be configured per DLQ topic as there will be only one consumer
+for each DLQ topic.
 
 ### Event identification:
 Right now, events can be identified through a combination of correlation ID + event
@@ -235,6 +237,9 @@ Startup: In the current form there is only one entrypoint, so the container only
 to be started (no specific CLI command required).
 Preview & resolve events: Done via HTTP API calls.
 
+### Scaling:
+The DLQ Service should not be scaled, because the manual intervention required will
+be the limiting factor rather than infrastructure.
 
 ## Human Resource/Time Estimation:
 
