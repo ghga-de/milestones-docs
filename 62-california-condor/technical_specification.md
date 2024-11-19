@@ -98,16 +98,6 @@ migrations and write the results to temporary collections while the old service
 version continues to handle requests. When the migration is complete, the old service
 can be taken offline and the collections swapped out. That's a little more complex.
 
-### Errors During Migration
-
-If an error prevents a migration from finishing, then we should discard the processed
-entries, unset the lock document, and log the error. The cleanup is straightforward if
-migrated documents are stored in a temporary collection that can be dropped, rather than
-modifying the original collection directly (in which case we would need to reverse
-changes, which could be difficult). It's important that we test migrations thoroughly
-to avoid extended downtime from unexpected errors.
-
-
 ### Reverse Migrations
 
 There might be some situation where we need to apply the reverse of a migration.
@@ -127,6 +117,31 @@ The *square* orange boxes show common logic that can be abstracted into a librar
 The red-dotted items would be performed once for each batch of documents if a collection
 were to be processed in batches.  
 The gray box shows where per-collection migration logic would occur.
+
+### Errors During Migration
+
+If an error prevents a migration from finishing, then we should discard the processed
+entries, unset the lock document, and log the error. The cleanup is straightforward if
+migrated documents are stored in a temporary collection that can be dropped, rather than
+modifying the original collection directly (in which case we would need to reverse
+changes, which could be difficult). It's important that we test migrations thoroughly
+to avoid extended downtime from unexpected errors.
+
+### Testing Migrations
+
+Abstracted logic should be tested wherever it lives, like `hexkit`.
+Tests should cover the following, but the list is not exhaustive:
+- The locking mechanism
+- Error handling
+- Logging
+- Database version detection
+- Selecting the right migration to start with
+- What to do when no matching migration exists
+
+When we test individual migration code, like the code that will update collection A for
+the migration from database version X to Y, we should use some mock data that represents
+documents in the database.
+Tests should at least verify that the migration code applies the right changes.
 
 
 ### Monitoring
