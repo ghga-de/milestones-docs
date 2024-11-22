@@ -45,10 +45,14 @@ to be remembered: only the service abbreviation and the plain topic name.
   - Response Body: array of strings (topic names)
   - Response Status: `200 OK`
 - `GET /{service}/{topic}`
-  - *Returns the next events in the topic, not exceeding the configured maximum.*
+  - *Returns the next events in the topic.*
     *This is a preview of the events and does not impact event ordering within the DLQ.*
     *Like the test endpoint below, this endpoint is idempotent.*
   - Auth Header: internal token
+  - Query parameters:
+    - `limit` *(int)*: the maximum number of events to preview per page
+    - `page` *(int)*: which 'page' of results to return (each page contains up to
+      `limit` number of events)
   - Response Body: array of event objects
   - Response Status:
     - `200 OK`: The preview was successful
@@ -66,7 +70,6 @@ to be remembered: only the service abbreviation and the plain topic name.
 - `POST /{service}/{topic}`
   - *Processes the next event in the topic, optionally publishing the supplied event*
   - Auth Header: internal token
-  - Request Body: empty
   - Response Body: empty or JSON representation of corrected event
     - Need to consider whether checks should be added for fields like correlation ID.
   - Response Status:
@@ -229,13 +232,7 @@ subscriptions:
 # etc
 ```
 
-Other config
-includes the maximum number of events returned by the preview endpoint (`preview_limit`)
-and the `token_hashes` used for authentication.
-
 ```python
-preview_max: int
-token_hashes: list[str]
 subscriptions: dict[str, list[str]]
 ```
 
