@@ -127,8 +127,8 @@ featured in both inbound and outbound events.
 For a given Kafka topic, there will be a separate DLQ topic *per service*.
 For example, the UCS, DCS, and IFRS subscribe to the topic containing File Deletion
 Requested events. They would publish failed File Deletion Requested events to their own
-DLQ topics, e.g. `file-deletions-ucs-dlq`, `file-deletions-dcs-dlq`,
-`file-deletions-ifrs-dlq`. Each service has only one retry topic, however:
+DLQ topics, e.g. `file-deletions.ucs-dlq`, `file-deletions.dcs-dlq`,
+`file-deletions.ifrs-dlq`. Each service has only one retry topic, however:
 
 ![DLQ Topic Arrangement](./images/topic%20distribution.png)
 
