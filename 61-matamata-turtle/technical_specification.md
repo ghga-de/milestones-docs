@@ -50,9 +50,8 @@ to be remembered: only the service abbreviation and the plain topic name.
     *Like the test endpoint below, this endpoint is idempotent.*
   - Auth Header: internal token
   - Query parameters:
-    - `limit` *(int)*: the maximum number of events to preview per page
-    - `offset` *(int)*: which 'page' of results to return (each page contains up to
-      `limit` number of events)
+    - `limit` *(int)*: the maximum number of events to preview per 'page'
+    - `skip` *(int)*: pagination param to skip the first `skip` results
   - Response Body: array of event objects
   - Response Status:
     - `200 OK`: The preview was successful
