@@ -51,7 +51,7 @@ to be remembered: only the service abbreviation and the plain topic name.
   - Auth Header: internal token
   - Query parameters:
     - `limit` *(int)*: the maximum number of events to preview per page
-    - `page` *(int)*: which 'page' of results to return (each page contains up to
+    - `offset` *(int)*: which 'page' of results to return (each page contains up to
       `limit` number of events)
   - Response Body: array of event objects
   - Response Status:
