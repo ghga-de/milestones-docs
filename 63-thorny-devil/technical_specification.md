@@ -37,18 +37,18 @@ The response of the work order token endpoint (`/work-packages/{work_package_id}
 
 #### Download Controller Service:
 
-Responses to the DRS compliant `/objects/{object_id}` endpoint should be cacheable for the lifetime of the presigned S3 URL included in the response once the corresponding file has been staged. The retry later response of this reasons should, for obvious reasons, not be cached and might need to send a corresponding header along to enforce this behaviour.
+Responses to the DRS compliant `/objects/{object_id}` endpoint should be cacheable for the lifetime of the presigned S3 URL included in the response once the corresponding file has been staged. The retry later response of this endpoint should, for obvious reasons, not be cached and the service might need to send a corresponding header along to enforce this behaviour.
 
 #### GHGA Connector:
 
 The Connector currently performs too many unneeded requests to the Work Package and Download Controller services.
-The amount of requests can be reduced by 1) caching responses from the Work Package service so that a work order token can be reused during the concurrent download of file parts and 2) caching the response from the Download Controller so one presigned URL can be reused as long as it remains valid,
+The amount of requests can be reduced by 1) caching responses from the Work Package service so that a work order token can be reused during the concurrent download of file parts and 2) caching the response from the Download Controller so one presigned URL can be reused as long as it remains valid.
 
 ## Additional Implementation Details:
 
 The image below shows the relevant parts of the current interaction chain where HTTP requests and responses are involved in the file download. The retry later response from the DCS is omitted for simplicity's sake.
 
-![TODO](simplified_download_call_chain.png)
+![Simplified chain of requests started by GHGA Connector](simplified_download_call_chain.png)
 
 In the current current implementation of the connecter, this cascade of calls is triggered on several occasions:
 - Initially, for all file IDs retrieved from the work package, the DCS is called to check if a file is already staged and if not, to stage it. This happens for all file IDs in sequence before even attempting to download a file.
