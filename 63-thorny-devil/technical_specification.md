@@ -1,4 +1,4 @@
-# Download Path Service Response Caching ()
+# Download Path Service Response Caching (Thorny Devil)
 
 **Epic Type:** Implementation Epic
 
