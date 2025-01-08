@@ -69,7 +69,7 @@ to be remembered: only the service abbreviation and the plain topic name.
 - `POST /{service}/{topic}`
   - *Processes the next event in the topic, optionally publishing the supplied event*
   - Auth Header: internal token
-  - Response Body: empty or JSON representation of corrected event
+  - Request Body: empty or JSON representation of corrected event
     - Need to consider whether checks should be added for fields like correlation ID.
   - Response Status:
     - `204 No Content`: The event has been processed
@@ -114,8 +114,9 @@ featured in both inbound and outbound events.
 ### Definitions:
 - *Requeue/Republish an event*: In the context of the DLQ service, this means to publish
   the next Kafka event from a given DLQ topic to the corresponding retry topic.
-- *Process an event*: Consume the event and apply validation and processing logic (if
-  applicable). The event will either be republished or discarded as a result.
+- *Process an event*: Apply validation and processing logic (if applicable) to the next
+  event in a given DLQ topic. The event will either be republished or discarded as a
+  result.
 - *Discard an event*: To decline to requeue/republish an event to the retry topic. This
   can occur upfront via a direct command by the user, or it can occur as a result of
   the event-processing logic.
@@ -130,16 +131,21 @@ For a given Kafka topic, there will be a separate DLQ topic *per service*.
 For example, the UCS, DCS, and IFRS subscribe to the topic containing File Deletion
 Requested events. They would publish failed File Deletion Requested events to their own
 DLQ topics, e.g. `file-deletions.ucs-dlq`, `file-deletions.dcs-dlq`,
-`file-deletions.ifrs-dlq`. Each service has only one retry topic, however:
+`file-deletions.ifrs-dlq`. However, each service will have its own dedicated retry
+topic regardless of the number of DLQ topics. In the above example, there would be three
+distinct retry topics: one for the UCS, one for the DCS, and one for the IFRS.
 
 ![DLQ Topic Arrangement](./images/topic%20distribution.png)
 
 ### Event Ordering:
 Dead letter queues inherently present a potential threat to system-wide event ordering.
 However, ordering events by keys, the idempotent design of our services, and having
-separate DLQ topics for each original topic *per service* should prevent most problems.
-Additionally, only one partition should be configured per DLQ topic as there will be
-only one consumer for each DLQ topic.
+separate DLQ topics for each original topic *per service* prevents sequence problems
+as long as events are designed to use the correct keys and topics in the first place.
+Additionally, it is imperative that only one partition is configured per DLQ topic as
+there will be only one consumer for each DLQ topic. If there were multiple consumers
+reading from a DLQ topic, it's likely that ordering problems would soon arise without
+careful programming to ensure the preservation of event order.
 
 ### Event identification:
 Right now, events can be identified through a combination of correlation ID + event
@@ -157,21 +163,45 @@ This differs from the correlation ID, which is propagated across services and pe
 in the database in the case of outbox events. Also unlike the correlation ID,
 the event ID is never saved to the database at any point.
 
-To illustrate the event ID lifecycle:
+To illustrate the event ID lifecycle, assume the following occur to start with:
+```
+1. Event is published to Kafka, where it is positioned at offset N in partition X.
+2. The `hexkit` kafka provider used by a downstream service gets the message from
+   `aiokafka`.
+3. Kafka provider transforms the event into a representation more convenient for our
+   services and adds an additional header containing the event ID (topic/partition
+   offset). This event ID is only meaningful to our codebase.
+4. The kafka provider hands the transformed event over to the service-defined
+   translator, which performs some business logic driven by the event.
+```
+
+Now, the differences in how the event ID is used or not based on the occurrence of an error:
 
 Normal flow
 ```
-1. Event is published to Kafka.
-2. Event is consumed, and the topic/partition/offset are stored as an event header.
-3. The event is consumed successfully -- the event ID is not propagated further.
+5. The translator encounters no errors while handling the event.
+6. The event is consumed successfully -- the event ID is not propagated further.
+7. Done.
 ```
 
-DLQ flow:
+DLQ flow
 ```
-1. Event is published to Kafka, where it is positioned at offset N in partition X.
-2. Event is consumed *unsuccessfully*
-3. Event is published to the DLQ topic with the "topic - X - N" header.
-4. Event is processed and published to the retry topic -- the ID header is not re-used.
+5. The translator encounters an error which it cannot mitigate, and all retries fail.
+6. The kafka provider logs the error, including the event ID (topic/partition/offset).
+7. The kafka provider publishes the event data, including the event ID header.
+8. We use the DLQ service to take a look at the failed event and see nothing wrong.
+9. We learn the problem was actually a database issue that we've since fixed.
+10. We use the DLQ service to publish the event to the retry topic, but the event ID
+    header is not propagated. Instead, the DLQ service includes a special header
+    containing the original topic but not the partition or offset, because that
+    information refers exclusively to the failed event. The event published to the
+    retry topic is considered a new event, as information *may* have changed.
+11. The service encounters the republished event, this time from its dedicated retry
+  topic. The kafka provider understands that the retry topic is special, so it obtains
+  the `topic` field from the original topic header. By contrast, the *event ID* will
+  refer to the *retry* topic when the kafka provider formulates it this time.
+12. The event is consumed successfully -- the event ID is not propagated further.
+13. Done.
 ```
 
 
