@@ -30,19 +30,14 @@ offset
 
 DLQ topics consist of the original topic name, the service abbreviation, and the fixed
 suffix `-dlq`. The latter could technically be omitted, but using it visually
-distinguishes dlq topics from others and making debugging easier.
-When interacting with DLQ topics via the API, however, the above structure does not need
+distinguishes dlq topics from others, making debugging easier.
+When interacting with DLQ topics via the API, the above structure does not need
 to be remembered: only the service abbreviation and the plain topic name.
 
 - `GET /services`
-  - *Returns a list of all configured services*
+  - *Returns all configured topics for all services*
   - Auth Header: internal token
-  - Response Body: array of strings (service names)
-  - Response Status: `200 OK`
-- `GET /topics/{service}`
-  - *Returns a list of all topics configured for the chosen service*
-  - Auth Header: internal token
-  - Response Body: array of strings (topic names)
+  - Response Body: dict with service names as keys and array of topic names as values
   - Response Status: `200 OK`
 - `GET /{service}/{topic}`
   - *Returns the next events in the topic.*
@@ -69,7 +64,7 @@ to be remembered: only the service abbreviation and the plain topic name.
 - `POST /{service}/{topic}`
   - *Processes the next event in the topic, optionally publishing the supplied event*
   - Auth Header: internal token
-  - Request Body: empty or JSON representation of corrected event
+  - Request Body: empty OR JSON representation of corrected event
     - Need to consider whether checks should be added for fields like correlation ID.
   - Response Status:
     - `204 No Content`: The event has been processed
