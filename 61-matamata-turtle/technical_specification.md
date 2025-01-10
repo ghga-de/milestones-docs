@@ -163,6 +163,8 @@ in the database in the case of outbox events. Also unlike the correlation ID,
 the event ID is never saved to the database at any point.
 
 To illustrate:
+
+![Event ID usage](./images/event%20ID.png)
 1. An event is published to the "users" topic, where it is stored at partition 0, offset 17.
 2. The `hexkit` Kafka provider used by the `NOS` gets the message from `aiokafka`.
 3. The Kafka provider hands the transformed event over to the service-defined
