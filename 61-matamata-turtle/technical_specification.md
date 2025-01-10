@@ -93,7 +93,10 @@ published or consumed by the GHGA microservices, except they will feature the
 **Inbound to DLQ Service**:  
 The inbound events in the DLQ topics will feature additional
 headers to communicate exception information like the message and class name. That will
-require a small modification to `hexkit`.
+require a small modification to `hexkit`. In addition to the exception information,
+DLQ events will feature a header containing the original topic, partition, and offset
+of the failed event in a single string. This enables devs to quickly confirm that the
+event they see in the DLQ service is in fact the same event from a given error log.
 
 **Previewed Events**:  
 Events returned by the preview endpoint will match the format defined by the
@@ -144,60 +147,40 @@ careful programming to ensure the preservation of event order.
 
 ### Event identification:
 Right now, events can be identified through a combination of correlation ID + event
-type and topic. It might be useful to have a per-event identifier added to Kafka
-consisting of the original topic, partition, and offset.
-The work required would be small and the resulting ease of identifying an event could
-be valuable.
+type and topic. It would be easier if there were a single field to associate a given
+event in a DLQ topic with its source event in the original topic. The combination of
+topic name, partition, and offset uniquely identify an event within a topic, so we can
+concatenate the three values in a single string and pass it along as an event header.
 
-E.g.: `file-registrations:0:1` would indicate an event from the "file-registrations"
+E.g.: `file-registrations - 0 - 1` would indicate an event from the "file-registrations"
 topic, partition 0, offset 1. The information is only seen by the consumer, not by the
-publisher.
+publisher, which is the only downside of doing it this way instead of generating a UUID
+right before publishing the event.
 
-The event ID would only be propagated for the DLQ cycle.
+The event ID would only be propagated if it entered the DLQ cycle.
 This differs from the correlation ID, which is propagated across services and persisted
 in the database in the case of outbox events. Also unlike the correlation ID,
 the event ID is never saved to the database at any point.
 
-To illustrate the event ID lifecycle, assume the following occur to start with:
-```
-1. Event is published to Kafka, where it is positioned at offset N in partition X.
-2. The `hexkit` kafka provider used by a downstream service gets the message from
-   `aiokafka`.
-3. Kafka provider transforms the event into a representation more convenient for our
-   services and adds an additional header containing the event ID (topic/partition
-   offset). This event ID is only meaningful to our codebase.
-4. The kafka provider hands the transformed event over to the service-defined
+To illustrate:
+1. An event is published to the "users" topic, where it is stored at partition 0, offset 17.
+2. The `hexkit` Kafka provider used by the `NOS` gets the message from `aiokafka`.
+3. The Kafka provider hands the transformed event over to the service-defined
    translator, which performs some business logic driven by the event.
-```
+4. The translator encounters an error which it cannot mitigate, and all retries fail.
+5. The Kafka provider logs the error, including the event ID (`"users - 0 - 17"`).
+6. The Kafka provider publishes the event with the event ID header to the DLQ topic.
+7. We use the DLQ service to take a look at the failed event and see nothing wrong.
+8. We learn the problem was actually a database issue that we've since fixed.
+9. We use the DLQ service to publish the event to the retry topic, sans event ID header.
+   Instead, the DLQ service includes a special header with the original topic ("users")
+   but not the partition or offset. 
+10. The service encounters the republished event, this time from its dedicated retry
+  topic. The Kafka provider understands that the retry topic is special, so it obtains
+  the topic field from the original topic header. If the retry event fails again, the
+  old event ID would be misleading had we modified the event in the DLQ service.
 
-Now, the differences in how the event ID is used or not based on the occurrence of an error:
-
-Normal flow
-```
-5. The translator encounters no errors while handling the event.
-6. The event is consumed successfully -- the event ID is not propagated further.
-7. Done.
-```
-
-DLQ flow
-```
-5. The translator encounters an error which it cannot mitigate, and all retries fail.
-6. The kafka provider logs the error, including the event ID (topic/partition/offset).
-7. The kafka provider publishes the event data, including the event ID header.
-8. We use the DLQ service to take a look at the failed event and see nothing wrong.
-9. We learn the problem was actually a database issue that we've since fixed.
-10. We use the DLQ service to publish the event to the retry topic, but the event ID
-    header is not propagated. Instead, the DLQ service includes a special header
-    containing the original topic but not the partition or offset, because that
-    information refers exclusively to the failed event. The event published to the
-    retry topic is considered a new event, as information *may* have changed.
-11. The service encounters the republished event, this time from its dedicated retry
-  topic. The kafka provider understands that the retry topic is special, so it obtains
-  the `topic` field from the original topic header. By contrast, the *event ID* will
-  refer to the *retry* topic when the kafka provider formulates it this time.
-12. The event is consumed successfully -- the event ID is not propagated further.
-13. Done.
-```
+If the translator encounters no errors, the event ID is not needed and never created.
 
 
 ### Event processing:
