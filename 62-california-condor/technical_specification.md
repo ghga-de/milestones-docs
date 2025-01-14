@@ -64,7 +64,7 @@ Migration code should be preserved at least until there is no possibility of
 encountering the corresponding database version again.
 
 
-### Services with Multiple Entrypoints
+### Services with Multiple Instances
 
 Several services operate with more than one instance simultaneously because one serves
 as a REST API and another consumes Kafka events (for example). Obviously, only one
