@@ -27,8 +27,8 @@ database instance is the expected version or not.
 
 ### General Migration Logic
 
-Each microservice owns its own database, so any discussion of migrations can be assumed
-to concern a single microservice. According to
+Each microservice has a database of its own, so any discussion of migrations can be
+assumed to concern a single microservice. According to
 [the ADR](https://github.com/ghga-de/adrs/pull/28), a given service will use a
 single value to denote the version of its entire database, as opposed to versioning a
 collection or the schema used for a document.
@@ -61,7 +61,11 @@ database will be current or, at most, one version behind. However, if a database
 occurs and the data happens to be older, the migration process will begin at the
 appropriate step in the migration chain and continue until the data is totally migrated.
 Migration code should be preserved at least until there is no possibility of 
-encountering the corresponding database version again.
+encountering the corresponding database version again. In the case that the database
+version is *newer* than what it be, something has gone wrong. Possibly, this could mean
+that the deployed service is outdated (maybe deployment configuration was messed up).
+We should never move the database version backward. Reverse migrations are
+discussed further down in this document, but the database version number should increase monotonically.
 
 
 ### Services with Multiple Instances
