@@ -55,7 +55,7 @@ and the lock is not set, the service can start the migration process.
 ]
 ```
 
-The migration process will form a chain, where discreet migration logic exists for
+The migration process will form a chain, where discrete migration logic exists for
 every database version to migrate the data from version X to X+1. Most of the time, the
 database will be current or, at most, one version behind. However, if a database restore
 occurs and the data happens to be older, the migration process will begin at the
