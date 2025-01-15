@@ -71,26 +71,32 @@ discussed further down in this document, but the database version number should 
 ### Services with Multiple Instances
 
 Several services operate with more than one instance simultaneously because one serves
-as a REST API and another consumes Kafka events (for example). Obviously, only one
-migration process should occur in these situations, rather than executing for each
-instance. This can be solved if we ensure the migration process only runs as part of
-the startup for one entrypoint, e.g. the REST API. We can "lock" the database to signal
-to any other potential instances that there is already a migration in progress:
+as a REST API and another consumes Kafka events (for example). We can also scale
+services horizontally where there are multiple instances of a service running with the
+same entrypoint (multiple Kafka consumers or multiple REST API instances). Only one
+migration process should occur regardless of the number of instances in operation.
+To make sure service instances don't trip over each other trying to run a migration,
+we can "lock" the database to signal that there is already a migration in progress:
 
 ```
 // locking collection with one document
 [
   {
-    "migration_in_progress": true
+    "lock_acquired": true,
+    "acquired_at": now,
   }
 ]
 ```
 
 The first instance to obtain the lock is allowed to proceed, all others wait. This has
-the benefit of preventing concurrent migrations if services are scaled. An alternative
-to a dedicated collection is to use the database version collection -- if the
-expected database version exists but the timestamp is missing, then that means a
-migration is already underway.
+the benefit of preventing concurrent migrations if services are scaled. We need to
+prevent race conditions when acquiring the lock itself, so we need to use a command like
+[find_one_and_update()](https://pymongo.readthedocs.io/en/stable/api/pymongo/collection.html#pymongo.collection.Collection.find_one_and_update).
+MongoDB ensures atomicity of document-level writes, so the first service granted write
+access will update the document. The remaining simultaneous requests will not match
+since the update request will filter for `"lock_acquired": False"`. When the query
+returns `None` to the service code, the instance will know to wait for the pre-determined
+interval before starting over with the initial DB version check:
 
 ![migration flowchart](./images/migration%20flowchart.png)
 
