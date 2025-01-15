@@ -77,7 +77,7 @@ instance. This can be solved if we ensure the migration process only runs as par
 the startup for one entrypoint, e.g. the REST API. We can "lock" the database to signal
 to any other potential instances that there is already a migration in progress:
 
-```json
+```
 // locking collection with one document
 [
   {
@@ -91,6 +91,8 @@ the benefit of preventing concurrent migrations if services are scaled. An alter
 to a dedicated collection is to use the database version collection -- if the
 expected database version exists but the timestamp is missing, then that means a
 migration is already underway.
+
+![migration flowchart](./images/migration%20flowchart.png)
 
 After preventing simultaneous migrations, we need to optimize how other instances
 operate while a migration is underway and consider how to handle read and 
@@ -110,9 +112,9 @@ then we need to move to version 6. Version 6 is not treated as some special 'und
 version increment; the migration logic merely happens to move the data to the same
 structure contained in version 4.
 
-### Migration Structure
+### Migration Code Organization
 
-![Migration structure](./images/db%20migrations%20white%20bg.png)
+![Migration code organization](./images/migration%20code%20org.png)
 
 In the image above, the green section indicates the top-level migration logic, most of
 which can be implemented in a library like `hexkit`.  
@@ -120,7 +122,12 @@ The *rounded* orange boxes represent distinct migrations between database versio
 The *square* orange boxes show common logic that can be abstracted into a library.  
 The red-dotted items would be performed once for each batch of documents if a collection
 were to be processed in batches.  
-The gray box shows where per-collection migration logic would occur.
+The gray box represents custom migration logic.  
+This layout allows for simpler migrations to use migration framework code, but also
+enables us to write the code we need for more complex migrations, like merging two
+collections. The number of collections for any service is minimal, so there is no
+need to automate or enforce iteration through collections. In fact, that would hinder
+our ability to write migration logic involving multiple collections at once.
 
 ### Errors During Migration
 
