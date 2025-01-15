@@ -146,11 +146,11 @@ temp tables and some renaming. Here's an example of how that looks while migrati
 2. Create `tmp_users` and `tmp_orders`.
 3. Read data from `users` and write new data to `tmp_users`.
 4. Read data from `orders` and write new data to `tmp_orders`.
-5. Rename `users` to `old_users` and `orders` to `old_orders`.
+5. Rename `users` to `tmp_old_users` and `orders` to `tmp_old_orders`.
 6. Rename `tmp_users` to `users` and `tmp_orders` to `orders`.
-7. Apply the indexes from `old_users` and `old_orders` to `users` and `orders`.
+7. Apply the indexes from `tmp_old_users` and `tmp_old_orders` to `users` and `orders`.
 8. Do some verification (count docs, examine content, double check indexes, etc.).
-9. Drop `old_users` and `old_orders`.
+9. Drop `tmp_old_users` and `tmp_old_orders`.
 
 If an error occurs at any point, drop all `tmp_` tables from this migration, log the
 error, unset the lock document, make sure the old tables have the original names, and
