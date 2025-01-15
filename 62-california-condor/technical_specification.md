@@ -102,13 +102,13 @@ interval before starting over with the initial DB version check:
 
 After preventing simultaneous migrations, we need to optimize how other instances
 operate while a migration is underway and consider how to handle read and 
-write requests. One way would be to accept some downtime and
-block service instances until the migration is complete. This might be a
-sufficient initial solution because database sizes are small enough that migrations will
-be completed quickly. If we have to eliminate downtime, we could perform shadow
-migrations and write the results to temporary collections while the old service
-version continues to handle requests. When the migration is complete, the old service
-can be taken offline and the collections swapped out. That's a little more complex.
+write requests. The outright simplest solution is to accept some downtime, take all
+instances offline, and deploy the new version of the service(s) without any overlap.
+Our database sizes are small enough that migrations should not take very long. We can
+schedule updates for low-traffic times and even notify users beforehand if necessary.
+If we determine that migrations take long enough that the above approach becomes
+unrealistic, we'll have to take a more complicated approach.
+
 
 ### Reverse Migrations
 
@@ -135,14 +135,35 @@ collections. The number of collections for any service is minimal, so there is n
 need to automate or enforce iteration through collections. In fact, that would hinder
 our ability to write migration logic involving multiple collections at once.
 
-### Errors During Migration
+### Errors During a Migration
 
-If an error prevents a migration from finishing, then we should discard the processed
-entries, unset the lock document, and log the error. The cleanup is straightforward if
-migrated documents are stored in a temporary collection that can be dropped, rather than
-modifying the original collection directly (in which case we would need to reverse
-changes, which could be difficult). It's important that we test migrations thoroughly
-to avoid extended downtime from unexpected errors.
+We should use MongoDB's support for distributed transactions (a.k.a. multi-document
+transactions) to automatically roll back failed migrations. Here's how we can do this 
+in a database containing two collections named `users` and `orders`:
+1. Drop `tmp_users` and `tmp_orders` if they exist.
+2. Create `tmp_users` and `tmp_orders` and apply the indexes from the original tables.
+3. Read data from `users` and write new data to `tmp_users`.
+4. Read data from `orders` and write new data to `tmp_orders`.
+5. If no errors, start a transaction.
+   1. Drop `users` and `orders`.
+   2. Rename `tmp_users` to `users`.
+   3. Rename `tmp_orders` to `orders`.
+   5. Commit the transaction if everything looks correct.
+
+If an error occurs at any point, drop all `tmp_` tables from this migration, log the
+error, unset the lock document, and exit.
+Errors during the transaction will cause MongoDB to roll back the changes that occurred
+within.
+
+There is a default time limit for transactions of 1 minute, which should suffice for the
+drop/rename operations. As a general note, the name of this value in server config is
+[transactionLifetimeLimitSeconds](https://www.mongodb.com/docs/manual/reference/parameters/#mongodb-parameter-param.transactionLifetimeLimitSeconds)
+should we need to modify it.
+
+It's important that we test migrations thoroughly to avoid extended downtime from
+unexpected errors.
+
+
 
 ### Testing Migrations
 
@@ -165,7 +186,8 @@ Tests should at least verify that the migration code applies the right changes.
 
 Migration progress should be reported at periodic intervals, and the migration duration
 should be both logged and stored in the database along with a timestamp so we can
-identify performance issues early on.
+identify performance issues early on. It makes sense to track the duration along with
+database size so we can have a good estimate of how long upcoming migrations will take.
 
 
 ## Human Resource/Time Estimation:
