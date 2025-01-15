@@ -137,36 +137,28 @@ our ability to write migration logic involving multiple collections at once.
 
 ### Errors During a Migration
 
-We should use MongoDB's support for distributed transactions (a.k.a. multi-document
-transactions) to automatically roll back failed migrations. Here's how we can do this 
-in a database containing two collections named `users` and `orders`:
-1. Drop `tmp_users` and `tmp_orders` if they exist.
-2. Create `tmp_users` and `tmp_orders` and apply the indexes from the original tables.
+We can prevent database corruption from errors during migrations through the use of
+temp tables and some renaming. Here's an example of how that looks while migrating a database containing two collections named `users` and `orders`:
+1. Drop `tmp_users` and `tmp_orders` if they exist (maybe from previous failed attempt).
+2. Create `tmp_users` and `tmp_orders`.
 3. Read data from `users` and write new data to `tmp_users`.
 4. Read data from `orders` and write new data to `tmp_orders`.
-5. If no errors, start a transaction.
-   1. Drop `users` and `orders`.
-   2. Rename `tmp_users` to `users`.
-   3. Rename `tmp_orders` to `orders`.
-   5. Commit the transaction if everything looks correct.
+5. Rename `users` to `old_users` and `orders` to `old_orders`.
+6. Rename `tmp_users` to `users` and `tmp_orders` to `orders`.
+7. Apply the indexes from `old_users` and `old_orders` to `users` and `orders`.
+8. Do some verification (count docs, examine content, double check indexes, etc.).
+9. Drop `old_users` and `old_orders`.
 
 If an error occurs at any point, drop all `tmp_` tables from this migration, log the
-error, unset the lock document, and exit.
-Errors during the transaction will cause MongoDB to roll back the changes that occurred
-within.
-
-There is a default time limit for transactions of 1 minute, which should suffice for the
-drop/rename operations. As a general note, the name of this value in server config is
-[transactionLifetimeLimitSeconds](https://www.mongodb.com/docs/manual/reference/parameters/#mongodb-parameter-param.transactionLifetimeLimitSeconds)
-should we need to modify it.
-
-It's important that we test migrations thoroughly to avoid extended downtime from
-unexpected errors.
+error, unset the lock document, make sure the old tables have the original names, and
+exit.
 
 
 
 ### Testing Migrations
 
+It's important that we test migrations thoroughly to avoid extended downtime from
+unexpected errors.
 Abstracted logic should be tested wherever it lives, like `hexkit`.
 Tests should cover the following, but the list is not exhaustive:
 - The locking mechanism
