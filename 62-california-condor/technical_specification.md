@@ -62,10 +62,10 @@ occurs and the data happens to be older, the migration process will begin at the
 appropriate step in the migration chain and continue until the data is totally migrated.
 Migration code should be preserved at least until there is no possibility of 
 encountering the corresponding database version again. In the case that the database
-version is *newer* than what it be, something has gone wrong. Possibly, this could mean
-that the deployed service is outdated (maybe deployment configuration was messed up).
-We should never move the database version backward. Reverse migrations are
-discussed further down in this document, but the database version number should increase monotonically.
+version is *newer* than what it be, something has gone wrong *or* we have deployed
+an older version of a service. The backwards case is treated just like the forward case:
+the migration code will execute the backwards migration path if it exists and raise an
+error if it doesn't.
 
 
 ### Services with Multiple Instances
@@ -116,7 +116,10 @@ There might be some situation where we need to apply the reverse of a migration.
 If DB version 5 is applied, but we later find that we should have stayed with version 4,
 then we need to move to version 6. Version 6 is not treated as some special 'undo'
 version increment; the migration logic merely happens to move the data to the same
-structure contained in version 4.
+structure contained in version 4. However, in the case that we really just need to
+deploy an older service version, the migration code needs to be able to perform
+migrations from X to X - 1. The responsibility falls to the developer to ensure their
+forward migration code has a backward counterpart, which should also be tested.
 
 ### Migration Code Organization
 
