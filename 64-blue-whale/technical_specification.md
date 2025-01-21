@@ -9,11 +9,11 @@ Epic planning and implementation follow the
 
 ### Outline:
 
-The goal of this epic is to implement all the features from the current React based GHGA Data Portal in Angular, using the baseline application that has been built in the [Hippopotamus](../60-hippopotamus/technical_specification.md) as the starting point.
+The goal of this epic is to implement all the features from the current React-based GHGA Data Portal in Angular, using the baseline application that has been built in the [Hippopotamus](../60-hippopotamus/technical_specification.md) as the starting point.
 
 ### Included/Required:
 
-- Full implementation of all features of the React based GHGA Data Portal
+- Full implementation of all features of the React-based GHGA Data Portal
 - Unit tests and end-to-end tests (against the mock backend) for these features
 
 ### Optional:
@@ -56,7 +56,7 @@ In this epic, we first implement functions from the GHGA Catalog.
 
 - [ ] Metadata search service (complete)
 - [ ] Dataset browser (complete)
-	- [ ] Result list
+	- [ ] Result list (loading indicator, tests)
 	- [ ] Dataset summaries
 	- [ ] Filter (facets)
 	- [ ] Search
@@ -111,7 +111,7 @@ Finally, we add the tooling for the data stewards:
 
 ### Polish and improve test coverage
 
-In the last step, we polish everything (edge cases, layout etc.) and increase the test coverage from unit tests and end-to-end tests. The latter should cover the complete user journey from dataset discovery to dataset download, but they should use the static (stateless) mock backend that is part of the frontend repository.
+In the last step, we polish everything (edge cases, layout etc.), make sure that the app is usable on small screens (which may take some days), and increase the test coverage from unit tests and end-to-end tests. The latter should cover the complete user journey from dataset discovery to dataset download, but they should use the static (stateless) mock backend that is part of the frontend repository.
 
 ### Full end-to-end testing
 
