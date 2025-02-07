@@ -188,12 +188,6 @@ republishing the event to a retry topic.
 This [Java DLQ implementation](https://medium.com/nerd-for-tech/-to-re-queue-apache-kafka-dlq-messages-95941525ca77)
 uses such headers (toward the bottom).
 
-### Processing Dry Run:
-It would be nice to be able to perform a dry-run of event processing as a sanity check.
-The test endpoint would perform any applicable processing on the next event and
-return the result instead of publishing it. If processing would result in the
-event being discarded instead of published, then it will return nothing.  
-
 
 ### Previewing Events:
 Previewed events will be formatted with the `ExtractedEventInfo` class and returned as 
@@ -212,7 +206,8 @@ JSON:
     "correlation_id": ...,
     "exc_class": ...,
     "exc_msg": ...,
-    "id": <topic - partition - offset>
+    "original_topic": ...,
+    "event_id": "<service,topic,partition,offset>"
   }
 }
 ```
