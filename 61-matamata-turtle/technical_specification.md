@@ -115,7 +115,7 @@ Events returned by the preview endpoint will match the format defined by the
 9. The service consumes the previously-DLQ'd event from its retry topic.
 
 ### DLQ Topic Arrangement
-There is one DLQ topic. The DLQ topic name is set in configuration for some degree of
+There is one global DLQ topic. The DLQ topic name is set in configuration for some degree of
 flexibility should it be needed, but all services should use the same configured value.
 The default is `dlq`.
 
