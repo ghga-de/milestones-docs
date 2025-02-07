@@ -148,7 +148,8 @@ The event ID is always created, but only propagated if it enters the DLQ cycle.
 This differs from the correlation ID, which is propagated across services and persisted
 in the database in the case of outbox events.
 
-To illustrate:
+Consider this example where some unnamed service publishes an event to the
+the `users` topic and the `NOS` service consumes it:
 
 ![Event ID usage](./images/event%20ID.png)
 1. An event is published to the "users" topic, where it is stored at partition 0, offset 17.
