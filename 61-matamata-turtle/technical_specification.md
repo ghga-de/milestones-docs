@@ -120,7 +120,7 @@ flexibility should it be needed, but all services should use the same configured
 The default is `dlq`.
 
 ### Persisting DLQ Events
-The DLQ Service will continually listen to the DLQ topic. When it gets an event,
+The DLQ Service will continually consume from the DLQ topic. When it gets an event,
 it will immediately store the event in the database.
 Under the initial implementation, all events will go into a single collection.
 MongoDB's `aggregate` functionality will be used (as in `mass`) to pull back the
