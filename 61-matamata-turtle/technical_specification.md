@@ -149,22 +149,23 @@ This differs from the correlation ID, which is propagated across services and pe
 in the database in the case of outbox events.
 
 Consider this example where some unnamed service publishes an event to the
-the `users` topic and the `NOS` service consumes it:
+the `users` topic, where the event is stored in partition 0 at offset 17 and later
+consumed by the `NOS`:
 
 ![Event ID usage](./images/event%20ID.png)
-1. An event is published to the "users" topic, where it is stored at partition 0, offset 17.
-2. The `hexkit` Kafka provider used by the `NOS` gets the message from `aiokafka`.
+1. The `hexkit` Kafka provider used by the `NOS` gets the message from `aiokafka`.
+2. The `aiokafka` version of the event is formatted into an instance of the
+   `ExtractedEventInfo` class, where its event ID is created.
 3. The Kafka provider hands the transformed event over to the service-defined
    translator, which performs some business logic driven by the event.
-4. The translator encounters an error which it cannot mitigate, and all retries fail.
-5. The Kafka provider logs the error, including the event ID (`"nos,users,0,17"`).
-6. The Kafka provider publishes the event with the event ID header to the DLQ topic.
-   - The original topic header is also included.
-7. We use the DLQ service to take a look at the failed event.
-8. We learn the problem was actually a database issue that we've since fixed.
-9.  We use the DLQ service to publish the event to the retry topic, sans event ID header.
-   Instead, the DLQ service includes a special header with the original topic ("users").
-10. The `NOS` encounters the republished event, this time from its dedicated retry
+   - Here, an error occurs, and all retries fail as well.
+   - The Kafka provider logs the error, including the event ID (`"nos,users,0,17"`).
+4. The Kafka provider publishes the event with the event ID header to the DLQ topic.
+5. We use the DLQ service to take a look at the failed event.
+   - We learn the problem was actually a database issue that we've since fixed.
+6.  We use the DLQ service to publish the event to the retry topic, sans event ID header. Instead, the DLQ service includes a special header with the original topic
+("users").
+7.  The `NOS` encounters the republished event, this time from its dedicated retry
   topic. The Kafka provider understands that the retry topic is special, so it obtains
   the topic field from the original topic header. If the retry event fails again, the
   old event ID would be misleading had we modified the event in the DLQ service.
