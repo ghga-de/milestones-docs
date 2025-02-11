@@ -42,6 +42,8 @@ plain topic name are required.
     - `401 Unauthorized`: auth error (not authenticated)
 - `POST /{service}/{topic}`
   - *Processes the next event in the topic, optionally publishing the supplied event.*
+    *If an override is specified, its DLQ and correlation IDs must match that of*
+    *the stored event.*
     *Returns the payload passed to the publisher.*
   - Auth Header: internal token
   - Query parameters:
@@ -54,12 +56,12 @@ plain topic name are required.
     - `200 OK`: The event test was successful
     - `422 Unprocessable Entity`: The non-empty request body is not a valid event. 
     - `401 Unauthorized`: auth error (not authenticated)
-- `DELETE /{service}/{topic}`
-  - *Directly discards the next event in the topic*
+- `DELETE /{dlq_id}`
+  - *Directly discards the event with the specified DLQ ID*
   - Auth Header: internal token
   - Response Body: empty
   - Response Status:
-    - `204 No Content`: The event has been discarded
+    - `204 No Content`: The event has been discarded (or was already deleted)
     - `401 Unauthorized`: auth error (not authenticated)
 
 All endpoints should require an internal auth token.
@@ -78,13 +80,34 @@ require a small modification to `hexkit`. In addition to the exception informati
 DLQ events will feature a header containing the service abbreviation, original topic,
 partition, and offset of the failed event in a single string. This enables devs to
 quickly confirm that the event they see in the DLQ service is in fact the same event
-from a given error log.
+from a given error log. The DLQS will extract this DLQ-specific information and
+store it in a top-level field called `dlq_info` (see below for an example). The
+original `event_id` field will not be persisted once its information is extracted.
+
 
 **Previewed Events**:  
-Events returned by the preview endpoint will match the format defined by the
-[`ExtractedEventInfo`](https://github.com/ghga-de/hexkit/blob/e3cad2d57212d1ba897e620501d5d2b120c70338/src/hexkit/providers/akafka/provider/eventsub.py#L63) dataclass.
-
-
+Previewed events will be formatted as seen below and return as JSON:
+```json
+{
+  "dlq_id": "uuid4",  // Added by the DLQS
+  "topic": "dlq",
+  "type_": "upserted",
+  "payload": {...},
+  "key": "some key",
+  "timestamp": "2025-02-10T16:55:05.751470+00:00",
+  "headers": {
+    "correlation_id": "uuid4",
+    "original_topic": "users",
+  },
+  "dlq_info": {  // Extracted from the headers by the DLQS
+    "service": "nos",
+    "partition": 0,
+    "offset": 17,
+    "exc_cls": "RuntimeError",
+    "exc_msg": "Useful error message"
+  }
+}
+```
 
 ## Additional Implementation Details:
 
@@ -121,7 +144,7 @@ The default is `dlq`.
 
 ### Persisting DLQ Events
 The DLQ Service will continually consume from the DLQ topic. When it gets an event,
-it will immediately store the event in the database.
+it will immediately transform and store the event in the database.
 Under the initial implementation, all events will go into a single collection.
 MongoDB's `aggregate` functionality will be used (as in `mass`) to pull back the
 correct events for a given `service` and `topic`, sorted by timestamp.
@@ -163,14 +186,15 @@ consumed by the `NOS`:
 4. The Kafka provider publishes the event with the event ID header to the DLQ topic.
 5. We use the DLQ service to take a look at the failed event.
    - We learn the problem was actually a database issue that we've since fixed.
-6.  We use the DLQ service to publish the event to the retry topic, sans event ID header. Instead, the DLQ service includes a special header with the original topic
-("users").
-7.  The `NOS` encounters the republished event, this time from its dedicated retry
+6.  We use the DLQ service to publish the event to the retry topic, sans event ID header.
+Instead, the DLQ service includes a special header with the original topic ("users").
+1.  The `NOS` encounters the republished event, this time from its dedicated retry
   topic. The Kafka provider understands that the retry topic is special, so it obtains
   the topic field from the original topic header. If the retry event fails again, the
   old event ID would be misleading had we modified the event in the DLQ service.
 
-If the translator encounters no errors, the event ID is not needed and never created.
+If the translator encounters no errors, the event ID is not used (except for debug
+logging that might take place in `hexkit`).
 
 
 ### Event processing:
@@ -182,6 +206,10 @@ When we resolve the next event in a given DLQ topic, it can go one of two ways:
   by directly supplying a JSON event to the API, which publishes the event outright
   as long as the correlation ID matches.
 
+In both cases, the event's `dlq_id` must be accurately provided to prevent mistaken
+event resolution (imagine two developers call the `DELETE` endpoint simultaneously...).
+This will ensure idempotent operation.
+
 Another useful piece of information for the DLQ service is the exception information.
 There is currently no mechanism to provide that to the DLQ service, but the info could
 be passed through event headers. The exception header would then be removed upon
@@ -192,27 +220,21 @@ uses such headers (toward the bottom).
 
 
 ### Previewing Events:
-Previewed events will be formatted with the `ExtractedEventInfo` class and returned as 
-JSON:
-```json
-{
-  "topic": ...,
-  "type_": ...,
-  "payload": {
-    "field1": ...,
-    "field2": ...,
-    ...
-  },
-  "key": ...,
-  "headers": {
-    "correlation_id": ...,
-    "exc_class": ...,
-    "exc_msg": ...,
-    "original_topic": ...,
-    "event_id": "<service,topic,partition,offset>"
-  }
-}
-```
+Events will be aggregated by the requested service and type, then sorted by timestamp,
+before finally applying any pagination (if applicable) using the `skip` and `limit` 
+parameters. The returned events will include the `dlq_info` and `dlq_id` fields, the
+latter of which must be referenced for event resolution.
+
+
+### Discarding Events:
+Events can be discarded by calling the `DELETE` endpoint and supplying the `dlq_id`.
+The `DELETE` endpoint is unique in that it disregards event order. Because the
+operation removes the event and does nothing further with it, events don't have to be
+deleted from the head of the topic, i.e. in order of timestamp. Deleting events by
+their DLQ ID also ensures idempotence. If the event has already been deleted, nothing
+needs to be done. Finally, this approach means that the `service` and `topic`
+parameters required for the `GET` and `POST` endpoints are not required.
+
 
 ### Tests:
 At the very least, the DLQ service tests should cover the following:
