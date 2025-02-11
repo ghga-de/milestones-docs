@@ -42,18 +42,17 @@ plain topic name are required.
     - `401 Unauthorized`: auth error (not authenticated)
 - `POST /{service}/{topic}`
   - *Processes the next event in the topic, optionally publishing the supplied event.*
-    *If an override is specified, its DLQ and correlation IDs must match that of*
-    *the stored event.*
     *Returns the payload passed to the publisher.*
   - Auth Header: internal token
   - Query parameters:
     - `dry_run` *(bool)*: if True, the endpoint will not actually publish the event to
     the retry topic or delete it from the database. This is useful for verifying what
     will get published before resolving an event.
-  - Request Body: empty OR JSON representation of corrected event
+  - Request Body: DLQ ID of the event to resolve and, optionally, a JSON
+    representation of corrected event (see schema below).
   - Response Body: the event that was/would be published.
   - Response Status:
-    - `200 OK`: The event test was successful
+    - `200 OK`: The event test or publish was successful
     - `422 Unprocessable Entity`: The non-empty request body is not a valid event. 
     - `401 Unauthorized`: auth error (not authenticated)
 - `DELETE /{dlq_id}`
@@ -109,6 +108,24 @@ Previewed events will be formatted as seen below and return as JSON:
 }
 ```
 
+**Processed Events**:
+The `POST` endpoint, used to process a DLQ event, requires the `dlq_id` in the body.
+User-supplied events meant to be published to a retry topic in place of the stored DLQ
+event must also supply the `topic`, `type`, `payload`, and `key`. The values for
+those fields can differ from the stored DLQ event, but the `dlq_id` must be unchanged.
+Other fields will be ignored if supplied. The correlation ID will be pulled
+from the original DLQ event to re-use upon publishing to the retry queue.
+
+```json
+{
+  "dlq_id": ...,  // Must match the DLQ ID of the corresponding DLQ event
+  "topic": ...,
+  "type_": ...,
+  "payload": {...},
+  "key": ...,
+}
+```
+
 ## Additional Implementation Details:
 
 ### Definitions:
@@ -130,7 +147,7 @@ Previewed events will be formatted as seen below and return as JSON:
 2. The service tries again, also unsuccessfully.
 3. Retries are exhausted, so the service publishes the event to the global DLQ topic.
 4. The DLQ Service consumes the event from Kafka and stores it in the database.
-   1. This involves extracting/adding the 'service' and 'event_id' fields.
+   - This involves extracting/adding the 'service' and 'event_id' fields.
 5. Developers query the DLQ Service via the HTTP API to resolve an event.
 6. The DLQ Service gets the event from the DB and does basic validation.
 7. The event is sent to the original service's retry topic.
