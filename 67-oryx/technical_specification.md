@@ -90,8 +90,8 @@ by `hexkit`'s outbox pattern event types, **then**:
 <td><pre><code>
 <strong>*DatasetEventsConfig</strong>:
    dataset_change_event_topic
-   dataset_deletion_type
-   dataset_upsertion_type
+   dataset_deletion_event_type
+   dataset_upsertion_event_type
 </code></pre></td>
 <td><pre><code>
 UMS:
@@ -113,7 +113,7 @@ Metldata:
 <strong>*ResourceEventsConfig</strong>:
    resource_change_event_topic
    resource_deletion_event_type
-   resource_upsertion_type
+   resource_upsertion_event_type
 </code></pre></td>
 <td><pre><code>
 Metldata & MASS:
@@ -151,7 +151,7 @@ UCS:
 <tr>
 <td><pre><code>
 <strong>FileUploadReceivedEventsConfig</strong>:
-   file_upload_received_topic
+   file_upload_received_event_topic
    file_upload_received_event_type
 </code></pre></td>
 <td><pre><code>
@@ -246,7 +246,7 @@ IFRS, DCS, & UCS:
 <tr>
 <td><pre><code>
 <strong>FileInterrogationSuccessEventsConfig</strong>:
-   file_interrogations_topic
+   file_interrogations_event_topic
    interrogation_success_event_type
 </code></pre></td>
 <td><pre><code>
@@ -261,7 +261,7 @@ IFRS:
 <tr>
 <td><pre><code>
 <strong>FileInterrogationFailureEventsConfig</strong>:
-   file_interrogations_topic
+   file_interrogations_event_topic
    interrogation_failure_event_type
 </code></pre></td>
 <td><pre><code>
