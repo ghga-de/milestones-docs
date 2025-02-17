@@ -72,7 +72,7 @@ mechanism in `hexkit`. That mechanism, a class that mimics some of the outbox
 DAO's functionality, can be created in another epic.
 
 For this epic, **if** a config class in the chart below is *not*
-marked with \* but the current corresponding event types *are* dictated
+marked with "*(stateful)*" but the current corresponding event types *are* dictated
 by `hexkit`'s outbox pattern event types, **then**:
 1. The event type's configured value, after using the standardized classes, should be
    temporarily set to `upserted` for continuity.
@@ -82,55 +82,57 @@ by `hexkit`'s outbox pattern event types, **then**:
    - Not exhaustive -- most non-outbox events would be eligible
 
 ### Proposed Config Classes
-> \* means these events communicate state and should use the outbox pattern
+> (stateful) means these events communicate state and should use the outbox pattern
+
+> \* means the marked config naming has changed
 
 <table>
 <tr><th>New Config Class </th><th>Replaces </th></tr>
 <tr>
 <td><pre><code>
-<strong>*DatasetEventsConfig</strong>:
+<strong>DatasetEventsConfig (stateful)</strong>:
    dataset_change_event_topic
-   dataset_deletion_event_type
    dataset_upsertion_event_type
+   dataset_deletion_event_type
 </code></pre></td>
 <td><pre><code>
 UMS:
-  dataset_deletion_event_topic
+  *dataset_deletion_event_topic
   dataset_deletion_event_type
 WPS & DINS:
   dataset_change_event_topic
-  dataset_deletion_event_type
   dataset_upsertion_event_type
+  dataset_deletion_event_type
 Metldata:
   dataset_change_event_topic
-  dataset_deletion_type
-  dataset_upsertion_type
+  *dataset_upsertion_type
+  *dataset_deletion_type
 </code></pre></td>
 </tr>
 
 <tr>
 <td><pre><code>
-<strong>*ResourceEventsConfig</strong>:
+<strong>ResourceEventsConfig (stateful)</strong>:
    resource_change_event_topic
-   resource_deletion_event_type
    resource_upsertion_event_type
+   resource_deletion_event_type
 </code></pre></td>
 <td><pre><code>
 Metldata & MASS:
   resource_change_event_topic
-  resource_upsertion_type
+  *resource_upsertion_type
   resource_deletion_event_type
 </code></pre></td>
 </tr>
 
 <tr>
 <td><pre><code>
-<strong>*UserEventsTopicConfig</strong>:
+<strong>UserEventsTopicConfig (stateful)</strong>:
    user_event_topic
 </code></pre></td>
 <td><pre><code>
 UMS & NOS:
-  user_events_topic
+  *user_events_topic
   (event type managed by hexkit)
 </code></pre></td>
 </tr>
@@ -157,9 +159,9 @@ UCS:
 <td><pre><code>
 (each currently use hexkit's outbox pattern event type)
 UCS:
-  file_upload_received_topic,
+  *file_upload_received_topic
 IRS:
-  upload_received_event_topic
+  *upload_received_event_topic
 </code></pre></td>
 </tr>
 
@@ -185,9 +187,9 @@ NS & NOS:
 <td><pre><code>
 (both currently use hexkit's outbox pattern event type)
 IFRS:
-  files_to_stage_topic
+  *files_to_stage_topic
 DCS:
-  unstaged_download_event_topic
+  *unstaged_download_event_topic
 </code></pre></td>
 </tr>
 
@@ -226,7 +228,7 @@ DCS:
 <td><pre><code>
 (each currently use hexkit's outbox pattern event type)
 PCS, IFRS, DCS, & UCS:
-  files_to_delete_topic
+  *files_to_delete_topic
 </code></pre></td>
 </tr>
 
@@ -252,9 +254,9 @@ IFRS, DCS, & UCS:
 <td><pre><code>
 (all currently use hexkit's outbox pattern event type)
 IRS & FIS:
-  file_upload_validation_success_topic
+  *file_upload_validation_success_topic
 IFRS:
-  files_to_register_topic
+  *files_to_register_topic
 </code></pre></td>
 </tr>
 
@@ -266,11 +268,11 @@ IFRS:
 </code></pre></td>
 <td><pre><code>
 IRS:
-  interrogation_topic
-  interrogation_failure_type
+  *interrogation_topic
+  *interrogation_failure_type
 UCS:
-  upload_rejected_event_topic
-  upload_rejected_event_type
+  *upload_rejected_event_topic
+  *upload_rejected_event_type
 </code></pre></td>
 </tr>
 
@@ -282,11 +284,11 @@ UCS:
 </code></pre></td>
 <td><pre><code>
 IFRS, DCS, IRS, DINS:
-  file_registered_event_topic
-  file_registered_event_type
+  *file_registered_event_topic
+  *file_registered_event_type
 UCS:
-  upload_accepted_event_topic
-  upload_accepted_event_type
+  *upload_accepted_event_topic
+  *upload_accepted_event_type
 </code></pre></td>
 </tr>
 
@@ -298,8 +300,8 @@ UCS:
 </code></pre></td>
 <td><pre><code>
 DCS:
-  files_to_register_topic
-  files_to_register_type
+  *files_to_register_topic
+  *files_to_register_type
 </code></pre></td>
 </tr>
 
@@ -311,7 +313,7 @@ DCS:
 </code></pre></td>
 <td><pre><code>
 NOS & ARS:
-  access_request_events_topic
+  *access_request_events_topic
   access_request_created_event_type
 </code></pre></td>
 </tr>
@@ -324,7 +326,7 @@ NOS & ARS:
 </code></pre></td>
 <td><pre><code>
 NOS & ARS:
-  access_request_events_topic
+  *access_request_events_topic
   access_request_allowed_event_type
 </code></pre></td>
 </tr>
@@ -337,7 +339,7 @@ NOS & ARS:
 </code></pre></td>
 <td><pre><code>
 NOS & ARS:
-  access_request_events_topic
+  *access_request_events_topic
   access_request_denied_event_type
 </code></pre></td>
 </tr>
@@ -353,7 +355,7 @@ NOS:
   iva_state_changed_event_topic
   iva_state_changed_event_type
 UMS:
-  iva_events_topic
+  *iva_events_topic
   iva_state_changed_event_type
 </code></pre></td>
 </tr>
@@ -366,10 +368,10 @@ UMS:
 </code></pre></td>
 <td><pre><code>
 NOS:
-  second_factor_recreated_event_topic
+  *second_factor_recreated_event_topic
   second_factor_recreated_event_type
 UMS:
-  auth_events_topic
+  *auth_events_topic
   second_factor_recreated_event_type
 </code></pre></td>
 </tr>
