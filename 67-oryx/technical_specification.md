@@ -7,10 +7,12 @@ Epic planning and implementation follow the
 ## Scope
 ### Outline:
 We have different configuration key names that refer to the same topic or type in
-different services, complicating configuration as well as maintaining an idea of what
-is actually happening in our services wrt Kafka. To clarify, the configuration
-referred to is the various service-defined event subscriber and event publisher config
-containing `"abc_topic"` and `"abc_type"` fields.
+different services, complicating the maintenance of both mental models and
+configuration is actually happening in our services with regard to Kafka. To clarify,
+"configuration" here means the various service-specific event publisher/subscriber
+and config schemas defined in Python code, which contain
+`"abc_topic"` and `"abc_type"` fields, *as well as* the values assigned for those
+fields at runtime.
 
 Example:  
 When a user requests to download a file that's not yet in the outbox/download bucket,
@@ -24,12 +26,13 @@ That is, the `DCS`'s config would also be named `files_to_stage_topic` (or vice-
 
 Thankfully the majority of configuration *does* use the same names, but the
 issue can be completely resolved if we just standardize the config.
-After all, if we can define a schema for a given Kafka event in a library,
-then we can also define standardized config for the corresponding event topic and type.
+After all, if we can define a schema for a given Kafka event in a library, i.e.
+`ghga-event-schemas`, then we can also define standardized config for the
+corresponding event topic and type.
 
-By storing this config definition in a central location, we also reduce change
+By storing this config schema in a central location, we also reduce change
 propagation & maintenance costs in the potential event that we drastically
-rework our Kafka layout. This could later be married with the currently dormant
+rework our use of Kafka. This could later be married with the currently dormant
 `schema_registry` so Kafka-related domain concepts are fully co-located.
 
 
@@ -46,10 +49,11 @@ We already have an unofficial document mapping the relationships between all
 the various Kafka configurations, so this epic will lean on that information.
 Developer review will help identify mistakes.
 
-The standardization process will involve three steps:
-1. Identify services whose Kafka publisher or subscriber configuration refers to a common value, i.e. topic & type.
+The config schema standardization process will involve three steps:
+1. Identify existing Kafka pub/sub config schemas that refer to the same thing, i.e.
+   the same topic & type.
 2. Create a configuration class in `ghga-event-schemas` to standardize the config.
-3. Update services to use the standardized config classes as appropriate.
+3. Update services to use the new standardized config schemas as appropriate.
 
 The process will apply to all instances of Kafka event pub/sub config so that no
 such config is defined outside of `ghga-event-schemas`. After all, if a service
@@ -57,18 +61,24 @@ publishes an event, presumably another service will consume that event, meaning 
 will have to share configuration. If the schema is centrally defined, the config
 should be too.
 
-### A Note on Normal Events Using the Outbox Pattern
+### A Note on "Normal" Events Using the Outbox Pattern
 We have events that don't communicate state but that nevertheless use the
-outbox pattern solely for persistence. They always use the `upserted` event type
-because deletion isn't an applicable concept. The result is a shoehorned process
-that really needs a dedicated mechanism in `hexkit`. That mechanism, a class
-that mimics some of the outbox DAO's functionality, can be created in another epic.
+outbox pattern solely for persistence. The motivation for storing these *stateless*
+events is to aid in application restoration following a sudden loss of Kafka data.
+The `stateless` events that are persisted and published via the outbox pattern
+always use the `upserted` event type, because deletion isn't an applicable
+concept. The result is a "shoehorned" process that actually needs a dedicated
+mechanism in `hexkit`. That mechanism, a class that mimics some of the outbox
+DAO's functionality, can be created in another epic.
 
 For this epic, **if** a config class in the chart below is *not*
 marked with \* but the current corresponding event types *are* dictated
 by `hexkit`'s outbox pattern event types, **then**:
-1. The event type's value going forward must be (temporarily) configured as `upserted`
-2. These are examples of places where the future stateless outbox DAO would be used
+1. The event type's configured value, after using the standardized classes, should be
+   temporarily set to `upserted` for continuity.
+   - The value can be set to something natural once the new persistent publisher class
+     is implemented.
+2. These are examples of places where the future stateless outbox DAO would be used.
    - Not exhaustive -- most non-outbox events would be eligible
 
 ### Proposed Config Classes
