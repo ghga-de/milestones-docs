@@ -7,8 +7,8 @@ Epic planning and implementation follow the
 ## Scope
 ### Outline:
 We have different configuration key names that refer to the same topic or type in
-different services, complicating the maintenance of both mental models and
-configuration is actually happening in our services with regard to Kafka. To clarify,
+different services, complicating the proper configuration of the services when they
+are deployed jointly. To clarify,
 "configuration" here means the various service-specific event publisher/subscriber
 and config schemas defined in Python code, which contain
 `"abc_topic"` and `"abc_type"` fields, *as well as* the values assigned for those
