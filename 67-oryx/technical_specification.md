@@ -64,7 +64,7 @@ should be too.
 ### A Note on "Normal" Events Using the Outbox Pattern
 We have events that don't communicate state but that nevertheless use the
 outbox pattern solely for persistence. The motivation for storing these *stateless*
-events is to aid in application restoration following a sudden loss of Kafka data.
+events is to aid in application restoration following the loss of Kafka data.
 The `stateless` events that are persisted and published via the outbox pattern
 always use the `upserted` event type, because deletion isn't an applicable
 concept. The result is a "shoehorned" process that actually needs a dedicated
