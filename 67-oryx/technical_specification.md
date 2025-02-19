@@ -71,15 +71,6 @@ concept. The result is a "shoehorned" process that actually needs a dedicated
 mechanism in `hexkit`. That mechanism, a class that mimics some of the outbox
 DAO's functionality, can be created in another epic.
 
-For this epic, **if** a config class in the chart below is *not*
-marked with "*(stateful)*" but the current corresponding event types *are* dictated
-by `hexkit`'s outbox pattern event types, **then**:
-1. The event type's configured value, after using the standardized classes, should be
-   temporarily set to `upserted` for continuity.
-   - The value can be set to something natural once the new persistent publisher class
-     is implemented.
-2. These are examples of places where the future stateless outbox DAO would be used.
-   - Not exhaustive -- most non-outbox events would be eligible
 
 ### Proposed Config Classes
 > (stateful) means these events communicate state and should use the outbox pattern
@@ -154,7 +145,6 @@ UCS:
 <td><pre><code>
 <strong>FileUploadReceivedEventsConfig</strong>:
    file_upload_received_event_topic
-   file_upload_received_event_type
 </code></pre></td>
 <td><pre><code>
 (each currently use hexkit's outbox pattern event type)
@@ -182,7 +172,6 @@ NS & NOS:
 <td><pre><code>
 <strong>FileStagingRequestedEventsConfig</strong>:
    files_to_stage_event_topic
-   files_to_stage_event_type
 </code></pre></td>
 <td><pre><code>
 (both currently use hexkit's outbox pattern event type)
@@ -223,7 +212,6 @@ DCS:
 <td><pre><code>
 <strong>FileDeletionRequestEventsConfig</strong>:
    file_deletion_request_event_topic
-   file_deletion_request_event_type
 </code></pre></td>
 <td><pre><code>
 (each currently use hexkit's outbox pattern event type)
@@ -249,7 +237,6 @@ IFRS, DCS, & UCS:
 <td><pre><code>
 <strong>FileInterrogationSuccessEventsConfig</strong>:
    file_interrogations_event_topic
-   interrogation_success_event_type
 </code></pre></td>
 <td><pre><code>
 (all currently use hexkit's outbox pattern event type)
