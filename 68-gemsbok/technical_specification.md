@@ -140,6 +140,21 @@ copy of those events. This includes:
 - DCS: "Non-staged Download Requested"
 - PCS: "File Deletion Requested"
 
+Since the services have used the outbox pattern to persist events in the database,
+the events will be stored in collections already. However, these collections will
+have different names and different content structure than what will be produced
+by the `PersistentKafkaPublisher`. Options to resolve:
+1. Forget the old events and drop the old collection
+2. Copy the prototype framework from IFRS or DCS and write a migration script for it
+3. Same as #2, but wait for the migration framework to be in `hexkit`
+
+Finally, the consumers of these currently-outbox events are listening for
+the event type `upserted`, which is not configurable. As a result, we
+must deploy all the changes at once or configure the event type as `upserted`
+for the listed events until the consumers are updated as well. It's probably easiest to
+deploy all at once, especially considering that the 3 sprint window should suffice
+to execute all upgrades alongside existing tasks.
+
 ### Republish/Publish Pending CLI command
 The services above already expose a CLI command that enables republishing events
 from the database which were stored there via the outbox pattern. These entrypoints
@@ -148,6 +163,6 @@ will be updated to use the `PersistentKafkaPublisher` instead.
 
 ## Human Resource/Time Estimation:
 
-Number of sprints required: 1
+Number of sprints required: 2
 
 Number of developers required: 1
